@@ -1,0 +1,31 @@
+{
+  "id": "java_date_1",
+  "character": "java",
+  "title": "A Very Formal Dinner",
+  "start": "intro",
+  "nodes": {
+    "intro": {"speaker": "narrator", "text": "A quiet restaurant with cloth napkins. Your date is already seated, posture perfect.", "next": "hello"},
+    "hello": {"speaker": "java", "mood": "formal", "text": "Good evening, {player}. I am Duke. I took the liberty of declaring our reservation in advance.", "next": "ask"},
+    "ask": {
+      "speaker": "java",
+      "text": "Tell me, how do you feel about structure?",
+      "choices": [
+        {"text": "I love a good plan.", "affection": 5, "next": "plan"},
+        {"text": "I prefer to wing it.", "affection": -2, "next": "wing"}
+      ]
+    },
+    "plan": {"speaker": "java", "mood": "pleased", "text": "Excellent. Then you will appreciate how a Java program begins.", "next": "challenge"},
+    "wing": {"speaker": "java", "mood": "concerned", "text": "...I see. Allow me to show you why a little structure is comforting.", "next": "challenge"},
+    "challenge": {"challenge": "java_hello", "on_pass": "passed", "on_fail": "failed"},
+    "passed": {"speaker": "java", "mood": "pleased", "text": "Compiled on the first try. I am... impressed, {player}.", "affection": 10, "next": "end"},
+    "failed": {
+      "speaker": "java",
+      "text": "A compile error is simply the compiler caring about you. Shall we try again?",
+      "choices": [
+        {"text": "Yes, let's.", "affection": 1, "next": "challenge"},
+        {"text": "Another evening, perhaps.", "next": "bye"}
+      ]
+    },
+    "bye": {"speaker": "java", "text": "Very well. I will schedule a follow-up.", "next": "end"}
+  }
+}

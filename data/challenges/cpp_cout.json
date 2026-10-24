@@ -1,0 +1,18 @@
+{
+  "id": "cpp_cout",
+  "language": "cpp",
+  "title": "Streams and cout",
+  "prompt": "Cyrus wants to know if you can keep up.\n\nC++ prints with the stream operator <<. Read two whole numbers with std::cin and print their sum, exactly like:\n\nSum: 7\n\n(when the input is 3 and 4).",
+  "hint": "std::cin >> a >> b; reads two numbers. std::cout << \"Sum: \" << (a + b) << std::endl; prints them.",
+  "starter_code": "#include <iostream>\n\nint main() {\n    int a, b;\n    // TODO: read a and b, then print \"Sum: \" and their sum\n    return 0;\n}\n",
+  "tests": [
+    {
+      "stdin": "3 4\n",
+      "expected_stdout": "Sum: 7"
+    },
+    {
+      "stdin": "10 -2\n",
+      "expected_stdout": "Sum: 8"
+    }
+  ]
+}

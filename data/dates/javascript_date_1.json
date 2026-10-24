@@ -1,0 +1,33 @@
+{
+  "id": "javascript_date_1",
+  "character": "javascript",
+  "title": "Callbacks at the Arcade",
+  "start": "intro",
+  "nodes": {
+    "intro": {"speaker": "narrator", "text": "The arcade is loud and blinking. Someone is playing three machines at once.", "next": "hello"},
+    "hello": {"speaker": "javascript", "mood": "excited", "text": "{player}! You came! I'm Jay. I'm doing like five things right now, but I'm totally listening. Async, you know?", "next": "ask"},
+    "ask": {
+      "speaker": "javascript",
+      "text": "Quick, what's 1 + \"1\"?",
+      "choices": [
+        {"text": "\"11\", obviously.", "affection": 5, "next": "right"},
+        {"text": "2?", "affection": 0, "next": "wrong"},
+        {"text": "That should be a type error.", "affection": 2, "next": "typescript"}
+      ]
+    },
+    "right": {"speaker": "javascript", "mood": "happy", "text": "You get me! Okay, I wanna show you my favorite trick.", "next": "challenge"},
+    "wrong": {"speaker": "javascript", "mood": "laugh", "text": "Nope! It's \"11\". The number turns into a string. Don't worry, I'll teach you my ways.", "next": "challenge"},
+    "typescript": {"speaker": "javascript", "mood": "glasses", "text": "*puts on glasses* ...You'd get along with my TypeScript side. But for now, let's keep it casual.", "next": "challenge"},
+    "challenge": {"challenge": "javascript_map", "on_pass": "passed", "on_fail": "failed"},
+    "passed": {"speaker": "javascript", "mood": "excited", "text": "One line! No loop! You're a natural, {player}.", "affection": 10, "next": "end"},
+    "failed": {
+      "speaker": "javascript",
+      "text": "Ooh, undefined vibes. Run it back?",
+      "choices": [
+        {"text": "Run it back!", "affection": 1, "next": "challenge"},
+        {"text": "I need a break.", "next": "bye"}
+      ]
+    },
+    "bye": {"speaker": "javascript", "text": "No worries! I'll setTimeout() on us and try later.", "next": "end"}
+  }
+}

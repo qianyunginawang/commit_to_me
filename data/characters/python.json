@@ -1,0 +1,13 @@
+{
+  "id": "python",
+  "order": 1,
+  "name": "Py",
+  "language": "Python",
+  "languages": ["python"],
+  "tagline": "Laid-back, readable, and always happy to help.",
+  "bio": "The friendly one everyone meets first. Py keeps things simple, hates unnecessary curly braces, and gets genuinely upset about messy indentation.",
+  "color": "#3776AB",
+  "accent": "#FFD43B",
+  "portrait": "res://assets/portraits/python.png",
+  "dates": ["python_date_1"]
+}

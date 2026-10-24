@@ -1,0 +1,243 @@
+{
+  "python": {
+    "display_name": "Python",
+    "source_file": "main.py",
+    "line_comment": "#",
+    "run": {
+      "bundled": {
+        "windows": "python/python.exe",
+        "macos": "python/bin/python3",
+        "linux": "python/bin/python3"
+      },
+      "system": "python3",
+      "args": [
+        "-u",
+        "{file}"
+      ]
+    },
+    "keywords": [
+      "def",
+      "return",
+      "if",
+      "elif",
+      "else",
+      "for",
+      "while",
+      "in",
+      "import",
+      "from",
+      "class",
+      "True",
+      "False",
+      "None",
+      "and",
+      "or",
+      "not",
+      "print",
+      "input",
+      "lambda",
+      "with",
+      "as",
+      "pass",
+      "break",
+      "continue"
+    ]
+  },
+  "javascript": {
+    "display_name": "JavaScript",
+    "source_file": "main.js",
+    "line_comment": "//",
+    "run": {
+      "bundled": {
+        "windows": "node/node.exe",
+        "macos": "node/bin/node",
+        "linux": "node/bin/node"
+      },
+      "system": "node",
+      "args": [
+        "{file}"
+      ]
+    },
+    "keywords": [
+      "const",
+      "let",
+      "var",
+      "function",
+      "return",
+      "if",
+      "else",
+      "for",
+      "while",
+      "of",
+      "in",
+      "class",
+      "new",
+      "this",
+      "true",
+      "false",
+      "null",
+      "undefined",
+      "console",
+      "async",
+      "await",
+      "import",
+      "export"
+    ]
+  },
+  "typescript": {
+    "display_name": "TypeScript",
+    "source_file": "main.ts",
+    "line_comment": "//",
+    "run": {
+      "bundled": {
+        "windows": "node/node.exe",
+        "macos": "node/bin/node",
+        "linux": "node/bin/node"
+      },
+      "system": "node",
+      "args": [
+        "--experimental-strip-types",
+        "--no-warnings",
+        "{file}"
+      ]
+    },
+    "keywords": [
+      "const",
+      "let",
+      "function",
+      "return",
+      "if",
+      "else",
+      "for",
+      "while",
+      "of",
+      "in",
+      "class",
+      "new",
+      "this",
+      "true",
+      "false",
+      "null",
+      "undefined",
+      "console",
+      "interface",
+      "type",
+      "string",
+      "number",
+      "boolean",
+      "readonly",
+      "enum"
+    ]
+  },
+  "java": {
+    "display_name": "Java",
+    "source_file": "Main.java",
+    "line_comment": "//",
+    "compile": {
+      "bundled": {
+        "windows": "jdk/bin/javac.exe",
+        "macos": "jdk/Contents/Home/bin/javac",
+        "linux": "jdk/bin/javac"
+      },
+      "system": "javac",
+      "args": [
+        "-d",
+        "{dir}",
+        "{file}"
+      ]
+    },
+    "run": {
+      "bundled": {
+        "windows": "jdk/bin/java.exe",
+        "macos": "jdk/Contents/Home/bin/java",
+        "linux": "jdk/bin/java"
+      },
+      "system": "java",
+      "args": [
+        "-cp",
+        "{dir}",
+        "Main"
+      ]
+    },
+    "keywords": [
+      "public",
+      "private",
+      "protected",
+      "class",
+      "static",
+      "void",
+      "int",
+      "double",
+      "boolean",
+      "String",
+      "new",
+      "return",
+      "if",
+      "else",
+      "for",
+      "while",
+      "true",
+      "false",
+      "null",
+      "import",
+      "final",
+      "this",
+      "extends",
+      "implements"
+    ]
+  },
+  "cpp": {
+    "display_name": "C++",
+    "source_file": "main.cpp",
+    "line_comment": "//",
+    "compile": {
+      "bundled": {
+        "windows": "mingw/bin/g++.exe",
+        "macos": "clang/bin/clang++",
+        "linux": "clang/bin/clang++"
+      },
+      "system": "g++",
+      "args": [
+        "-std=c++17",
+        "-Wall",
+        "-o",
+        "{exe}",
+        "{file}"
+      ]
+    },
+    "run": {
+      "program": "{exe}",
+      "args": []
+    },
+    "keywords": [
+      "int",
+      "double",
+      "char",
+      "bool",
+      "void",
+      "auto",
+      "const",
+      "return",
+      "if",
+      "else",
+      "for",
+      "while",
+      "class",
+      "struct",
+      "public",
+      "private",
+      "include",
+      "std",
+      "cout",
+      "cin",
+      "endl",
+      "true",
+      "false",
+      "nullptr",
+      "new",
+      "delete",
+      "using",
+      "namespace"
+    ]
+  }
+}

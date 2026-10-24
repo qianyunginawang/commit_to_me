@@ -1,0 +1,13 @@
+{
+  "id": "cpp",
+  "order": 4,
+  "name": "Cyrus",
+  "language": "C++",
+  "languages": ["cpp"],
+  "tagline": "Intense, powerful, and expects you to manage your own memory.",
+  "bio": "Cyrus is fast, a little intimidating, and gives you complete control (and complete responsibility). Earn Cyrus's trust and nothing can slow you down.",
+  "color": "#00599C",
+  "accent": "#9CC3E6",
+  "portrait": "res://assets/portraits/cpp.png",
+  "dates": ["cpp_date_1"]
+}

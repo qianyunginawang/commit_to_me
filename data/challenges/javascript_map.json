@@ -1,0 +1,14 @@
+{
+  "id": "javascript_map",
+  "language": "javascript",
+  "title": "Double it with map()",
+  "prompt": "Jay is bored of for-loops and wants to see something slick.\n\nUse the array method map() with an arrow function to double every number in nums, then print the result joined with commas.\n\nExpected output:\n2,4,6,8",
+  "hint": "nums.map(n => n * 2) gives you a new array. Arrays have a .join(\",\") method.",
+  "starter_code": "const nums = [1, 2, 3, 4];\n\n// TODO: double every number with map() and print them joined by commas\n",
+  "tests": [
+    {
+      "stdin": "",
+      "expected_stdout": "2,4,6,8"
+    }
+  ]
+}

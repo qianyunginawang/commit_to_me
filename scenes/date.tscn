@@ -1,0 +1,135 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/date_scene.gd" id="1_date"]
+[ext_resource type="PackedScene" path="res://scenes/portrait.tscn" id="2_portrait"]
+
+[node name="Date" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_date")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.16, 0.11, 0.22, 1)
+
+[node name="Header" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = -24.0
+offset_bottom = 56.0
+grow_horizontal = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "Date title"
+vertical_alignment = 1
+
+[node name="AffectionLabel" type="Label" parent="Header"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Stranger"
+vertical_alignment = 1
+
+[node name="AffectionBar" type="ProgressBar" parent="Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 16)
+layout_mode = 2
+size_flags_vertical = 4
+show_percentage = false
+
+[node name="LeaveButton" type="Button" parent="Header"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Leave date"
+
+[node name="Portrait" parent="." instance=ExtResource("2_portrait")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 76.0
+offset_right = 150.0
+offset_bottom = 456.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="HeartPopup" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 170.0
+offset_top = 100.0
+offset_right = 330.0
+offset_bottom = 150.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 36
+text = "<3 +5"
+
+[node name="DialogueBox" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = -250.0
+offset_right = -40.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="VBox" type="VBoxContainer" parent="DialogueBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="SpeakerLabel" type="Label" parent="DialogueBox/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.36, 0.54, 1)
+theme_override_font_sizes/font_size = 24
+text = "Speaker"
+
+[node name="TextLabel" type="RichTextLabel" parent="DialogueBox/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 22
+bbcode_enabled = true
+text = "Dialogue goes here."
+fit_content = true
+
+[node name="Choices" type="VBoxContainer" parent="DialogueBox/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ContinueHint" type="Label" parent="DialogueBox/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.66, 0.8, 1)
+theme_override_font_sizes/font_size = 14
+text = "Click or press Enter to continue"
+horizontal_alignment = 2

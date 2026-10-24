@@ -1,0 +1,32 @@
+{
+  "id": "python_date_1",
+  "character": "python",
+  "title": "Coffee and Indentation",
+  "start": "intro",
+  "nodes": {
+    "intro": {"speaker": "narrator", "text": "The campus coffee shop. Someone in a yellow-and-blue hoodie waves you over.", "next": "hello"},
+    "hello": {"speaker": "python", "mood": "happy", "text": "Oh hey, you must be {player}! I'm Py. Everybody says I'm the easiest one to talk to.", "next": "ask"},
+    "ask": {
+      "speaker": "python",
+      "text": "So... what do you think about whitespace?",
+      "choices": [
+        {"text": "Indentation should mean something.", "affection": 5, "next": "likes"},
+        {"text": "Curly braces forever!", "affection": -3, "next": "braces"}
+      ]
+    },
+    "likes": {"speaker": "python", "mood": "blush", "text": "Finally, someone who gets it! Want to write a little code together?", "next": "challenge"},
+    "braces": {"speaker": "python", "mood": "pout", "text": "Hmph. You sound like Jay. Fine, let me show you how nice it can be without them.", "next": "challenge"},
+    "challenge": {"challenge": "python_hello", "on_pass": "passed", "on_fail": "failed"},
+    "passed": {"speaker": "python", "mood": "happy", "text": "Clean, readable, and friendly. Just like me. I think we'll get along great, {player}.", "affection": 10, "next": "end"},
+    "failed": {
+      "speaker": "python",
+      "mood": "encouraging",
+      "text": "Hey, nobody gets it right the first time. Want to try again?",
+      "choices": [
+        {"text": "Let's try again.", "affection": 1, "next": "challenge"},
+        {"text": "Maybe next time.", "next": "bye"}
+      ]
+    },
+    "bye": {"speaker": "python", "text": "No pressure. I'll be here. I'm always here.", "next": "end"}
+  }
+}
