@@ -1,0 +1,21 @@
+# Godot 4 generated files
+.godot/
+.import/
+*.tmp
+
+# Export output
+/build/
+/exports/
+export_credentials.cfg
+
+# Bundled language runtimes are large and platform-specific.
+# Only the README and config in runtimes/ are tracked; see runtimes/README.md.
+/runtimes/*/
+!/runtimes/README.md
+
+# OS / editor clutter
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/

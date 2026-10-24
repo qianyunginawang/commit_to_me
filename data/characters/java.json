@@ -1,0 +1,13 @@
+{
+  "id": "java",
+  "order": 3,
+  "name": "Duke",
+  "language": "Java",
+  "languages": ["java"],
+  "tagline": "Formal, dependable, and very into classes.",
+  "bio": "Duke wears a suit to the coffee shop and has a design pattern for everything. Verbose? Maybe. But Duke will never let a type error slip through.",
+  "color": "#E76F00",
+  "accent": "#5382A1",
+  "portrait": "res://assets/portraits/java.png",
+  "dates": ["java_date_1"]
+}

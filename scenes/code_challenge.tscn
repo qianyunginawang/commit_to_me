@@ -1,0 +1,140 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/code_challenge.gd" id="1_challenge"]
+
+[node name="CodeChallenge" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_challenge")
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.03, 0.08, 0.9)
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Split" type="HSplitContainer" parent="Panel"]
+layout_mode = 2
+split_offset = -80
+
+[node name="Left" type="VBoxContainer" parent="Panel/Split"]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="ChallengeTitle" type="Label" parent="Panel/Split/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Challenge title"
+autowrap_mode = 3
+
+[node name="LanguageLabel" type="Label" parent="Panel/Split/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.36, 0.54, 1)
+text = "Language"
+
+[node name="PromptLabel" type="RichTextLabel" parent="Panel/Split/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 18
+text = "Instructions go here."
+selection_enabled = true
+
+[node name="HintButton" type="Button" parent="Panel/Split/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Show hint"
+
+[node name="HintLabel" type="Label" parent="Panel/Split/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 16
+text = "Hint"
+autowrap_mode = 3
+
+[node name="Right" type="VBoxContainer" parent="Panel/Split"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.6
+theme_override_constants/separation = 10
+
+[node name="Editor" type="CodeEdit" parent="Panel/Split/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 18
+text = "// code"
+highlight_current_line = true
+draw_tabs = true
+gutters_draw_line_numbers = true
+indent_automatic = true
+auto_brace_completion_enabled = true
+auto_brace_completion_highlight_matching = true
+
+[node name="Buttons" type="HBoxContainer" parent="Panel/Split/Right"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="RunButton" type="Button" parent="Panel/Split/Right/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Run"
+
+[node name="ResetButton" type="Button" parent="Panel/Split/Right/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Reset code"
+
+[node name="Spacer" type="Control" parent="Panel/Split/Right/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GiveUpButton" type="Button" parent="Panel/Split/Right/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Give up"
+
+[node name="ContinueButton" type="Button" parent="Panel/Split/Right/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Continue date"
+
+[node name="StatusLabel" type="Label" parent="Panel/Split/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Status"
+autowrap_mode = 3
+
+[node name="OutputLabel" type="RichTextLabel" parent="Panel/Split/Right"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+theme_override_colors/default_color = Color(0.85, 0.85, 0.85, 1)
+theme_override_font_sizes/normal_font_size = 16
+theme_override_font_sizes/mono_font_size = 16
+bbcode_enabled = true
+selection_enabled = true
