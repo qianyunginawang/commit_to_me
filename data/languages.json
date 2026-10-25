@@ -96,7 +96,7 @@
       },
       "system": "node",
       "args": [
-        "--experimental-strip-types",
+        "--experimental-transform-types",
         "--no-warnings",
         "{file}"
       ]
@@ -136,7 +136,7 @@
     "compile": {
       "bundled": {
         "windows": "jdk/bin/javac.exe",
-        "macos": "jdk/Contents/Home/bin/javac",
+        "macos": "jdk/bin/javac",
         "linux": "jdk/bin/javac"
       },
       "system": "javac",
@@ -149,7 +149,7 @@
     "run": {
       "bundled": {
         "windows": "jdk/bin/java.exe",
-        "macos": "jdk/Contents/Home/bin/java",
+        "macos": "jdk/bin/java",
         "linux": "jdk/bin/java"
       },
       "system": "java",
@@ -190,12 +190,22 @@
     "display_name": "C++",
     "source_file": "main.cpp",
     "line_comment": "//",
+    "compile_timeout_ms": 300000,
+    "warm_up_code": "#include <iostream>\nint main() { std::cout << \"hi\" << std::endl; }\n",
     "compile": {
       "bundled": {
-        "windows": "mingw/bin/g++.exe",
-        "macos": "clang/bin/clang++",
-        "linux": "clang/bin/clang++"
+        "windows": "zig/zig.exe",
+        "macos": "zig/zig",
+        "linux": "zig/zig"
       },
+      "bundled_args": [
+        "c++",
+        "-std=c++17",
+        "-Wall",
+        "-o",
+        "{exe}",
+        "{file}"
+      ],
       "system": "g++",
       "args": [
         "-std=c++17",

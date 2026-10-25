@@ -1,0 +1,20 @@
+{
+  "_comment": "Pinned versions of the language runtimes bundled with the game. Change a version here, then run: python3 tools/fetch_runtimes.py --force",
+  "python": {
+    "pbs_release": "20260623",
+    "version": "3.14",
+    "license": "PSF-2.0 (https://docs.python.org/3/license.html)"
+  },
+  "node": {
+    "version": "24.22.1",
+    "license": "MIT (https://github.com/nodejs/node/blob/main/LICENSE)"
+  },
+  "java": {
+    "version": "21.0.13",
+    "license": "GPL-2.0 with Classpath Exception (https://adoptium.net/about/)"
+  },
+  "zig": {
+    "version": "0.16.0",
+    "license": "MIT (https://github.com/ziglang/zig/blob/master/LICENSE)"
+  }
+}
