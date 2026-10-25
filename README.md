@@ -24,33 +24,141 @@ with them, and earn their affection as you learn how each language works.
 - Your code actually runs. Output is checked against the challenge's tests.
 - Placeholder art: colored cards with initials until we have real portraits.
 
-## Getting started
+## Onboarding: start here if you're new
 
-1. Install **[Godot 4.7](https://godotengine.org/download)** (the standard
-   version, not .NET).
-2. Clone the repo:
-   ```sh
-   git clone https://github.com/qianyunginawang/commit_to_me.git
-   ```
-3. Open Godot, click **Import**, and pick the `project.godot` file in the repo.
-4. Press **F5** (or the ▶ button, top right) to play.
+Welcome! This section takes you from nothing installed to a running game and
+your first pull request. Plan on about an hour the first time.
 
-### Running the coding challenges while developing
+### What you need
 
-When you play from the editor, the game uses the languages installed on your
-computer. Install whichever ones you want to test:
+**Accounts**
 
-| Language | Command the game looks for | Mac | Windows |
+- A **GitHub account**. Ask Gee to add you as a collaborator on
+  [the repo](https://github.com/qianyunginawang/commit_to_me)
+  (Settings → Collaborators), then accept the email invite.
+
+**Required tools**
+
+| Tool | Why | Mac | Windows |
 |---|---|---|---|
-| Python | `python3` | `brew install python` | [python.org](https://www.python.org/downloads/) (tick "Add to PATH") |
-| JS / TS | `node` (v22.6+ for TypeScript) | `brew install node` | [nodejs.org](https://nodejs.org/) |
-| Java | `javac` and `java` | `brew install openjdk` | [Adoptium JDK](https://adoptium.net/) |
-| C++ | `g++` | `xcode-select --install` | [WinLibs MinGW](https://winlibs.com/) |
+| **[GitHub Desktop](https://desktop.github.com/)** | Download the code and share your changes, no command line needed | Download, drag into Applications | Download and run the installer |
+| **Godot 4.7** (standard, *not* .NET) | The game engine and editor. Older versions won't work. | [godotengine.org/download](https://godotengine.org/download), drag into Applications | [godotengine.org/download](https://godotengine.org/download), unzip anywhere |
 
-If one is missing, the challenge screen tells you instead of crashing.
+**Languages (for the coding challenges)**
 
-The finished game will **bundle** these with the download so players don't need
-to install anything. That isn't set up yet: see [runtimes/README.md](runtimes/README.md).
+While you're developing, the game runs challenge code with the languages
+installed on your computer. You only need the ones you're working on. A
+missing language shows a "not installed yet" message instead of crashing.
+
+| Language | Command the game looks for | Mac ([Homebrew](https://brew.sh)) | Windows |
+|---|---|---|---|
+| Python | `python3` | `brew install python` | [python.org](https://www.python.org/downloads/) (tick "Add python.exe to PATH") |
+| JS / TS | `node` (v22.6+ for TypeScript) | `brew install node` | [nodejs.org](https://nodejs.org/) (LTS) |
+| Java | `javac` and `java` | `brew install openjdk`, then run the `sudo ln -sfn ...` command it prints | [Adoptium JDK 21](https://adoptium.net/) |
+| C++ | `g++` | `xcode-select --install` | [WinLibs](https://winlibs.com/), add its `bin` folder to PATH |
+
+To check what you have, open a terminal and run:
+
+```sh
+python3 --version && node --version && javac -version && g++ --version
+```
+
+The finished game will **bundle** these languages so players don't install
+anything. That part isn't built yet: see [runtimes/README.md](runtimes/README.md).
+
+**Nice to have**
+
+- **[VS Code](https://code.visualstudio.com/)** for editing JSON and GDScript
+  files. Install the "godot-tools" extension for GDScript highlighting.
+- **Command-line Git** if you prefer typing commands to clicking
+  (`xcode-select --install` on Mac, [git-scm.com](https://git-scm.com/download/win) on Windows).
+
+### First-time setup
+
+1. **Get the code with GitHub Desktop.**
+   1. Open GitHub Desktop and sign in: **GitHub Desktop → Settings → Accounts**
+      on Mac, or **File → Options → Accounts** on Windows.
+   2. Click **File → Clone Repository**, open the **GitHub.com** tab, and pick
+      `qianyunginawang/commit_to_me`. (If it's not listed, check that you
+      accepted the collaborator invite.)
+   3. Choose where to save it, e.g. `Documents/commit_to_me`, and click **Clone**.
+2. **Open it in Godot.** In the Project Manager, click **Import**, choose
+   `project.godot` from the folder you just cloned, then **Import & Edit**.
+   The first import takes a minute.
+3. **Play it.** Press **F5** (**⌘B** on Mac) or the ▶ button in the top right.
+   Type a name, pick a character, and try a date through to its coding challenge.
+4. **Run the tests** to confirm everything is set up. From the project folder:
+   ```sh
+   # Mac
+   /Applications/Godot.app/Contents/MacOS/Godot --headless --path . -s tests/run_tests.gd
+   # Windows (use the path to your Godot .exe)
+   Godot_v4.7.1-stable_win64_console.exe --headless --path . -s tests/run_tests.gd
+   ```
+   It should end with `0 failed`. Tests for languages you haven't installed are
+   skipped, not failed.
+
+### Your first change (with GitHub Desktop)
+
+Every change goes on its own **branch**, then into `main` through a **pull
+request** that someone reviews. GitHub Desktop walks you through each step.
+
+1. **Start from the latest code.** At the top of GitHub Desktop, set
+   **Current Branch** to `main`, then click **Fetch origin** (it changes to
+   **Pull origin** if there's anything new, so click that too).
+2. **Make a branch.** Click **Current Branch → New Branch**. Name it after
+   you and the change, e.g. `ana/python-date-2`, and create it based on `main`.
+3. **Make your change** in Godot or your editor. Play it to check it works,
+   and run the tests.
+4. **Commit.** GitHub Desktop lists every changed file on the left. Click a file
+   to see exactly what changed. Untick anything you didn't mean to change.
+   Write a short summary at the bottom left (e.g. "Add Py's second date") and
+   click **Commit to ana/python-date-2**. You can commit as often as you like.
+5. **Push.** Click **Publish branch** (the first time) or **Push origin** (after
+   that) to upload your commits to GitHub.
+6. **Open a pull request.** Click **Create Pull Request**. Your browser opens
+   on GitHub: write a sentence or two about what you changed and click
+   **Create pull request**. The tests run automatically, and someone reviews it
+   before it's merged into `main`.
+7. **Need to fix something after review?** Stay on the same branch, make the
+   fix, commit, and push again. The pull request updates by itself.
+8. **After it's merged,** switch back to `main`, click **Pull origin**, and make
+   a new branch for your next change.
+
+Good things to know:
+
+- Never commit straight to `main`. If GitHub Desktop warns that you're on
+  `main`, make a branch first. It offers to bring your changes with you.
+- Godot sometimes adds `uid` lines to `.tscn` files and creates `.uid` files
+  next to scripts. That's normal. Commit them.
+- Don't commit the `.godot/` folder. It's ignored automatically, so it shouldn't
+  appear in the list.
+- If GitHub Desktop says there's a **merge conflict**, ask for help before
+  clicking anything that discards changes.
+- **Repository → Open in Terminal / Show in Finder (Explorer)** jumps straight
+  to the project folder, which is handy for running the tests.
+
+<details>
+<summary>Prefer the command line? The same steps with git commands</summary>
+
+```sh
+git checkout main && git pull                  # start from the latest code
+git checkout -b ana/python-date-2              # make a branch
+# ...make your change...
+git add -A && git commit -m "Add Py's second date"
+git push -u origin ana/python-date-2           # then open the PR link git prints
+```
+
+</details>
+
+### Where to start, depending on what you want to do
+
+| I want to... | Skills needed | Start here |
+|---|---|---|
+| Write dialogue and dates | Writing, basic JSON | [Adding content](#adding-content-no-coding-needed), then copy `data/dates/python_date_1.json` |
+| Design coding lessons | The language you're teaching | `data/challenges/`, plus a working answer in `tests/solutions/` |
+| Draw characters or backgrounds | Art (PNG files) | Save portraits as `assets/portraits/<character id>.png` |
+| Change screens or gameplay | GDScript (Python-like) | `scripts/ui/` and `scenes/`. Godot's [Getting Started guide](https://docs.godotengine.org/en/stable/getting_started/introduction/index.html) is a good first read. |
+| Work on running code | GDScript, how compilers work | `scripts/code_runner/` and [runtimes/README.md](runtimes/README.md) |
 
 ## How the project is organized
 
@@ -138,13 +246,6 @@ godot --headless --path . -s tests/run_tests.gd
 ```
 
 They also run on GitHub for every pull request. More in [tests/README.md](tests/README.md).
-
-## Working together
-
-- Make a branch for your change, push it, and open a pull request.
-- Godot can show "uid" changes in `.tscn` files after you open the project.
-  That's normal; commit them.
-- Commit the `.uid` files next to scripts too. Godot uses them to keep track of files.
 
 ## Ideas / next steps
 
