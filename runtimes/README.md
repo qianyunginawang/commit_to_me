@@ -51,7 +51,7 @@ challenges about type errors later, we can add the TypeScript compiler (`tsc`,
 
 ### C++ notes
 
-The very first C++ compile on a computer is slow (up to a minute or two)
+The very first C++ compile on a computer is slow (about 1 minute on Mac/Linux and 2-3 minutes on Windows in our CI)
 because Zig builds the C++ standard library once and caches it. To hide that,
 the game starts a small practice compile in the background when the main menu
 opens (`GameData.warm_up_runtimes()`), and C++ gets a longer compile time limit

@@ -190,7 +190,7 @@
     "display_name": "C++",
     "source_file": "main.cpp",
     "line_comment": "//",
-    "compile_timeout_ms": 180000,
+    "compile_timeout_ms": 300000,
     "warm_up_code": "#include <iostream>\nint main() { std::cout << \"hi\" << std::endl; }\n",
     "compile": {
       "bundled": {
