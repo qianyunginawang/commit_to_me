@@ -4,27 +4,8 @@ A dating sim where you date programming languages. Go on dates with **Python**,
 **JavaScript/TypeScript**, **Java** and **C++**, solve little coding challenges
 with them, and earn their affection as you learn how each language works.
 
-![Choosing who to date](docs/screenshots/hub.png)
 
-| A date | A coding challenge |
-|---|---|
-| ![Dialogue with choices](docs/screenshots/date.png) | ![Code challenge screen](docs/screenshots/challenge.png) |
-
-## What's here so far
-
-- A main menu, a "who do you want to date?" screen, dates with branching
-  dialogue, and a coding-challenge screen with a real code editor.
-- One first date per character, each with a coding challenge:
-  - **Py** (Python): f-strings
-  - **Jay** (JavaScript/TypeScript): `map()` and arrow functions
-  - **Duke** (Java): classes and `main`
-  - **Cyrus** (C++): `cin` / `cout`
-- Affection (0-100) with relationship levels: Stranger, Classmate, Study Buddy,
-  Crush, Committed. Progress saves automatically.
-- Your code actually runs. Output is checked against the challenge's tests.
-- Placeholder art: colored cards with initials until we have real portraits.
-
-## Onboarding: start here if you're new
+## Onboarding for devs
 
 Welcome! This section takes you from nothing installed to a running game and
 your first pull request. Plan on about an hour the first time.
@@ -33,7 +14,7 @@ your first pull request. Plan on about an hour the first time.
 
 **Accounts**
 
-- A **GitHub account**. Ask Gee to add you as a collaborator on
+- A **GitHub account**. Request to be added as collaborator tp
   [the repo](https://github.com/qianyunginawang/commit_to_me)
   (Settings → Collaborators), then accept the email invite.
 
@@ -79,15 +60,15 @@ anything. That part isn't built yet: see [runtimes/README.md](runtimes/README.md
    1. Open GitHub Desktop and sign in: **GitHub Desktop → Settings → Accounts**
       on Mac, or **File → Options → Accounts** on Windows.
    2. Click **File → Clone Repository**, open the **GitHub.com** tab, and pick
-      `qianyunginawang/commit_to_me`. (If it's not listed, check that you
-      accepted the collaborator invite.)
+	  `qianyunginawang/commit_to_me`. (If it's not listed, check that you
+	  accepted the collaborator invite.)
    3. Choose where to save it, e.g. `Documents/commit_to_me`, and click **Clone**.
 2. **Open it in Godot.** In the Project Manager, click **Import**, choose
    `project.godot` from the folder you just cloned, then **Import & Edit**.
    The first import takes a minute.
 3. **Play it.** Press **F5** (**⌘B** on Mac) or the ▶ button in the top right.
    Type a name, pick a character, and try a date through to its coding challenge.
-4. **Run the tests** to confirm everything is set up. From the project folder:
+4. **Run the tests** to confirm everything is set up. From the project folder in a terminal:
    ```sh
    # Mac
    /Applications/Godot.app/Contents/MacOS/Godot --headless --path . -s tests/run_tests.gd
@@ -97,7 +78,7 @@ anything. That part isn't built yet: see [runtimes/README.md](runtimes/README.md
    It should end with `0 failed`. Tests for languages you haven't installed are
    skipped, not failed.
 
-### Your first change (with GitHub Desktop)
+### How to make a change (with GitHub Desktop)
 
 Every change goes on its own **branch**, then into `main` through a **pull
 request** that someone reviews. GitHub Desktop walks you through each step.
@@ -106,13 +87,13 @@ request** that someone reviews. GitHub Desktop walks you through each step.
    **Current Branch** to `main`, then click **Fetch origin** (it changes to
    **Pull origin** if there's anything new, so click that too).
 2. **Make a branch.** Click **Current Branch → New Branch**. Name it after
-   you and the change, e.g. `ana/python-date-2`, and create it based on `main`.
-3. **Make your change** in Godot or your editor. Play it to check it works,
+   you and the change, e.g. `sara/python-date-2`, and create it based on `main`.
+3. **Make your change** in Godot or your editor (VSCode). Play it to check it works,
    and run the tests.
 4. **Commit.** GitHub Desktop lists every changed file on the left. Click a file
    to see exactly what changed. Untick anything you didn't mean to change.
    Write a short summary at the bottom left (e.g. "Add Py's second date") and
-   click **Commit to ana/python-date-2**. You can commit as often as you like.
+   click **Commit to sara/python-date-2**. You can commit as often as you like.
 5. **Push.** Click **Publish branch** (the first time) or **Push origin** (after
    that) to upload your commits to GitHub.
 6. **Open a pull request.** Click **Create Pull Request**. Your browser opens
@@ -149,6 +130,27 @@ git push -u origin ana/python-date-2           # then open the PR link git print
 ```
 
 </details>
+
+## The Game
+![Choosing who to date](docs/screenshots/hub.png)
+
+| A date | A coding challenge |
+|---|---|
+| ![Dialogue with choices](docs/screenshots/date.png) | ![Code challenge screen](docs/screenshots/challenge.png) |
+
+## What's here so far
+
+- A main menu, a "who do you want to date?" screen, dates with branching
+  dialogue, and a coding-challenge screen with a real code editor.
+- One first date per character, each with a coding challenge:
+  - **Py** (Python): f-strings
+  - **Jay** (JavaScript/TypeScript): `map()` and arrow functions
+  - **Duke** (Java): classes and `main`
+  - **Cyrus** (C++): `cin` / `cout`
+- Affection (0-100) with relationship levels: Stranger, Classmate, Study Buddy,
+  Crush, Committed. Progress saves automatically.
+- Your code actually runs. Output is checked against the challenge's tests.
+- Placeholder art: colored cards with initials until we have real portraits.
 
 ### Where to start, depending on what you want to do
 
@@ -201,8 +203,8 @@ the dialogue, then add that id to the character's `dates` list.
   "speaker": "python",
   "text": "Tabs or spaces?",
   "choices": [
-    {"text": "Spaces.", "affection": 5, "next": "end"},
-    {"text": "Tabs.", "affection": -5, "next": "end"}
+	{"text": "Spaces.", "affection": 5, "next": "end"},
+	{"text": "Tabs.", "affection": -5, "next": "end"}
   ]
 }
 ```
@@ -246,11 +248,3 @@ godot --headless --path . -s tests/run_tests.gd
 ```
 
 They also run on GitHub for every pull request. More in [tests/README.md](tests/README.md).
-
-## Ideas / next steps
-
-- Real character art and expressions (`mood`)
-- More dates per character, covering more language features
-- Bundling the runtimes (see [runtimes/README.md](runtimes/README.md))
-- Music and sound effects
-- Endings when a character reaches "Committed"
