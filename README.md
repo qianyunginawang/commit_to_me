@@ -27,25 +27,15 @@ your first pull request. Plan on about an hour the first time.
 
 **Languages (for the coding challenges)**
 
-While you're developing, the game runs challenge code with the languages
-installed on your computer. You only need the ones you're working on. A
-missing language shows a "not installed yet" message instead of crashing.
+Nothing to install. The game brings its own Python, Node.js (JavaScript and
+TypeScript), Java and C++ compiler, and you download them in one step during
+[first-time setup](#first-time-setup). The only thing that step needs is
+**Python 3.9 or newer** to run the download script:
 
-| Language | Command the game looks for | Mac ([Homebrew](https://brew.sh)) | Windows |
-|---|---|---|---|
-| Python | `python3` | `brew install python` | [python.org](https://www.python.org/downloads/) (tick "Add python.exe to PATH") |
-| JS / TS | `node` (v22.6+ for TypeScript) | `brew install node` | [nodejs.org](https://nodejs.org/) (LTS) |
-| Java | `javac` and `java` | `brew install openjdk`, then run the `sudo ln -sfn ...` command it prints | [Adoptium JDK 21](https://adoptium.net/) |
-| C++ | `g++` | `xcode-select --install` | [WinLibs](https://winlibs.com/), add its `bin` folder to PATH |
-
-To check what you have, open a terminal and run:
-
-```sh
-python3 --version && node --version && javac -version && g++ --version
-```
-
-The finished game will **bundle** these languages so players don't install
-anything. That part isn't built yet: see [runtimes/README.md](runtimes/README.md).
+- **Mac:** run `python3 --version` in Terminal. If it asks to install the
+  command line developer tools, say yes; that includes Python.
+- **Windows:** install it from [python.org](https://www.python.org/downloads/)
+  and tick **"Add python.exe to PATH"** in the installer.
 
 **Nice to have**
 
@@ -63,20 +53,32 @@ anything. That part isn't built yet: see [runtimes/README.md](runtimes/README.md
 	  `qianyunginawang/commit_to_me`. (If it's not listed, check that you
 	  accepted the collaborator invite.)
    3. Choose where to save it, e.g. `Documents/commit_to_me`, and click **Clone**.
-2. **Open it in Godot.** In the Project Manager, click **Import**, choose
+2. **Download the game's languages.** In GitHub Desktop, click
+   **Repository → Open in Terminal** (Mac) or **Open in Command Prompt**
+   (Windows), then run:
+   ```sh
+   python3 tools/fetch_runtimes.py      # Mac
+   python tools/fetch_runtimes.py       # Windows
+   ```
+   It downloads about 350 MB and unpacks to about 600 MB in the `runtimes/`
+   folder, which git ignores, so it never shows up as a change. It takes a few
+   minutes and ends with `All set.`
+3. **Open it in Godot.** In the Project Manager, click **Import**, choose
    `project.godot` from the folder you just cloned, then **Import & Edit**.
    The first import takes a minute.
-3. **Play it.** Press **F5** (**⌘B** on Mac) or the ▶ button in the top right.
+4. **Play it.** Press **F5** (**⌘B** on Mac) or the ▶ button in the top right.
    Type a name, pick a character, and try a date through to its coding challenge.
-4. **Run the tests** to confirm everything is set up. From the project folder in a terminal:
+   The very first C++ challenge on your computer takes a minute or two to
+   compile while the C++ compiler sets itself up. After that it's quick.
+5. **Run the tests** to confirm everything is set up. From the project folder:
    ```sh
    # Mac
    /Applications/Godot.app/Contents/MacOS/Godot --headless --path . -s tests/run_tests.gd
    # Windows (use the path to your Godot .exe)
    Godot_v4.7.1-stable_win64_console.exe --headless --path . -s tests/run_tests.gd
    ```
-   It should end with `0 failed`. Tests for languages you haven't installed are
-   skipped, not failed.
+   It should end with `0 failed`. If you skipped step 2, the code tests use
+   whatever languages are installed on your computer and skip the rest.
 
 ### How to make a change (with GitHub Desktop)
 
@@ -85,7 +87,9 @@ request** that someone reviews. GitHub Desktop walks you through each step.
 
 1. **Start from the latest code.** At the top of GitHub Desktop, set
    **Current Branch** to `main`, then click **Fetch origin** (it changes to
-   **Pull origin** if there's anything new, so click that too).
+   **Pull origin** if there's anything new, so click that too). If the pull
+   changed `tools/runtimes.json`, run `fetch_runtimes.py` again (step 2 of
+   first-time setup). It only downloads what changed.
 2. **Make a branch.** Click **Current Branch → New Branch**. Name it after
    you and the change, e.g. `sara/python-date-2`, and create it based on `main`.
 3. **Make your change** in Godot or your editor (VSCode). Play it to check it works,
@@ -117,6 +121,8 @@ Good things to know:
   clicking anything that discards changes.
 - **Repository → Open in Terminal / Show in Finder (Explorer)** jumps straight
   to the project folder, which is handy for running the tests.
+- Don't commit anything in `runtimes/` except its README. The downloaded
+  languages are ignored automatically.
 
 <details>
 <summary>Prefer the command line? The same steps with git commands</summary>
@@ -177,7 +183,8 @@ scripts/
   code_runner/         runs and grades player code
   ui/                  scripts for each screen
 assets/                theme, and portraits (assets/portraits/<id>.png)
-runtimes/              bundled languages go here (not in git, see its README)
+runtimes/              bundled languages (downloaded, not in git; see its README)
+tools/                 fetch_runtimes.py downloads the bundled languages
 tests/                 automated tests
 ```
 

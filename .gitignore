@@ -9,9 +9,9 @@
 export_credentials.cfg
 
 # Bundled language runtimes are large and platform-specific.
-# Only the README and config in runtimes/ are tracked; see runtimes/README.md.
+# Download them with: python3 tools/fetch_runtimes.py (see runtimes/README.md).
 /runtimes/*/
-!/runtimes/README.md
+__pycache__/
 
 # OS / editor clutter
 .DS_Store

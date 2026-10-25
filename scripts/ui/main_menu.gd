@@ -14,6 +14,7 @@ func _ready() -> void:
 	quit_button.pressed.connect(func(): get_tree().quit())
 	name_edit.text_submitted.connect(func(_t): _on_new_game())
 	name_edit.grab_focus()
+	GameData.warm_up_runtimes()
 
 
 func _on_new_game() -> void:
