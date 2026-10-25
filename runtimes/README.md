@@ -86,7 +86,7 @@ inside the runtimes.
    python3 tools/fetch_runtimes.py --platform windows-x86_64 --dest path/to/export/runtimes
    ```
    so you end up with `MyGame.exe` and `runtimes/windows-x86_64/` side by side.
-3. Zip the whole folder. Compressed, the runtimes add roughly 150-250 MB per
+3. Zip the whole folder. Compressed, the runtimes add roughly 300-350 MB per
    platform.
 
 Still to do before a public release:

@@ -46,22 +46,15 @@ your first pull request. Plan on about an hour the first time.
 
 **Languages (for the coding challenges)**
 
-The game carries its own Python, Node.js (JavaScript/TypeScript), Java and C++
-compiler, so players never install anything. They're too big for git, so
-download them once with:
+Nothing to install. The game brings its own Python, Node.js (JavaScript and
+TypeScript), Java and C++ compiler, and you download them in one step during
+[first-time setup](#first-time-setup). The only thing that step needs is
+**Python 3.9 or newer** to run the download script:
 
-```sh
-python3 tools/fetch_runtimes.py
-```
-
-(On Windows type `python` instead of `python3`. It needs Python 3.9+ just to
-run the script, and puts about 500 MB in the `runtimes/` folder.) Run it again
-whenever `tools/runtimes.json` changes; it skips anything already up to date.
-More in [runtimes/README.md](runtimes/README.md).
-
-Skipping this is fine while you're developing: running from the Godot editor
-falls back to `python3`, `node`, `javac`/`java` and `g++` if they're installed
-on your computer, and a missing language shows a message instead of crashing.
+- **Mac:** run `python3 --version` in Terminal. If it asks to install the
+  command line developer tools, say yes; that includes Python.
+- **Windows:** install it from [python.org](https://www.python.org/downloads/)
+  and tick **"Add python.exe to PATH"** in the installer.
 
 **Nice to have**
 
@@ -79,20 +72,32 @@ on your computer, and a missing language shows a message instead of crashing.
       `qianyunginawang/commit_to_me`. (If it's not listed, check that you
       accepted the collaborator invite.)
    3. Choose where to save it, e.g. `Documents/commit_to_me`, and click **Clone**.
-2. **Open it in Godot.** In the Project Manager, click **Import**, choose
+2. **Download the game's languages.** In GitHub Desktop, click
+   **Repository → Open in Terminal** (Mac) or **Open in Command Prompt**
+   (Windows), then run:
+   ```sh
+   python3 tools/fetch_runtimes.py      # Mac
+   python tools/fetch_runtimes.py       # Windows
+   ```
+   It downloads about 350 MB and unpacks to about 600 MB in the `runtimes/`
+   folder, which git ignores, so it never shows up as a change. It takes a few
+   minutes and ends with `All set.`
+3. **Open it in Godot.** In the Project Manager, click **Import**, choose
    `project.godot` from the folder you just cloned, then **Import & Edit**.
    The first import takes a minute.
-3. **Play it.** Press **F5** (**⌘B** on Mac) or the ▶ button in the top right.
+4. **Play it.** Press **F5** (**⌘B** on Mac) or the ▶ button in the top right.
    Type a name, pick a character, and try a date through to its coding challenge.
-4. **Run the tests** to confirm everything is set up. From the project folder:
+   The very first C++ challenge on your computer takes a minute or two to
+   compile while the C++ compiler sets itself up. After that it's quick.
+5. **Run the tests** to confirm everything is set up. From the project folder:
    ```sh
    # Mac
    /Applications/Godot.app/Contents/MacOS/Godot --headless --path . -s tests/run_tests.gd
    # Windows (use the path to your Godot .exe)
    Godot_v4.7.1-stable_win64_console.exe --headless --path . -s tests/run_tests.gd
    ```
-   It should end with `0 failed`. Tests for languages you haven't installed are
-   skipped, not failed.
+   It should end with `0 failed`. If you skipped step 2, the code tests use
+   whatever languages are installed on your computer and skip the rest.
 
 ### Your first change (with GitHub Desktop)
 
@@ -101,7 +106,9 @@ request** that someone reviews. GitHub Desktop walks you through each step.
 
 1. **Start from the latest code.** At the top of GitHub Desktop, set
    **Current Branch** to `main`, then click **Fetch origin** (it changes to
-   **Pull origin** if there's anything new, so click that too).
+   **Pull origin** if there's anything new, so click that too). If the pull
+   changed `tools/runtimes.json`, run `fetch_runtimes.py` again (step 2 of
+   first-time setup). It only downloads what changed.
 2. **Make a branch.** Click **Current Branch → New Branch**. Name it after
    you and the change, e.g. `ana/python-date-2`, and create it based on `main`.
 3. **Make your change** in Godot or your editor. Play it to check it works,
@@ -133,6 +140,8 @@ Good things to know:
   clicking anything that discards changes.
 - **Repository → Open in Terminal / Show in Finder (Explorer)** jumps straight
   to the project folder, which is handy for running the tests.
+- Don't commit anything in `runtimes/` except its README. The downloaded
+  languages are ignored automatically.
 
 <details>
 <summary>Prefer the command line? The same steps with git commands</summary>
