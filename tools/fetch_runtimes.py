@@ -260,6 +260,19 @@ def resolve_java(cfg, plat):
     arch, os_name = PLATFORMS[plat]["java"]
     ext = "zip" if os_name == "windows" else "tar.gz"
     name = "OpenJDK%sU-jdk_%s_%s_hotspot_%s.%s" % (major, arch, os_name, version.replace("+", "_"), ext)
+    # Ask Adoptium's API first: it knows the exact file and checksum for each
+    # OS (some platforms' files are named or published slightly differently).
+    api = ("https://api.adoptium.net/v3/assets/release_name/eclipse/jdk-%s"
+           "?architecture=%s&os=%s&image_type=jdk&jvm_impl=hotspot&heap_size=normal&project=jdk") % (
+        version.replace("+", "%2B"), arch, os_name)
+    try:
+        release = json.loads(http_get(api, retries=2))
+        for binary in release.get("binaries", []):
+            pkg = binary.get("package", {})
+            if pkg.get("link") and pkg.get("checksum"):
+                return pkg["link"], pkg["checksum"], pkg["name"]
+    except (RuntimeError, ValueError) as e:
+        log("    note    Adoptium API didn't answer (%s), trying GitHub directly" % e)
     url = "https://github.com/adoptium/temurin%s-binaries/releases/download/jdk-%s/%s" % (
         major, version.replace("+", "%2B"), name)
     sha = http_get(url + ".sha256.txt").decode().split()[0]
