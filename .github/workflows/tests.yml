@@ -39,7 +39,10 @@ jobs:
       - name: Warm up the C++ compiler
         # The first "zig c++" builds the C++ standard library (slow, once).
         run: |
-          zig=$(ls runtimes/*/zig/zig runtimes/*/zig/zig.exe 2>/dev/null | head -n1)
+          zig=""
+          for z in runtimes/*/zig/zig runtimes/*/zig/zig.exe; do
+            if [ -f "$z" ]; then zig="$z"; fi
+          done
           printf '#include <iostream>\nint main() { std::cout << "hi\\n"; }\n' > warm.cpp
           time "$zig" c++ -o warm.exe warm.cpp
           ./warm.exe
