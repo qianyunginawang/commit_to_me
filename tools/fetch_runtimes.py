@@ -37,6 +37,7 @@ import sys
 import tarfile
 import tempfile
 import time
+import urllib.parse
 import urllib.request
 import zipfile
 from pathlib import Path
@@ -255,28 +256,33 @@ def trim_node(folder, plat):
 
 
 def resolve_java(cfg, plat):
-    version = cfg["version"]  # e.g. 21.0.13+9
-    major = version.split(".")[0]
+    # Pinned to a patch version (e.g. 21.0.13). Adoptium sometimes publishes a
+    # platform with a different build number, or a few days late, so ask its
+    # API for the newest build of that patch, and fall back to the newest
+    # older patch for that platform if it isn't out yet.
+    version = cfg["version"]
+    major = int(version.split(".")[0])
+    parts = [int(x) for x in version.split("+")[0].split(".")]
+    next_patch = "%d.%d.%d" % (parts[0], parts[1], parts[2] + 1)
     arch, os_name = PLATFORMS[plat]["java"]
-    ext = "zip" if os_name == "windows" else "tar.gz"
-    name = "OpenJDK%sU-jdk_%s_%s_hotspot_%s.%s" % (major, arch, os_name, version.replace("+", "_"), ext)
-    # Ask Adoptium's API first: it knows the exact file and checksum for each
-    # OS (some platforms' files are named or published slightly differently).
-    api = ("https://api.adoptium.net/v3/assets/release_name/eclipse/jdk-%s"
-           "?architecture=%s&os=%s&image_type=jdk&jvm_impl=hotspot&heap_size=normal&project=jdk") % (
-        version.replace("+", "%2B"), arch, os_name)
-    try:
-        release = json.loads(http_get(api, retries=2))
-        for binary in release.get("binaries", []):
-            pkg = binary.get("package", {})
-            if pkg.get("link") and pkg.get("checksum"):
-                return pkg["link"], pkg["checksum"], pkg["name"]
-    except (RuntimeError, ValueError) as e:
-        log("    note    Adoptium API didn't answer (%s), trying GitHub directly" % e)
-    url = "https://github.com/adoptium/temurin%s-binaries/releases/download/jdk-%s/%s" % (
-        major, version.replace("+", "%2B"), name)
-    sha = http_get(url + ".sha256.txt").decode().split()[0]
-    return url, sha, name
+    query = ("?architecture=%s&os=%s&image_type=jdk&jvm_impl=hotspot&heap_size=normal"
+             "&vendor=eclipse&release_type=ga&project=jdk&sort_order=DESC&page_size=1") % (arch, os_name)
+    for low in (version, str(major)):
+        url = "https://api.adoptium.net/v3/assets/version/%s%s" % (
+            urllib.parse.quote("[%s,%s)" % (low, next_patch), safe=""), query)
+        try:
+            releases = json.loads(http_get(url, retries=2))
+        except RuntimeError:  # the API answers 404 when nothing matches
+            continue
+        for release in releases:
+            for binary in release.get("binaries", []):
+                pkg = binary.get("package", {})
+                if pkg.get("link") and pkg.get("checksum"):
+                    if low != version:
+                        log("    note    JDK %s isn't out for %s yet, using %s" % (
+                            version, plat, release.get("release_name")))
+                    return pkg["link"], pkg["checksum"], pkg["name"]
+    raise RuntimeError("Couldn't find a Temurin JDK %d build for %s" % (major, plat))
 
 
 def trim_java(folder, plat):

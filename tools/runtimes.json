@@ -10,7 +10,7 @@
     "license": "MIT (https://github.com/nodejs/node/blob/main/LICENSE)"
   },
   "java": {
-    "version": "21.0.13+9",
+    "version": "21.0.13",
     "license": "GPL-2.0 with Classpath Exception (https://adoptium.net/about/)"
   },
   "zig": {
