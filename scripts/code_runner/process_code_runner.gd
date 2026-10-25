@@ -10,9 +10,10 @@ extends CodeRunner
 ##   5. deletes the temp folder.
 ##
 ## Which programs it calls comes from res://data/languages.json.
-## It prefers the runtime bundled with the game (runtimes/<platform>/...).
-## In debug builds (running from the editor) it falls back to whatever is
-## installed on the computer, so you can develop without bundling anything.
+## It prefers the runtime bundled with the game (runtimes/<platform>/...,
+## downloaded by tools/fetch_runtimes.py). In debug builds (running from the
+## editor) it falls back to whatever is installed on the computer, so you can
+## develop without bundling anything.
 ##
 ## NOTE: this is "sandboxed" only in the sense of a throwaway folder plus
 ## limits. It is NOT a security sandbox. That's fine for a single-player game
@@ -36,6 +37,23 @@ var keep_sandbox: bool = false
 func _init(p_language_id: String = "", p_config: Dictionary = {}) -> void:
 	language_id = p_language_id
 	config = p_config
+	compile_timeout_ms = int(config.get("compile_timeout_ms", compile_timeout_ms))
+
+
+## True if every program this language needs comes from the game's own
+## runtimes folder (not from something installed on the computer).
+func uses_bundled_runtime() -> bool:
+	if config.is_empty():
+		return false
+	for step in ["compile", "run"]:
+		if not config.has(step):
+			continue
+		var step_cfg: Dictionary = config[step]
+		if step_cfg.get("program", "") == "{exe}":
+			continue
+		if _bundled_path(step_cfg).is_empty():
+			return false
+	return true
 
 
 func is_available() -> bool:
@@ -53,7 +71,7 @@ func unavailable_reason() -> String:
 	for step in ["compile", "run"]:
 		if config.has(step) and _resolve_program(config[step]).is_empty():
 			var step_cfg: Dictionary = config[step]
-			return "Couldn't find %s. Bundle it in %s or install '%s' on this computer (see runtimes/README.md)." % [
+			return "Couldn't find %s. Run tools/fetch_runtimes.py to put it in %s, or install '%s' on this computer (see runtimes/README.md)." % [
 				config.get("display_name", language_id),
 				runtimes_dir(),
 				step_cfg.get("system", "?"),
@@ -109,7 +127,9 @@ func run(source: String, stdin_text: String = "") -> RunResult:
 
 # --- Locating runtimes -------------------------------------------------------
 
-static func platform_key() -> String:
+## "windows", "macos" or "linux". The "bundled" paths in languages.json are
+## keyed by this.
+static func os_key() -> String:
 	match OS.get_name():
 		"Windows":
 			return "windows"
@@ -119,26 +139,52 @@ static func platform_key() -> String:
 			return "linux"
 
 
+## Name of the runtimes subfolder for this computer, e.g. "macos-arm64" or
+## "windows-x86_64". Matches the platform names in tools/fetch_runtimes.py.
+static func platform_key() -> String:
+	var arch := Engine.get_architecture_name()
+	if arch in ["arm64", "aarch64"]:
+		arch = "arm64"
+	return "%s-%s" % [os_key(), arch]
+
+
 ## Folder with the bundled runtimes for this platform.
-## In an exported game it's next to the executable; in the editor it's
-## inside the project folder.
+##   - Editor: <project>/runtimes/<platform>
+##   - Exported game: <game folder>/runtimes/<platform>, or on macOS also
+##     MyGame.app/Contents/Resources/runtimes/<platform> (inside the app).
 static func runtimes_dir() -> String:
-	var base: String
+	var bases: PackedStringArray = []
 	if OS.has_feature("editor"):
-		base = ProjectSettings.globalize_path("res://")
+		bases.append(ProjectSettings.globalize_path("res://"))
 	else:
-		base = OS.get_executable_path().get_base_dir()
-	return base.path_join(RUNTIMES_DIR_NAME).path_join(platform_key())
+		var exe_dir := OS.get_executable_path().get_base_dir()
+		bases.append(exe_dir)
+		if OS.get_name() == "macOS":
+			bases.append(exe_dir.path_join("../Resources").simplify_path())
+			bases.append(exe_dir.path_join("../../..").simplify_path())  # next to the .app
+	for base in bases:
+		var dir := base.path_join(RUNTIMES_DIR_NAME).path_join(platform_key())
+		if DirAccess.dir_exists_absolute(dir):
+			return dir
+	return bases[0].path_join(RUNTIMES_DIR_NAME).path_join(platform_key())
+
+
+## Absolute path of the bundled program for a step, or "" if not bundled.
+static func _bundled_path(step: Dictionary) -> String:
+	var bundled = step.get("bundled", {})
+	if bundled is Dictionary and bundled.has(os_key()):
+		var path := runtimes_dir().path_join(bundled[os_key()])
+		if FileAccess.file_exists(path):
+			return path
+	return ""
 
 
 ## Returns the absolute path of the program for a compile/run step,
 ## or "" if it can't be found.
 func _resolve_program(step: Dictionary) -> String:
-	var bundled = step.get("bundled", {})
-	if bundled is Dictionary and bundled.has(platform_key()):
-		var path := runtimes_dir().path_join(bundled[platform_key()])
-		if FileAccess.file_exists(path):
-			return path
+	var bundled := _bundled_path(step)
+	if not bundled.is_empty():
+		return bundled
 	var program: String = step.get("program", "")
 	if program == "{exe}":
 		return program  # The compiled program; it exists once compiling worked.
@@ -168,8 +214,13 @@ func _run_step(step: Dictionary, vars: Dictionary, stdin_text: String, limit_ms:
 	var program := _resolve_program(step)
 	if program == "{exe}":
 		program = vars["exe"]
+	# A bundled tool can need different arguments than the usual system one
+	# (e.g. "zig c++ ..." instead of "g++ ...").
+	var arg_list: Array = step.get("args", [])
+	if step.has("bundled_args") and program == _bundled_path(step):
+		arg_list = step["bundled_args"]
 	var args: PackedStringArray = []
-	for a in step.get("args", []):
+	for a in arg_list:
 		args.append(String(a).format(vars))
 	return await _exec(program, args, stdin_text, limit_ms)
 

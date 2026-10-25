@@ -7,33 +7,65 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    # Run on all three desktop OSes, using the runtimes the game bundles
+    # (downloaded by tools/fetch_runtimes.py), not ones installed on the runner.
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
     env:
       GODOT_VERSION: 4.7.1
+      CTM_REQUIRE_BUNDLED: "1"
     steps:
       - uses: actions/checkout@v4
 
-      # Runtimes so the code-runner tests actually run code instead of skipping.
+      # Python here only runs the download script; the game uses its own copy.
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - uses: actions/setup-node@v4
+
+      - uses: actions/cache@v4
         with:
-          node-version: "22"
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "21"
+          path: runtimes/.downloads
+          key: runtime-downloads-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('tools/runtimes.json') }}
+
+      - name: Download bundled runtimes
+        run: python tools/fetch_runtimes.py
+
+      - name: Warm up the C++ compiler
+        # The first "zig c++" builds the C++ standard library (slow, once).
+        run: |
+          zig=$(ls runtimes/*/zig/zig runtimes/*/zig/zig.exe 2>/dev/null | head -n1)
+          printf '#include <iostream>\nint main() { std::cout << "hi\\n"; }\n' > warm.cpp
+          time "$zig" c++ -o warm.exe warm.cpp
+          ./warm.exe
 
       - name: Download Godot
         run: |
-          curl -sSL -o godot.zip "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
-          unzip -q godot.zip
-          mv "Godot_v${GODOT_VERSION}-stable_linux.x86_64" godot
-          chmod +x godot
+          base="https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable"
+          case "${{ runner.os }}" in
+            Linux)
+              curl -sSL -o godot.zip "$base/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+              unzip -q godot.zip
+              mv "Godot_v${GODOT_VERSION}-stable_linux.x86_64" godot-bin
+              echo "GODOT=$PWD/godot-bin" >> "$GITHUB_ENV" ;;
+            macOS)
+              curl -sSL -o godot.zip "$base/Godot_v${GODOT_VERSION}-stable_macos.universal.zip"
+              unzip -q godot.zip
+              echo "GODOT=$PWD/Godot.app/Contents/MacOS/Godot" >> "$GITHUB_ENV" ;;
+            Windows)
+              curl -sSL -o godot.zip "$base/Godot_v${GODOT_VERSION}-stable_win64.exe.zip"
+              unzip -q godot.zip
+              echo "GODOT=$PWD/Godot_v${GODOT_VERSION}-stable_win64_console.exe" >> "$GITHUB_ENV" ;;
+          esac
+          rm godot.zip
 
       - name: Import project
-        run: ./godot --headless --path . --import
+        run: '"$GODOT" --headless --path . --import'
 
       - name: Run tests
-        run: ./godot --headless --path . -s tests/run_tests.gd
+        run: '"$GODOT" --headless --path . -s tests/run_tests.gd'

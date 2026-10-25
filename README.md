@@ -46,25 +46,22 @@ your first pull request. Plan on about an hour the first time.
 
 **Languages (for the coding challenges)**
 
-While you're developing, the game runs challenge code with the languages
-installed on your computer. You only need the ones you're working on. A
-missing language shows a "not installed yet" message instead of crashing.
-
-| Language | Command the game looks for | Mac ([Homebrew](https://brew.sh)) | Windows |
-|---|---|---|---|
-| Python | `python3` | `brew install python` | [python.org](https://www.python.org/downloads/) (tick "Add python.exe to PATH") |
-| JS / TS | `node` (v22.6+ for TypeScript) | `brew install node` | [nodejs.org](https://nodejs.org/) (LTS) |
-| Java | `javac` and `java` | `brew install openjdk`, then run the `sudo ln -sfn ...` command it prints | [Adoptium JDK 21](https://adoptium.net/) |
-| C++ | `g++` | `xcode-select --install` | [WinLibs](https://winlibs.com/), add its `bin` folder to PATH |
-
-To check what you have, open a terminal and run:
+The game carries its own Python, Node.js (JavaScript/TypeScript), Java and C++
+compiler, so players never install anything. They're too big for git, so
+download them once with:
 
 ```sh
-python3 --version && node --version && javac -version && g++ --version
+python3 tools/fetch_runtimes.py
 ```
 
-The finished game will **bundle** these languages so players don't install
-anything. That part isn't built yet: see [runtimes/README.md](runtimes/README.md).
+(On Windows type `python` instead of `python3`. It needs Python 3.9+ just to
+run the script, and puts about 500 MB in the `runtimes/` folder.) Run it again
+whenever `tools/runtimes.json` changes; it skips anything already up to date.
+More in [runtimes/README.md](runtimes/README.md).
+
+Skipping this is fine while you're developing: running from the Godot editor
+falls back to `python3`, `node`, `javac`/`java` and `g++` if they're installed
+on your computer, and a missing language shows a message instead of crashing.
 
 **Nice to have**
 
@@ -175,7 +172,8 @@ scripts/
   code_runner/         runs and grades player code
   ui/                  scripts for each screen
 assets/                theme, and portraits (assets/portraits/<id>.png)
-runtimes/              bundled languages go here (not in git, see its README)
+runtimes/              bundled languages (downloaded, not in git; see its README)
+tools/                 fetch_runtimes.py downloads the bundled languages
 tests/                 automated tests
 ```
 
@@ -251,6 +249,6 @@ They also run on GitHub for every pull request. More in [tests/README.md](tests/
 
 - Real character art and expressions (`mood`)
 - More dates per character, covering more language features
-- Bundling the runtimes (see [runtimes/README.md](runtimes/README.md))
+- Packaging exported builds with their runtimes, and Mac code signing (see [runtimes/README.md](runtimes/README.md))
 - Music and sound effects
 - Endings when a character reaches "Committed"

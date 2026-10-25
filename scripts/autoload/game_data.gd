@@ -20,6 +20,8 @@ var dates: Dictionary = {}
 var challenges: Dictionary = {}
 var languages: Dictionary = {}
 
+var _warm_up_started := false
+
 
 func _ready() -> void:
 	load_all()
@@ -58,6 +60,26 @@ func get_challenge(id: String) -> Dictionary:
 ## Makes a code runner for a language id from languages.json ("python", "cpp", ...).
 func make_runner(language_id: String) -> CodeRunner:
 	return ProcessCodeRunner.new(language_id, languages.get(language_id, {}))
+
+
+## Gets slow first-time setup out of the way in the background, so the
+## player's first Run isn't the slow one. Today that's C++: the bundled Zig
+## compiler builds the C++ standard library the first time it's used, which
+## can take a minute. Safe to call more than once.
+func warm_up_runtimes() -> void:
+	if _warm_up_started:
+		return
+	_warm_up_started = true
+	for id in languages:
+		var code: String = languages[id].get("warm_up_code", "")
+		if code.is_empty():
+			continue
+		var runner := make_runner(id) as ProcessCodeRunner
+		if runner and runner.uses_bundled_runtime():
+			var result: RunResult = await runner.run(code)
+			if not result.is_success():
+				push_warning("[GameData] Warm-up for %s failed: %s %s" % [id, result.status_name(), result.stderr])
+
 
 
 ## Checks that everything points at things that exist. Returns a list of

@@ -80,3 +80,30 @@ func _why(report: Dictionary) -> String:
 		return ""
 	var r: RunResult = f["result"]
 	return "%s expected=%s actual=%s stderr=%s" % [r.status_name(), f["expected"], f["actual"], r.stderr]
+
+
+## CI sets CTM_REQUIRE_BUNDLED=1 after running tools/fetch_runtimes.py, so this
+## proves the game uses its own runtimes rather than anything installed.
+func test_bundled_runtimes_are_used() -> void:
+	if OS.get_environment("CTM_REQUIRE_BUNDLED") != "1":
+		skip("set CTM_REQUIRE_BUNDLED=1 to check (runtimes dir: %s)" % ProcessCodeRunner.runtimes_dir())
+		return
+	for id in GameData.languages:
+		var runner := GameData.make_runner(id) as ProcessCodeRunner
+		check(runner.uses_bundled_runtime(), "%s should use the bundled runtime in %s" % [id, ProcessCodeRunner.runtimes_dir()])
+
+
+func test_typescript_features() -> void:
+	var runner := GameData.make_runner("typescript")
+	if not runner.is_available():
+		skip("no node")
+		return
+	var code := "enum Mood { Shy, Happy }\ninterface Crush { name: string }\nconst d: Crush = { name: 'Jay' };\nconsole.log(d.name, Mood[Mood.Happy]);\n"
+	var result: RunResult = await runner.run(code)
+	check_eq(result.status_name(), "OK")
+	check_eq(result.stdout.strip_edges(), "Jay Happy")
+
+
+func test_platform_key_has_os_and_arch() -> void:
+	var key := ProcessCodeRunner.platform_key()
+	check(key.begins_with(ProcessCodeRunner.os_key() + "-"), "platform key should look like linux-x86_64, got " + key)
