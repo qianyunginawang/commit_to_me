@@ -1,0 +1,24 @@
+- Visual assets for 
+    - background 
+    - characters
+    - UI 
+    - Player
+- Audio assets 
+- Code environment 
+- Story assets
+    - whole story arc + beats
+    - intros 
+    - calendar/school schedule
+    - personalities 
+    - dates 
+    - affection events 
+    - endings 
+
+- Gameplay features 
+    - Save/load slots
+    - skip, auto-play, go back 
+    - gallery (to replay)
+    - locations for dates/going to? (maybe a map?) 
+    - best friend (is a sentient rubber duck) 
+    - 
+
