@@ -33,14 +33,22 @@ The fall semester at Runtime University runs 14 weeks, from Monday, August 31 to
 - **The heroine:** the player could set it at the start. A default of December 9 (Grace Hopper's birthday) lands just after the semester, which works for an epilogue.
 
 ## Recurring events
-- **Office hours:** Day Jay, weekday afternoons in Turing Hall (Day slot).
-- **Hackathon nights:** Night Jay, every other weekend in the student union (Night slot), starting with the Day 256 Hackathon in week 2.
-- **Student council meetings:** Julian, Mondays in the council room. Julian is always there early.
-- **Gardening club:** Monty, Wednesday mornings in the greenhouse with Monty.
-- **Tutoring center shift:** Monty, Thursday evenings at the tutoring center (Night slot). Monty brings tea and stays late for anyone who is stuck.
-- **Game dev club:** Ciel, "unofficially" Friday night in the game dev club room, whenever Ciel is there.
-- **Midnight lab session:** Ciel, Tuesday nights in Hopper Lab (Night slot). Ciel runs benchmarks and "happens" to have a spare seat and a second black coffee.
-- **Coffee appreciation society:** Julian, Friday mornings at Café Cache.
+Jay: 
+- **Office hours:** Day Jay, Monday, Wednesday, Friday afternoons in Turing Hall (Day slot).
+- **Hackathon nights:** Night Jay, Saturday and Sunday in the student union (Night slot), starting with the Day 256 Hackathon in week 2.
+
+Julian: 
+- **Student council office hours:** Julian, Sat and Sunday evenings in the council room. Julian is always there early.
+- **Coffee appreciation society:** Julian, Monday, Tuesday, Wednesday, Thurs mornings at Café Cache.
+
+Monty: 
+- **Gardening club:** Monty, Saturday and Sunday mornings in the greenhouse with Monty.
+- **Tutoring center shift:** Monty, weekday evenings at the tutoring center (Night slot). Monty brings tea and stays late for anyone who is stuck.
+
+Ciel: 
+- **Game dev club:** Ciel, "unofficially" Friday, Saturday, Sunday mornings in the game dev club room, whenever Ciel is there.
+- **Midnight lab session:** Ciel, Monday, Tuesday, Wednesday, Thursday nights in Hopper Lab (Night slot). Ciel runs benchmarks and "happens" to have a spare seat and a second black coffee.
+
 
 
 ## Route timing notes

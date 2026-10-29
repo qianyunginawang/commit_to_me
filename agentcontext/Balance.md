@@ -11,9 +11,10 @@ Every lesson, generic or special, uses the same rule:
 - Wrong answers don't lose affection. The player just tries again. A lesson never gives less than +2.
 
 ## Generic lessons
-- There are 33 generic subjects (the curriculum belongs in the General section of DatesAndRoutes.md, which is still empty). Each subject counts once per playthrough, and the player picks which character to learn it with. The lesson is in that character's language, so each subject has 5 versions: Python, Java, C++, and TypeScript or JavaScript for Jay depending on the slot. Who to learn each subject with is the main choice every week.
-- Exception: Generic 1 (Printing to the console) is done with all four characters on the campus tour, so every route starts at 6.
-- After the tour, 32 generic subjects are left to split between the characters.
+- There are 33 generic subjects (see the General section of DatesAndRoutes.md). The lesson is in the language of the character you take it with, so each subject has 5 versions: Python, Java, C++, and TypeScript or JavaScript for Jay depending on the slot.
+- Any subject can be done with any character, once per character. Jay counts as one character, so a subject done with Day Jay or Night Jay uses up Jay's turn for it.
+- Subjects unlock in order: finishing a subject with anyone opens the next one for everyone. The player can also choose to do an already completed lesson with a different character
+- Generic 1 (Printing to the console) is done with all four characters on the campus tour, so every route starts at 6.
 
 ## Special chapters
 - Same rule as generic lessons: +6, with 2 hints at -2 each.
@@ -46,8 +47,13 @@ Skipping a character's special chapters is the main way to end up with a bad end
 
 ## Polyglot route
 - All four need 80+ by week 14.
-- With no hints, that takes about 27 of the 32 generic subjects, leaving about 5 spare lessons (30 points) for the whole run.
-- Hints on any lesson eat into that slack. With about 57 lessons in a Polyglot run, the player can afford roughly 15 hints total. Hint discipline is part of the hard mode.
+- With no hints, that's about 56 lessons in total: the 4 campus tour lessons, 25 special chapters, and about 27 generic lessons spread across the four.
+- Since any subject can be done with every character, subjects no longer limit affection. The limit is time.
+
+## Time
+- Each day has a Day slot and a Night slot, and a lesson uses up one slot. The orientation-day campus tour is the exception: all four tour lessons happen in one slot.
+- Lessons only happen at events where that character is around: their recurring events and the story events in data/calendar.json. There's no weekly cap (decided 2026-10-29), so the limit is where everyone is and when, and that their events sometimes overlap.
+- The player can also just wait, which moves time to the next slot.
 
 ## Week 4: the hidden Polyglot choice
 - There is no route lock. Every character stays available all semester, and a character the player ignores just ends up with a bad ending.

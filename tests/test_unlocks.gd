@@ -23,6 +23,7 @@ func _data() -> Node:
 	gd.lessons = GameData.lessons.duplicate(true)
 	gd.routes = GameData.routes.duplicate(true)
 	gd.locations = GameData.locations
+	gd.calendar = GameData.calendar
 	_nodes.append(gd)
 	return gd
 
@@ -58,7 +59,7 @@ func test_only_the_first_subject_is_open_at_the_start() -> void:
 	check_eq(_dialogues(Unlocks.lessons_available("javascript", gs)), ["g01_typescript", "g01_javascript"])
 
 
-func test_printing_is_done_once_with_each_character() -> void:
+func test_each_subject_is_done_once_per_character() -> void:
 	var gs := _state()
 	gs.complete_lesson("g01_python", "python", 0)
 	check(Unlocks.is_subject_done("g01", gs), "g01 done")
@@ -70,16 +71,20 @@ func test_printing_is_done_once_with_each_character() -> void:
 	check_eq(Unlocks.characters_done_subject("g01", gs), ["python", "javascript"])
 
 
-func test_other_subjects_are_done_once_with_one_character() -> void:
+func test_finishing_a_subject_opens_the_next_for_everyone() -> void:
 	var gs := _state()
 	var gd := _data()
 	var g02_python := _write_python_version(gd, "g02")
-	gd.lessons["g02"]["versions"]["java"] = {"dialogue": "g01_java"}
+	var g02_java := "test_g02_java"
+	gd.dates[g02_java] = {"id": g02_java, "character": "java", "start": "c",
+		"nodes": {"c": {"challenge": "g01_java", "on_pass": "end", "on_fail": "end"}}}
+	gd.lessons["g02"]["versions"]["java"] = {"dialogue": g02_java}
+	check_eq(_dialogues(Unlocks.generic_lessons_available("java", gs, gd)), ["g01_java"], "only g01 at first:")
 	gs.complete_lesson("g01_python", "python", 0)
-	check_eq(_dialogues(Unlocks.generic_lessons_available("java", gs, gd)), ["g01_java", "g01_java"], "Julian can do g01 or g02:")
+	check_eq(_dialogues(Unlocks.generic_lessons_available("java", gs, gd)), ["g01_java", g02_java], "Monty's g01 opens g02 for Julian, and Julian can still go back to g01:")
 	gs.complete_lesson(g02_python, "python", 0)
-	check(not _dialogues(Unlocks.generic_lessons_available("python", gs, gd)).has(g02_python), "g02 is done")
-	check_eq(_dialogues(Unlocks.generic_lessons_available("java", gs, gd)), ["g01_java"], "g02 is gone for Julian too:")
+	check(not _dialogues(Unlocks.generic_lessons_available("python", gs, gd)).has(g02_python), "Monty has done g02")
+	check(_dialogues(Unlocks.generic_lessons_available("java", gs, gd)).has(g02_java), "Julian can still do g02")
 
 
 func test_chapter_needs_its_subjects_and_the_previous_chapter() -> void:

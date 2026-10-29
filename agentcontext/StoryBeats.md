@@ -4,7 +4,7 @@ General story arc of the game
 Week numbers follow Calendar.md, and the subject pacing there (about 2 to 3 generic subjects a week). Locations are from Setting.md. "Generic N" is a subject from the general curriculum (1 to 33). "Jay/Monty/Ciel/Julian Ch N" is a special chapter from that character's route table. Each special chapter needs its generic subjects and the character's previous chapter done, so the weeks below are the earliest a player on pace would see it.
 
 ## Lesson unlocks by week
-Roughly what a player on pace can unlock each week. Generic subjects open in order, about 2 to 3 a week. A special chapter opens once its generic subjects and that character's previous chapter are done. Players who fall behind unlock things later, and nothing locks again once it's open.
+Roughly what a player on pace can unlock each week. Generic subjects open in order, about 2 to 3 a week. Finishing a subject with any character opens the next one for everyone, and earlier subjects can still be done with other characters. A special chapter opens once its generic subjects and that character's previous chapter are done. Players who fall behind unlock things later, and nothing locks again once it's open.
 
 | Week | New generic subjects | New special chapters |
 |---|---|---|

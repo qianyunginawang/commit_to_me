@@ -1,0 +1,32 @@
+{
+  "start_date": "2026-08-31",
+  "weeks": 14,
+  "events": [
+    {"id": "office_hours", "name": "Office hours", "kind": "recurring", "weeks": "every", "days": ["mon", "tue", "wed", "thu", "fri"], "slot": "day", "location": "ta_office", "characters": ["javascript"]},
+    {"id": "hackathon_night", "name": "Hackathon night", "kind": "recurring", "weeks": "every", "days": ["sat", "sun"], "slot": "night", "location": "hackathon_hall", "characters": ["javascript"]},
+    {"id": "council_office_hours", "name": "Student council office hours", "kind": "recurring", "weeks": "every", "days": ["fri", "sat", "sun"], "slot": "night", "location": "council_room", "characters": ["java"]},
+    {"id": "coffee_society", "name": "Coffee appreciation society", "kind": "recurring", "weeks": "every", "days": ["mon", "tue", "wed", "thu"], "slot": "day", "location": "cafe_cache", "characters": ["java"]},
+    {"id": "gardening_club", "name": "Gardening club", "kind": "recurring", "weeks": "every", "days": ["sat", "sun"], "slot": "day", "location": "greenhouse", "characters": ["python"]},
+    {"id": "tutoring_shift", "name": "Tutoring center shift", "kind": "recurring", "weeks": "every", "days": ["mon", "tue", "wed", "thu", "fri"], "slot": "night", "location": "tutoring_center", "characters": ["python"]},
+    {"id": "game_dev_club", "name": "Game dev club", "kind": "recurring", "weeks": "every", "days": ["fri", "sat", "sun"], "slot": "day", "location": "game_dev_club_room", "characters": ["cpp"]},
+    {"id": "midnight_lab", "name": "Midnight lab session", "kind": "recurring", "weeks": "every", "days": ["mon", "tue", "wed", "thu"], "slot": "night", "location": "hopper_lab", "characters": ["cpp"]},
+    {"id": "orientation", "name": "Orientation day and campus tour", "kind": "story", "weeks": [1], "days": ["mon"], "slot": "day", "location": "main_quad", "characters": ["python", "javascript", "java", "cpp"], "takes_no_time": true},
+    {"id": "club_fair", "name": "Club fair", "kind": "story", "weeks": [1], "days": ["fri"], "slot": "day", "location": "main_quad", "characters": ["python", "javascript", "java", "cpp"]},
+    {"id": "day_256_hackathon", "name": "Day 256 Hackathon", "kind": "story", "weeks": [2], "days": ["sat", "sun"], "slot": "night", "location": "hackathon_hall", "characters": ["javascript"]},
+    {"id": "problem_set_1", "name": "First problem set due", "kind": "info", "weeks": [3], "days": ["fri"], "slot": "day", "location": "turing_hall", "characters": []},
+    {"id": "quack_check_in", "name": "Quack's check-in", "kind": "story", "weeks": [4], "days": ["sun"], "slot": "night", "location": "babbage_hall", "characters": []},
+    {"id": "fall_carnival", "name": "Fall carnival", "kind": "story", "weeks": [5, 6], "days": ["sat", "sun"], "slot": "night", "location": "fall_carnival", "characters": ["python", "javascript", "java", "cpp"]},
+    {"id": "midterms", "name": "Midterms week", "kind": "info", "weeks": [7], "days": ["mon", "tue", "wed", "thu", "fri"], "slot": "day", "location": "exam_hall", "characters": []},
+    {"id": "ada_lovelace_day", "name": "Ada Lovelace Day talk", "kind": "story", "weeks": [7], "days": ["tue"], "slot": "day", "location": "lovelace_library", "characters": ["python", "javascript", "java", "cpp"]},
+    {"id": "ciel_birthday", "name": "Ciel's birthday", "kind": "story", "weeks": [7], "days": ["wed"], "slot": "night", "location": "hopper_lab", "characters": ["cpp"]},
+    {"id": "halloween_party", "name": "Halloween costume party", "kind": "story", "weeks": [9], "days": ["sat"], "slot": "night", "location": "hackathon_hall", "characters": ["python", "javascript", "java", "cpp"]},
+    {"id": "fright_night", "name": "Fright Night carnival", "kind": "story", "weeks": [9, 10], "days": ["fri", "sat"], "slot": "night", "location": "fall_carnival", "characters": ["python", "javascript", "java", "cpp"]},
+    {"id": "spring_registration", "name": "Spring course registration opens", "kind": "info", "weeks": [10], "days": ["mon"], "slot": "day", "location": "turing_hall", "characters": []},
+    {"id": "julian_half_birthday", "name": "Julian's half-birthday", "kind": "story", "weeks": [13], "days": ["mon"], "slot": "day", "location": "council_room", "characters": ["java"]},
+    {"id": "thanksgiving_break", "name": "Thanksgiving break", "kind": "info", "weeks": [13], "days": ["thu", "fri", "sat", "sun"], "slot": "day", "location": "babbage_hall", "characters": []},
+    {"id": "finals", "name": "Finals week", "kind": "info", "weeks": [14], "days": ["mon", "tue", "wed", "thu", "fri"], "slot": "day", "location": "exam_hall", "characters": []},
+    {"id": "winter_gala", "name": "Winter gala", "kind": "story", "weeks": [14], "days": ["thu"], "slot": "night", "location": "oracle_great_hall", "characters": ["python", "javascript", "java", "cpp"]},
+    {"id": "jay_birthday_festival", "name": "End-of-term festival and Jay's birthday", "kind": "story", "weeks": [14], "days": ["fri"], "slot": "day", "location": "festival_stage", "characters": ["python", "javascript", "java", "cpp"]},
+    {"id": "festival_night", "name": "End-of-term festival", "kind": "story", "weeks": [14], "days": ["fri"], "slot": "night", "location": "festival_stage", "characters": ["python", "javascript", "java", "cpp"]}
+  ]
+}

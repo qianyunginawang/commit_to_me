@@ -1,7 +1,8 @@
 extends PanelContainer
-## One character on the "who do you want to date?" screen.
+## One character on the "who do you want to date?" screen. Shows where the
+## character is right now and the lesson they can do there.
 
-signal date_requested(character_id: String, date_id: String)
+signal date_requested(character_id: String, date_id: String, event_id: String)
 
 @onready var portrait: Portrait = %Portrait
 @onready var name_label: Label = %NameLabel
@@ -13,6 +14,7 @@ signal date_requested(character_id: String, date_id: String)
 
 var character: Dictionary = {}
 var _date_id: String = ""
+var _event_id: String = ""
 
 
 ## Call before adding the card to the scene tree.
@@ -25,7 +27,7 @@ func _ready() -> void:
 	name_label.text = character.get("name", "???")
 	language_label.text = character.get("language", "")
 	tagline_label.text = character.get("tagline", "")
-	date_button.pressed.connect(func(): date_requested.emit(character.get("id", ""), _date_id))
+	date_button.pressed.connect(func(): date_requested.emit(character.get("id", ""), _date_id, _event_id))
 	refresh()
 
 
@@ -35,16 +37,23 @@ func refresh() -> void:
 	affection_bar.value = value
 	level_label.text = "%s  (%d/%d)" % [GameState.get_level(id)["title"], value, GameState.MAX_AFFECTION]
 
-	var lessons := Unlocks.lessons_available(id)
-	if not lessons.is_empty():
-		var lesson: Dictionary = lessons[0]
+	_date_id = ""
+	_event_id = ""
+	var here := Calendar.opportunity_for(id)
+	if here.is_empty():
+		date_button.text = "Not around right now"
+		date_button.disabled = true
+		return
+	_event_id = here["event"]["id"]
+	var event_name: String = here["event"].get("name", "")
+	if not here["lessons"].is_empty():
+		var lesson: Dictionary = here["lessons"][0]
 		_date_id = lesson["dialogue"]
-		var where: String = GameData.locations.get(lesson.get("location", ""), {}).get("name", "")
-		date_button.text = lesson.get("title", "Lesson") + ((" (%s)" % where) if where != "" else "")
+		date_button.text = "%s: %s" % [event_name, lesson.get("title", "Lesson")]
 		date_button.disabled = false
 		return
 
-	# Nothing unlocked yet: fall back to the character's first dates.
+	# Nothing to learn here yet: fall back to the character's first dates.
 	var all_dates: Array = character.get("dates", [])
 	_date_id = GameState.next_date(all_dates)
 	if _date_id != "":
@@ -55,5 +64,5 @@ func refresh() -> void:
 		date_button.text = "Replay last date"
 		date_button.disabled = false
 	else:
-		date_button.text = "Coming soon"
+		date_button.text = "%s: nothing new to learn" % event_name
 		date_button.disabled = true

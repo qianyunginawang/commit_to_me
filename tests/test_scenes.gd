@@ -67,5 +67,18 @@ func test_hub_cards_offer_the_next_lesson() -> void:
 	GameState.new_game("Gee")
 	var scene := add_node(load(Router.HUB).instantiate())
 	var monty: Node = scene.get_node("%Cards").get_child(0)
-	check_eq(monty.get_node("%DateButton").text, "Printing to the console (Main quad)")
+	check_eq(monty.get_node("%DateButton").text, "Orientation day and campus tour: Printing to the console")
 	check_eq(monty._date_id, "g01_python")
+	check_eq(monty._event_id, "orientation")
+	check(scene.get_node("%TimeLabel").text.contains("Monday, August 31"), "shows the date")
+
+
+func test_waiting_moves_time_and_updates_who_is_around() -> void:
+	GameState.new_game("Gee")
+	var scene := add_node(load(Router.HUB).instantiate())
+	scene.get_node("%WaitButton").pressed.emit()   # Monday night
+	check_eq(GameState.slot, "night")
+	var cards: Node = scene.get_node("%Cards")
+	check(cards.get_child(2).get_node("%DateButton").disabled, "Julian isn't around Monday night")
+	check(not cards.get_child(3).get_node("%DateButton").disabled, "Ciel is at the midnight lab session")
+	GameState.new_game("Gee")

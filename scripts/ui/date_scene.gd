@@ -173,6 +173,15 @@ func _on_finished() -> void:
 	_leave()
 
 
+## Going on a date uses up the current time slot, unless the event it was
+## part of takes no time (the campus tour).
 func _leave() -> void:
+	var event_id: String = Router.params.get("event_id", "")
+	var takes_no_time := false
+	for event in GameData.calendar.get("events", []):
+		if event.get("id") == event_id:
+			takes_no_time = event.get("takes_no_time", false)
+	if not takes_no_time:
+		GameState.advance_time()
 	GameState.save_game()
 	Router.goto(Router.HUB)

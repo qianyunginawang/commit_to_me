@@ -14,6 +14,7 @@ extends Node
 ##                             per language, e.g. data/lessons/g01.json
 ##   data/routes/*.json      - each character's special chapters, in order
 ##   data/locations.json     - campus locations lessons can happen at
+##   data/calendar.json      - the semester's events (see Calendar)
 ##
 ## A lesson is a dialogue (a file in data/dates/) with one challenge node in
 ## it. Generic subjects and special chapters can be listed before their
@@ -30,6 +31,7 @@ const CURRICULUM_PATH := "res://data/curriculum.json"
 const LESSONS_DIR := "res://data/lessons"
 const ROUTES_DIR := "res://data/routes"
 const LOCATIONS_PATH := "res://data/locations.json"
+const CALENDAR_PATH := "res://data/calendar.json"
 
 ## Time slots a lesson can happen in. "dusk" is Jay's in-between time and
 ## counts as both day and night.
@@ -47,6 +49,8 @@ var lessons: Dictionary = {}
 var routes: Dictionary = {}
 ## Location id -> {name, area}.
 var locations: Dictionary = {}
+## {start_date, weeks, events: [...]}. See Calendar.
+var calendar: Dictionary = {}
 
 var _warm_up_started := false
 
@@ -67,6 +71,8 @@ func load_all() -> void:
 	routes = load_dir(ROUTES_DIR)
 	var locs = load_json(LOCATIONS_PATH)
 	locations = locs if locs is Dictionary else {}
+	var cal = load_json(CALENDAR_PATH)
+	calendar = cal if cal is Dictionary else {}
 	for problem in validate():
 		push_warning("[GameData] " + problem)
 
@@ -238,6 +244,45 @@ func validate() -> PackedStringArray:
 		if not (hints is Array and hints.size() == 2 and hints.all(func(h): return h is String and not h.strip_edges().is_empty())):
 			problems.append("Challenge '%s' needs exactly 2 hints" % id)
 	problems.append_array(_validate_lessons())
+	problems.append_array(_validate_calendar())
+	return problems
+
+
+func _validate_calendar() -> PackedStringArray:
+	var problems: PackedStringArray = []
+	var weeks: int = int(calendar.get("weeks", 0))
+	if weeks != GameState.SEMESTER_WEEKS:
+		problems.append("Calendar has %d weeks, but GameState.SEMESTER_WEEKS is %d" % [weeks, GameState.SEMESTER_WEEKS])
+	if Time.get_unix_time_from_datetime_string(calendar.get("start_date", "")) <= 0:
+		problems.append("Calendar start_date '%s' isn't a date like 2026-08-31" % calendar.get("start_date", ""))
+	var ids := {}
+	for event in calendar.get("events", []):
+		var id: String = event.get("id", "")
+		var where := "Calendar event '%s'" % id
+		if ids.has(id):
+			problems.append("%s is listed twice" % where)
+		ids[id] = true
+		if not event.get("kind", "") in ["recurring", "story", "info"]:
+			problems.append("%s has unknown kind '%s'" % [where, event.get("kind", "")])
+		var event_weeks = event.get("weeks", "every")
+		if event_weeks is Array:
+			for w in event_weeks:
+				if int(w) < 1 or int(w) > weeks:
+					problems.append("%s has week %s outside 1-%d" % [where, w, weeks])
+		elif not event_weeks in ["every", "even", "odd"]:
+			problems.append("%s: weeks should be every, even, odd, or a list" % where)
+		if event.get("days", []).is_empty():
+			problems.append("%s has no days" % where)
+		for d in event.get("days", []):
+			if not d in Calendar.DAY_KEYS:
+				problems.append("%s has unknown day '%s'" % [where, d])
+		if not event.get("slot", "") in ["day", "night"]:
+			problems.append("%s: slot should be day or night" % where)
+		if not locations.has(event.get("location", "")):
+			problems.append("%s has unknown location '%s'" % [where, event.get("location", "")])
+		for c in event.get("characters", []):
+			if not characters.has(c):
+				problems.append("%s has unknown character '%s'" % [where, c])
 	return problems
 
 
@@ -254,8 +299,6 @@ func _validate_lessons() -> PackedStringArray:
 			problems.append("Curriculum subject '%s' should be number %d" % [id, i + 1])
 		if not locations.has(subject.get("location", "")):
 			problems.append("Subject '%s' has unknown location '%s'" % [id, subject.get("location", "")])
-		if not subject.get("every_character", false) is bool:
-			problems.append("Subject '%s': every_character should be true or false" % id)
 
 	for id in characters:
 		var lesson_languages = characters[id].get("lesson_languages")

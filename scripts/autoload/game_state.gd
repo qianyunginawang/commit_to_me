@@ -16,6 +16,9 @@ const LESSON_AFFECTION := 6
 const HINT_COST := 2
 const MIN_LESSON_AFFECTION := 2
 
+## The semester is this many weeks long (see data/calendar.json).
+const SEMESTER_WEEKS := 14
+
 ## Relationship titles, from lowest to highest. A character's level is the
 ## last entry whose "min" is <= their affection.
 const LEVELS: Array[Dictionary] = [
@@ -31,12 +34,38 @@ const DEFAULT_PLAYER_NAME := "Grace"
 var player_name: String = DEFAULT_PLAYER_NAME
 var affection: Dictionary = {}          # character id -> int
 var completed_dates: Array[String] = []
+## Where the player is in the semester: week 1-14, day 0-6 (0 = Monday),
+## and "day" or "night". Week SEMESTER_WEEKS + 1 means the semester is over.
+var week: int = 1
+var day: int = 0
+var slot: String = "day"
 
 
 func new_game(p_player_name: String) -> void:
 	player_name = p_player_name.strip_edges() if not p_player_name.strip_edges().is_empty() else DEFAULT_PLAYER_NAME
 	affection.clear()
 	completed_dates.clear()
+	week = 1
+	day = 0
+	slot = "day"
+
+
+## Moves to the next slot: day -> night, night -> the next day.
+func advance_time() -> void:
+	if is_semester_over():
+		return
+	if slot == "day":
+		slot = "night"
+		return
+	slot = "day"
+	day += 1
+	if day > 6:
+		day = 0
+		week += 1
+
+
+func is_semester_over() -> bool:
+	return week > SEMESTER_WEEKS
 
 
 func get_affection(character_id: String) -> int:
@@ -102,10 +131,11 @@ func next_date(date_ids: Array) -> String:
 
 func to_dict() -> Dictionary:
 	return {
-		"version": 1,
+		"version": 2,
 		"player_name": player_name,
 		"affection": affection,
 		"completed_dates": completed_dates,
+		"time": {"week": week, "day": day, "slot": slot},
 	}
 
 
@@ -116,6 +146,10 @@ func from_dict(data: Dictionary) -> void:
 	for id in saved_affection:
 		affection[id] = int(saved_affection[id])
 	completed_dates.assign(data.get("completed_dates", []))
+	var time: Dictionary = data.get("time", {})
+	week = int(time.get("week", 1))
+	day = int(time.get("day", 0))
+	slot = time.get("slot", "day")
 
 
 func has_save() -> bool:

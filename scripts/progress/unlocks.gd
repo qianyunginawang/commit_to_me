@@ -2,11 +2,12 @@ class_name Unlocks
 extends RefCounted
 ## Which lessons the player can do right now (see agentcontext/StoryBeats.md).
 ##
-## - Generic subjects unlock in curriculum order: a subject opens once the
-##   one before it is done. Each subject is done once per playthrough, with
-##   whichever character the player picks. A subject marked "every_character"
-##   in the curriculum (Printing to the console, on the campus tour) is done
-##   once with each character instead.
+## - Generic subjects unlock in curriculum order: a subject opens for every
+##   character once the subject before it is done with any character.
+## - Any open subject can be done with any character, once per character.
+##   The player can go back and do an earlier subject with someone else.
+##   (Jay counts as one character: doing a subject with Day Jay or Night Jay
+##   uses up Jay's turn for it.)
 ## - A special chapter unlocks once all of its "requires" subjects are done
 ##   and the character's previous chapter is done.
 ## - A lesson is done when its dialogue is in GameState.completed_dates
@@ -54,9 +55,7 @@ static func generic_lessons_available(character_id: String, state: Node = null, 
 		var subject_id: String = subject["id"]
 		if not is_subject_unlocked(subject_id, state, data):
 			break
-		var done_with := characters_done_subject(subject_id, state, data)
-		var open: bool = done_with.is_empty() or (subject.get("every_character", false) and not done_with.has(character_id))
-		if open:
+		if not characters_done_subject(subject_id, state, data).has(character_id):
 			out.append_array(data.generic_lessons_for(subject_id, character_id))
 	return out
 
