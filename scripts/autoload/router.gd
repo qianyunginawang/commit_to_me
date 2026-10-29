@@ -8,7 +8,7 @@ extends Node
 ## Available everywhere as the `Router` autoload.
 
 const MAIN_MENU := "res://scenes/main_menu.tscn"
-const HUB := "res://scenes/hub.tscn"
+const MAP := "res://scenes/campus_map.tscn"
 const DATE := "res://scenes/date.tscn"
 
 ## Data for the scene being opened.

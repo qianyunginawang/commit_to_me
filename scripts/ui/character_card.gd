@@ -1,5 +1,5 @@
 extends PanelContainer
-## One character on the "who do you want to date?" screen. Shows where the
+## One character at a location on the campus map. Shows where the
 ## character is right now and the lesson they can do there.
 
 signal date_requested(character_id: String, date_id: String, event_id: String)
@@ -49,7 +49,7 @@ func refresh() -> void:
 	if not here["lessons"].is_empty():
 		var lesson: Dictionary = here["lessons"][0]
 		_date_id = lesson["dialogue"]
-		date_button.text = "%s: %s" % [event_name, lesson.get("title", "Lesson")]
+		date_button.text = lesson.get("title", "Lesson")
 		date_button.disabled = false
 		return
 
@@ -64,5 +64,5 @@ func refresh() -> void:
 		date_button.text = "Replay last date"
 		date_button.disabled = false
 	else:
-		date_button.text = "%s: nothing new to learn" % event_name
+		date_button.text = "Nothing new to learn"
 		date_button.disabled = true

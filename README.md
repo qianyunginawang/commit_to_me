@@ -138,7 +138,7 @@ git push -u origin ana/python-date-2           # then open the PR link git print
 </details>
 
 ## The Game
-![Choosing who to date](docs/screenshots/hub.png)
+![The campus map](docs/screenshots/map.png)
 
 | A date | A coding challenge |
 |---|---|
@@ -190,8 +190,11 @@ tests/                 automated tests
 
 ### How a date works
 
-1. The hub lists characters from `data/characters/`. Each one has a list of `dates`.
-2. Picking a character opens `scenes/date.tscn` with their next date from `data/dates/`.
+1. The campus map (`scenes/campus_map.tscn`) shows the week, day and time slot,
+   and who is where right now, from the events in `data/calendar.json`.
+2. Picking a character at a location opens `scenes/date.tscn` with the next
+   lesson they can do there (see `scripts/progress/unlocks.gd`). A date uses up
+   the time slot, and "Wait" skips ahead without one.
 3. `DialoguePlayer` walks through the date's nodes. A node is either a **line**
    (text, maybe choices) or a **challenge** (opens the code screen).
 4. Affection only comes from passing the challenge: +6 the first time you pass

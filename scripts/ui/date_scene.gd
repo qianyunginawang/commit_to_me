@@ -31,7 +31,7 @@ func _ready() -> void:
 	var date := GameData.get_date(_date_id)
 	if date.is_empty():
 		push_error("Unknown date '%s'" % _date_id)
-		Router.goto(Router.HUB)
+		Router.goto(Router.MAP)
 		return
 
 	character = GameData.get_character(date.get("character", ""))
@@ -184,4 +184,4 @@ func _leave() -> void:
 	if not takes_no_time:
 		GameState.advance_time()
 	GameState.save_game()
-	Router.goto(Router.HUB)
+	Router.goto(Router.MAP)

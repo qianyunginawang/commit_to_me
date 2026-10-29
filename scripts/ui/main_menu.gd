@@ -22,9 +22,9 @@ func _ready() -> void:
 func _on_new_game() -> void:
 	GameState.new_game(name_edit.text)
 	GameState.save_game()
-	Router.goto(Router.HUB)
+	Router.goto(Router.MAP)
 
 
 func _on_continue() -> void:
 	if GameState.load_game():
-		Router.goto(Router.HUB)
+		Router.goto(Router.MAP)

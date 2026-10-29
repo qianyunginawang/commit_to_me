@@ -7,11 +7,6 @@ func test_main_menu_loads() -> void:
 	check(scene.get_node("%NewGameButton") != null)
 
 
-func test_hub_shows_four_cards() -> void:
-	var scene := add_node(load(Router.HUB).instantiate())
-	check_eq(scene.get_node("%Cards").get_child_count(), 4)
-
-
 func test_date_scene_starts_dialogue() -> void:
 	Router.params = {"date_id": "python_date_1"}
 	var scene := add_node(load(Router.DATE).instantiate())
@@ -63,22 +58,35 @@ func test_hints_carry_over_to_a_retry() -> void:
 	check(overlay.get_node("%RewardLabel").text.contains("+4"), "reward stays at +4")
 
 
-func test_hub_cards_offer_the_next_lesson() -> void:
+func test_map_starts_at_orientation_with_everyone() -> void:
 	GameState.new_game("Gee")
-	var scene := add_node(load(Router.HUB).instantiate())
-	var monty: Node = scene.get_node("%Cards").get_child(0)
-	check_eq(monty.get_node("%DateButton").text, "Orientation day and campus tour: Printing to the console")
+	var scene := add_node(load(Router.MAP).instantiate())
+	check_eq(scene.selected_location, "main_quad")
+	check(scene.get_node("%TimeLabel").text.contains("Monday, August 31"), "shows the date")
+	var cards: Node = scene.get_node("%PlaceCards")
+	check_eq(cards.get_child_count(), 4)
+	var monty: Node = cards.get_child(0)
+	check_eq(monty.get_node("%DateButton").text, "Printing to the console")
+	check(scene.get_node("%PlaceEvents").text.contains("Orientation"), "the event is shown above the cards")
+	check(scene.get_node("%Locations").get_node("ta_office").disabled, "Jay is at orientation, not office hours")
 	check_eq(monty._date_id, "g01_python")
 	check_eq(monty._event_id, "orientation")
-	check(scene.get_node("%TimeLabel").text.contains("Monday, August 31"), "shows the date")
+	check(not scene.get_node("%Locations").get_node("main_quad").disabled, "main quad is clickable")
+	check(scene.get_node("%Locations").get_node("hopper_lab").disabled, "nothing at the lab right now")
 
 
-func test_waiting_moves_time_and_updates_who_is_around() -> void:
+func test_waiting_moves_time_and_people_move_around() -> void:
 	GameState.new_game("Gee")
-	var scene := add_node(load(Router.HUB).instantiate())
+	var scene := add_node(load(Router.MAP).instantiate())
 	scene.get_node("%WaitButton").pressed.emit()   # Monday night
 	check_eq(GameState.slot, "night")
-	var cards: Node = scene.get_node("%Cards")
-	check(cards.get_child(2).get_node("%DateButton").disabled, "Julian isn't around Monday night")
-	check(not cards.get_child(3).get_node("%DateButton").disabled, "Ciel is at the midnight lab session")
+	var locations: Node = scene.get_node("%Locations")
+	check(locations.get_node("main_quad").disabled, "orientation is over")
+	check(not locations.get_node("tutoring_center").disabled, "Monty's tutoring shift")
+	check(locations.get_node("tutoring_center").text.contains("Monty"), "button says who's there")
+	check(not locations.get_node("hopper_lab").disabled, "Ciel's midnight lab session")
+	locations.get_node("hopper_lab").pressed.emit()
+	check_eq(scene.selected_location, "hopper_lab")
+	check_eq(scene.get_node("%PlaceCards").get_child_count(), 1)
+	check_eq(scene.get_node("%PlaceCards").get_child(0).character.get("id"), "cpp")
 	GameState.new_game("Gee")
