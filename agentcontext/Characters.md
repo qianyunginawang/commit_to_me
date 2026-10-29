@@ -2,10 +2,10 @@
 characterization of the different dateable characters
 
 ## Javascript/Typescript 
-JavaScript / TypeScript: Jay Ecma
+JavaScript / TypeScript: Jay Eich
 By day, Jay is TypeScript: a precise, rule-bound teaching assistant. At sunset the types are erased and JavaScript comes out: wild, spontaneous, and up to mischief. The route is about getting the two halves to stop fighting.
 
-Full name: Jay Ecma (named after ECMAScript, which Jay finds embarrassing)
+Full name: Jay Eich (named after Brendan Eich, who created JavaScript in ten days, which Jay finds embarrassing)
 Year: Junior, web development major, daytime TA for Intro to Programming
 Birthday: December 4 (JavaScript's announcement)
 Height: 172 cm

@@ -22,7 +22,7 @@ func test_date_scene_starts_dialogue() -> void:
 func test_code_challenge_with_fake_runner() -> void:
 	var overlay = load("res://scenes/code_challenge.tscn").instantiate()
 	var runner := FakeCodeRunner.new()
-	runner.responder = func(_src, stdin): return RunResult.make(RunResult.Status.OK, "Hi Py, I'm %s!" % stdin.strip_edges())
+	runner.responder = func(_src, stdin): return RunResult.make(RunResult.Status.OK, "Hi Monty, I'm %s!" % stdin.strip_edges())
 	overlay.setup(GameData.get_challenge("python_hello"), GameData.get_character("python"), runner)
 	add_node(overlay)
 	var results: Array = []

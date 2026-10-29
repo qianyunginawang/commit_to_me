@@ -13,6 +13,8 @@ func _ready() -> void:
 	continue_button.pressed.connect(_on_continue)
 	quit_button.pressed.connect(func(): get_tree().quit())
 	name_edit.text_submitted.connect(func(_t): _on_new_game())
+	name_edit.text = GameState.DEFAULT_PLAYER_NAME
+	name_edit.select_all()
 	name_edit.grab_focus()
 	GameData.warm_up_runtimes()
 

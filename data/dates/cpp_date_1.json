@@ -5,7 +5,7 @@
   "start": "intro",
   "nodes": {
     "intro": {"speaker": "narrator", "text": "The computer lab at 2 a.m. One monitor glows. Someone is reading a 1,400-page book for fun.", "next": "hello"},
-    "hello": {"speaker": "cpp", "mood": "serious", "text": "You're {player}? I'm Cyrus. I don't do small talk. I do zero-cost abstractions.", "next": "ask"},
+    "hello": {"speaker": "cpp", "mood": "serious", "text": "You're {player}? I'm Ciel. I don't do small talk. I do zero-cost abstractions.", "next": "ask"},
     "ask": {
       "speaker": "cpp",
       "text": "Who should be in charge of memory?",
@@ -15,7 +15,7 @@
       ]
     },
     "control": {"speaker": "cpp", "mood": "smirk", "text": "Bold. I like that. Let's see if you can handle input and output.", "next": "challenge"},
-    "gc": {"speaker": "cpp", "mood": "scoff", "text": "Go date Duke, then. ...Unless you want to prove me wrong.", "next": "challenge"},
+    "gc": {"speaker": "cpp", "mood": "scoff", "text": "Go date Julian, then. ...Unless you want to prove me wrong.", "next": "challenge"},
     "challenge": {"challenge": "cpp_cout", "on_pass": "passed", "on_fail": "failed"},
     "passed": {"speaker": "cpp", "mood": "smile", "text": "...Not bad, {player}. Not bad at all.", "affection": 10, "next": "end"},
     "failed": {

@@ -20,13 +20,14 @@ const LEVELS: Array[Dictionary] = [
 ]
 
 var save_path := "user://save.json"
-var player_name: String = "You"
+const DEFAULT_PLAYER_NAME := "Grace"
+var player_name: String = DEFAULT_PLAYER_NAME
 var affection: Dictionary = {}          # character id -> int
 var completed_dates: Array[String] = []
 
 
 func new_game(p_player_name: String) -> void:
-	player_name = p_player_name.strip_edges() if not p_player_name.strip_edges().is_empty() else "You"
+	player_name = p_player_name.strip_edges() if not p_player_name.strip_edges().is_empty() else DEFAULT_PLAYER_NAME
 	affection.clear()
 	completed_dates.clear()
 
@@ -85,7 +86,7 @@ func to_dict() -> Dictionary:
 
 
 func from_dict(data: Dictionary) -> void:
-	player_name = data.get("player_name", "You")
+	player_name = data.get("player_name", DEFAULT_PLAYER_NAME)
 	affection.clear()
 	var saved_affection: Dictionary = data.get("affection", {})
 	for id in saved_affection:

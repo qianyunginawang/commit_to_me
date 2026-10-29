@@ -5,7 +5,7 @@
   "start": "intro",
   "nodes": {
     "intro": {"speaker": "narrator", "text": "The campus coffee shop. Someone in a yellow-and-blue hoodie waves you over.", "next": "hello"},
-    "hello": {"speaker": "python", "mood": "happy", "text": "Oh hey, you must be {player}! I'm Py. Everybody says I'm the easiest one to talk to.", "next": "ask"},
+    "hello": {"speaker": "python", "mood": "happy", "text": "Oh hey, you must be {player}! I'm Monty. Everybody says I'm the easiest one to talk to.", "next": "ask"},
     "ask": {
       "speaker": "python",
       "text": "So... what do you think about whitespace?",

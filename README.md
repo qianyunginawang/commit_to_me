@@ -96,7 +96,7 @@ request** that someone reviews. GitHub Desktop walks you through each step.
    and run the tests.
 4. **Commit.** GitHub Desktop lists every changed file on the left. Click a file
    to see exactly what changed. Untick anything you didn't mean to change.
-   Write a short summary at the bottom left (e.g. "Add Py's second date") and
+   Write a short summary at the bottom left (e.g. "Add Monty's second date") and
    click **Commit to sara/python-date-2**. You can commit as often as you like.
 5. **Push.** Click **Publish branch** (the first time) or **Push origin** (after
    that) to upload your commits to GitHub.
@@ -131,7 +131,7 @@ Good things to know:
 git checkout main && git pull                  # start from the latest code
 git checkout -b ana/python-date-2              # make a branch
 # ...make your change...
-git add -A && git commit -m "Add Py's second date"
+git add -A && git commit -m "Add Monty's second date"
 git push -u origin ana/python-date-2           # then open the PR link git prints
 ```
 
@@ -149,10 +149,10 @@ git push -u origin ana/python-date-2           # then open the PR link git print
 - A main menu, a "who do you want to date?" screen, dates with branching
   dialogue, and a coding-challenge screen with a real code editor.
 - One first date per character, each with a coding challenge:
-  - **Py** (Python): f-strings
+  - **Monty** (Python): f-strings
   - **Jay** (JavaScript/TypeScript): `map()` and arrow functions
-  - **Duke** (Java): classes and `main`
-  - **Cyrus** (C++): `cin` / `cout`
+  - **Julian** (Java): classes and `main`
+  - **Ciel** (C++): `cin` / `cout`
 - Affection (0-100) with relationship levels: Stranger, Classmate, Study Buddy,
   Crush, Committed. Progress saves automatically.
 - Your code actually runs. Output is checked against the challenge's tests.

@@ -5,7 +5,7 @@
   "start": "intro",
   "nodes": {
     "intro": {"speaker": "narrator", "text": "A quiet restaurant with cloth napkins. Your date is already seated, posture perfect.", "next": "hello"},
-    "hello": {"speaker": "java", "mood": "formal", "text": "Good evening, {player}. I am Duke. I took the liberty of declaring our reservation in advance.", "next": "ask"},
+    "hello": {"speaker": "java", "mood": "formal", "text": "Good evening, {player}. I am Julian Duke. You may call me President Duke. I took the liberty of declaring our reservation in advance.", "next": "ask"},
     "ask": {
       "speaker": "java",
       "text": "Tell me, how do you feel about structure?",

@@ -11,7 +11,7 @@ Every lesson, generic or special, uses the same rule:
 - Wrong answers don't lose affection. The player just tries again. A lesson never gives less than +2.
 
 ## Generic lessons
-- There are 33 generic subjects (the curriculum belongs in the General section of DatesAndRoutes.md, which is still empty). Each subject counts once per playthrough, and the player picks which character to learn it with. Who to learn each subject with is the main choice every week.
+- There are 33 generic subjects (the curriculum belongs in the General section of DatesAndRoutes.md, which is still empty). Each subject counts once per playthrough, and the player picks which character to learn it with. The lesson is in that character's language, so each subject has 5 versions: Python, Java, C++, and TypeScript or JavaScript for Jay depending on the slot. Who to learn each subject with is the main choice every week.
 - Exception: Generic 1 (Printing to the console) is done with all four characters on the campus tour, so every route starts at 6.
 - After the tour, 32 generic subjects are left to split between the characters.
 
@@ -39,7 +39,7 @@ Skipping a character's special chapters is the main way to end up with a bad end
 
 ## Jay's day and night sides
 - Jay has one affection meter, plus a day/night balance.
-- Lessons in a Day slot count as day lessons and lessons in a Night slot count as night lessons. Dusk chapters count as both.
+- Lessons in a Day slot count as day lessons and lessons in a Night slot count as night lessons. Dusk chapters count as both. Generic lessons can happen in either slot, so the player balances Jay by choosing when to take generic lessons with them.
 - **Jay's good ending:** 80+ affection, and the day and night lesson counts within 2 of each other.
 - Jay's two normal endings depend on which side has more lessons: day-heavy gives the TypeScript ending, night-heavy gives the JavaScript ending.
 - Two separate 0-to-100 meters would need about 21 lessons with Jay alone, which breaks the Polyglot math.

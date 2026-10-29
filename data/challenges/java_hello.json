@@ -2,13 +2,13 @@
   "id": "java_hello",
   "language": "java",
   "title": "Everything lives in a class",
-  "prompt": "Duke insists on a proper introduction.\n\nIn Java, all code lives inside a class, and the program starts in a method called main. Finish main so it prints exactly:\n\nPleased to meet you, Duke.",
+  "prompt": "Julian insists on a proper introduction.\n\nIn Java, all code lives inside a class, and the program starts in a method called main. Finish main so it prints exactly:\n\nPleased to meet you, Julian.",
   "hint": "System.out.println(\"some text\"); prints a line. Don't forget the semicolon!",
   "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // TODO: print the greeting\n    }\n}\n",
   "tests": [
     {
       "stdin": "",
-      "expected_stdout": "Pleased to meet you, Duke."
+      "expected_stdout": "Pleased to meet you, Julian."
     }
   ]
 }

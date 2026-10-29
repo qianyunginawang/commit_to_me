@@ -26,7 +26,7 @@ The fall semester at Runtime University runs 14 weeks, from Monday, August 31 to
 
 ## Birthdays
 - **Ciel Vector (C++), October 14, week 7.** It falls in the middle of midterms, and Ciel spends it alone in the lab, assuming nobody knows. A gift (black coffee at 3 a.m., a new keycap) is a big affection event, and a tsundere "I-it's not like I wanted a cake" scene.
-- **Jay Ecma (JS/TS), December 4, week 14.** It's the day of the end-of-term festival, where Jay's site goes live and where Jay confesses. Night Jay throws a huge party in the group chat. Day Jay insists it's "just a normal day" and is secretly thrilled that the heroine remembered.
+- **Jay Eich (JS/TS), December 4, week 14.** It's the day of the end-of-term festival, where Jay's site goes live and where Jay confesses. Night Jay throws a huge party in the group chat. Day Jay insists it's "just a normal day" and is secretly thrilled that the heroine remembered.
 - **Julian Duke (Java), May 23.** It falls outside the semester. Julian formally observes a "half-birthday" on November 23 (week 13) "for scheduling reasons", with a printed agenda. The real birthday can show up in the epilogue.
 - **Monty Pyne (Python), February 20.** It falls outside the semester. Save it for the epilogue or a post-game scene in spring.
 - **Quack Overflow, orientation day (week 1).** Quack claims to be "one day old" and asks for cake every year.
