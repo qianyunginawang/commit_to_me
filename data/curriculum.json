@@ -1,6 +1,6 @@
 {
   "subjects": [
-    {"id": "g01", "number": 1, "title": "Printing to the console", "unit": "Basics", "location": "main_quad"},
+    {"id": "g01", "number": 1, "title": "Printing to the console", "unit": "Basics", "location": "main_quad", "every_character": true},
     {"id": "g02", "number": 2, "title": "Comments", "unit": "Basics", "location": "bookstore"},
     {"id": "g03", "number": 3, "title": "Variables and assignment", "unit": "Basics", "location": "turing_hall"},
     {"id": "g04", "number": 4, "title": "Numbers and math", "unit": "Basics", "location": "the_stack"},

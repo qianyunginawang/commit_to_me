@@ -115,7 +115,8 @@ func character_for_language(language_id: String) -> String:
 
 ## One written version of a generic subject, filled in with everything the
 ## game needs to offer it:
-##   {subject, language, character, slot, dialogue, challenge, location}
+##   {kind: "generic", subject, title, language, character, slot, dialogue,
+##    challenge, location}
 ## Returns {} if that version hasn't been written yet.
 func get_generic_lesson(subject_id: String, language_id: String) -> Dictionary:
 	var version: Dictionary = lessons.get(subject_id, {}).get("versions", {}).get(language_id, {})
@@ -124,7 +125,9 @@ func get_generic_lesson(subject_id: String, language_id: String) -> Dictionary:
 	var character_id := character_for_language(language_id)
 	var dialogue_id: String = version.get("dialogue", "")
 	return {
+		"kind": "generic",
 		"subject": subject_id,
+		"title": get_subject(subject_id).get("title", subject_id),
 		"language": language_id,
 		"character": character_id,
 		"slot": get_character(character_id).get("lesson_languages", {}).get(language_id, "any"),
@@ -150,12 +153,14 @@ func special_chapters(character_id: String) -> Array:
 	return routes.get(character_id, {}).get("chapters", [])
 
 
-## A special chapter by id ("python_ch1"), with "character" filled in, or {}.
+## A special chapter by id ("python_ch1"), with "kind" ("special"),
+## "character" and "challenge" filled in, or {}.
 func get_special_chapter(chapter_id: String) -> Dictionary:
 	for character_id in routes:
 		for chapter in special_chapters(character_id):
 			if chapter.get("id") == chapter_id:
 				var out: Dictionary = chapter.duplicate()
+				out["kind"] = "special"
 				out["character"] = character_id
 				out["challenge"] = dialogue_challenge(chapter.get("dialogue", ""))
 				return out
@@ -249,6 +254,8 @@ func _validate_lessons() -> PackedStringArray:
 			problems.append("Curriculum subject '%s' should be number %d" % [id, i + 1])
 		if not locations.has(subject.get("location", "")):
 			problems.append("Subject '%s' has unknown location '%s'" % [id, subject.get("location", "")])
+		if not subject.get("every_character", false) is bool:
+			problems.append("Subject '%s': every_character should be true or false" % id)
 
 	for id in characters:
 		var lesson_languages = characters[id].get("lesson_languages")

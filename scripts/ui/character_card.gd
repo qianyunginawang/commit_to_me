@@ -35,6 +35,16 @@ func refresh() -> void:
 	affection_bar.value = value
 	level_label.text = "%s  (%d/%d)" % [GameState.get_level(id)["title"], value, GameState.MAX_AFFECTION]
 
+	var lessons := Unlocks.lessons_available(id)
+	if not lessons.is_empty():
+		var lesson: Dictionary = lessons[0]
+		_date_id = lesson["dialogue"]
+		var where: String = GameData.locations.get(lesson.get("location", ""), {}).get("name", "")
+		date_button.text = lesson.get("title", "Lesson") + ((" (%s)" % where) if where != "" else "")
+		date_button.disabled = false
+		return
+
+	# Nothing unlocked yet: fall back to the character's first dates.
 	var all_dates: Array = character.get("dates", [])
 	_date_id = GameState.next_date(all_dates)
 	if _date_id != "":

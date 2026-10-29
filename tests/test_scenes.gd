@@ -61,3 +61,11 @@ func test_hints_carry_over_to_a_retry() -> void:
 	add_node(overlay)
 	check(overlay.get_node("%HintLabel").text.contains("hint 1"), "hint 1 stays revealed")
 	check(overlay.get_node("%RewardLabel").text.contains("+4"), "reward stays at +4")
+
+
+func test_hub_cards_offer_the_next_lesson() -> void:
+	GameState.new_game("Gee")
+	var scene := add_node(load(Router.HUB).instantiate())
+	var monty: Node = scene.get_node("%Cards").get_child(0)
+	check_eq(monty.get_node("%DateButton").text, "Printing to the console (Main quad)")
+	check_eq(monty._date_id, "g01_python")
