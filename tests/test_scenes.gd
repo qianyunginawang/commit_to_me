@@ -31,3 +31,33 @@ func test_code_challenge_with_fake_runner() -> void:
 	check(overlay.get_node("%ContinueButton").visible, "continue should appear after passing")
 	overlay.get_node("%ContinueButton").pressed.emit()
 	check_eq(results, [true])
+
+
+func test_hints_are_revealed_one_at_a_time() -> void:
+	var overlay = load("res://scenes/code_challenge.tscn").instantiate()
+	overlay.setup(GameData.get_challenge("g01_python"), GameData.get_character("python"), FakeCodeRunner.new())
+	add_node(overlay)
+	var button: Button = overlay.get_node("%HintButton")
+	var label: Label = overlay.get_node("%HintLabel")
+	var reward: Label = overlay.get_node("%RewardLabel")
+	check(not label.visible, "no hints shown at first")
+	check(reward.text.contains("+6"), "reward starts at +6: " + reward.text)
+	button.pressed.emit()
+	check_eq(overlay.hints_used, 1)
+	check(label.visible and label.text.contains("hint 1") and not label.text.contains("hint 2"), "only hint 1 shown: " + label.text)
+	check(reward.text.contains("+4"), "reward drops to +4: " + reward.text)
+	button.pressed.emit()
+	check_eq(overlay.hints_used, 2)
+	check(label.text.contains("hint 2"), "hint 2 shown")
+	check(button.disabled, "no third hint")
+	check(reward.text.contains("+2"), "reward drops to +2: " + reward.text)
+	button.pressed.emit()
+	check_eq(overlay.hints_used, 2)
+
+
+func test_hints_carry_over_to_a_retry() -> void:
+	var overlay = load("res://scenes/code_challenge.tscn").instantiate()
+	overlay.setup(GameData.get_challenge("g01_python"), {}, FakeCodeRunner.new(), 1)
+	add_node(overlay)
+	check(overlay.get_node("%HintLabel").text.contains("hint 1"), "hint 1 stays revealed")
+	check(overlay.get_node("%RewardLabel").text.contains("+4"), "reward stays at +4")

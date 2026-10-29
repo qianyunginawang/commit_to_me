@@ -63,3 +63,20 @@ func test_save_and_load() -> void:
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(gs.save_path))
 	gs.free()
 	loaded.free()
+
+
+func test_lesson_affection_follows_balance_rules() -> void:
+	check_eq(GameStateScript.lesson_affection(0), 6)
+	check_eq(GameStateScript.lesson_affection(1), 4)
+	check_eq(GameStateScript.lesson_affection(2), 2)
+	check_eq(GameStateScript.lesson_affection(5), 2, "never below the minimum:")
+
+
+func test_lesson_affection_is_only_given_once() -> void:
+	var gs := _make()
+	check_eq(gs.complete_lesson("g01_python", "python", 1), 4)
+	check_eq(gs.get_affection("python"), 4)
+	check(gs.is_date_complete("g01_python"), "lesson should be marked complete")
+	check_eq(gs.complete_lesson("g01_python", "python", 0), 0, "replaying gives nothing:")
+	check_eq(gs.get_affection("python"), 4)
+	gs.free()

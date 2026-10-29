@@ -10,19 +10,19 @@
       "speaker": "cpp",
       "text": "Who should be in charge of memory?",
       "choices": [
-        {"text": "Me. I want full control.", "affection": 5, "next": "control"},
-        {"text": "A garbage collector, please.", "affection": -3, "next": "gc"}
+        {"text": "Me. I want full control.", "next": "control"},
+        {"text": "A garbage collector, please.", "next": "gc"}
       ]
     },
     "control": {"speaker": "cpp", "mood": "smirk", "text": "Bold. I like that. Let's see if you can handle input and output.", "next": "challenge"},
     "gc": {"speaker": "cpp", "mood": "scoff", "text": "Go date Julian, then. ...Unless you want to prove me wrong.", "next": "challenge"},
     "challenge": {"challenge": "cpp_cout", "on_pass": "passed", "on_fail": "failed"},
-    "passed": {"speaker": "cpp", "mood": "smile", "text": "...Not bad, {player}. Not bad at all.", "affection": 10, "next": "end"},
+    "passed": {"speaker": "cpp", "mood": "smile", "text": "...Not bad, {player}. Not bad at all.", "next": "end"},
     "failed": {
       "speaker": "cpp",
       "text": "Undefined behavior. It happens. Again?",
       "choices": [
-        {"text": "Again.", "affection": 2, "next": "challenge"},
+        {"text": "Again.", "next": "challenge"},
         {"text": "I'm going to bed.", "next": "bye"}
       ]
     },

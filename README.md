@@ -194,8 +194,10 @@ tests/                 automated tests
 2. Picking a character opens `scenes/date.tscn` with their next date from `data/dates/`.
 3. `DialoguePlayer` walks through the date's nodes. A node is either a **line**
    (text, maybe choices) or a **challenge** (opens the code screen).
-4. Lines and choices can have `"affection": 5` (or negative!) to change how
-   much that character likes you.
+4. Affection only comes from passing the challenge: +6 the first time you pass
+   it, minus 2 for each of Quack's two hints you used (never less than +2).
+   The numbers live in `scripts/autoload/game_state.gd`, and the reasoning is in
+   `agentcontext/Balance.md`. Dialogue can't change affection.
 5. The code screen runs your code through a `CodeRunner` and checks the output
    with `ChallengeGrader`. Passing or failing picks the next dialogue node.
 
@@ -210,8 +212,8 @@ the dialogue, then add that id to the character's `dates` list.
   "speaker": "python",
   "text": "Tabs or spaces?",
   "choices": [
-	{"text": "Spaces.", "affection": 5, "next": "end"},
-	{"text": "Tabs.", "affection": -5, "next": "end"}
+	{"text": "Spaces.", "next": "end"},
+	{"text": "Tabs.", "next": "end"}
   ]
 }
 ```
@@ -223,7 +225,8 @@ the dialogue, then add that id to the character's `dates` list.
 
 **A new challenge:** copy a file in `data/challenges/`. Each test gives the
 program some input (`stdin`) and says exactly what it should print
-(`expected_stdout`). Put a working answer in `tests/solutions/<challenge id>.<ext>`
+(`expected_stdout`). It also needs exactly two `hints`, from a gentle nudge
+to nearly the answer. Put a working answer in `tests/solutions/<challenge id>.<ext>`
 so the tests can check the challenge is solvable.
 
 **Character art:** save a PNG as `assets/portraits/<character id>.png` and it

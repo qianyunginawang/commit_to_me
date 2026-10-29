@@ -10,19 +10,19 @@
       "speaker": "java",
       "text": "Tell me, how do you feel about structure?",
       "choices": [
-        {"text": "I love a good plan.", "affection": 5, "next": "plan"},
-        {"text": "I prefer to wing it.", "affection": -2, "next": "wing"}
+        {"text": "I love a good plan.", "next": "plan"},
+        {"text": "I prefer to wing it.", "next": "wing"}
       ]
     },
     "plan": {"speaker": "java", "mood": "pleased", "text": "Excellent. Then you will appreciate how a Java program begins.", "next": "challenge"},
     "wing": {"speaker": "java", "mood": "concerned", "text": "...I see. Allow me to show you why a little structure is comforting.", "next": "challenge"},
     "challenge": {"challenge": "java_hello", "on_pass": "passed", "on_fail": "failed"},
-    "passed": {"speaker": "java", "mood": "pleased", "text": "Compiled on the first try. I am... impressed, {player}.", "affection": 10, "next": "end"},
+    "passed": {"speaker": "java", "mood": "pleased", "text": "Compiled on the first try. I am... impressed, {player}.", "next": "end"},
     "failed": {
       "speaker": "java",
       "text": "A compile error is simply the compiler caring about you. Shall we try again?",
       "choices": [
-        {"text": "Yes, let's.", "affection": 1, "next": "challenge"},
+        {"text": "Yes, let's.", "next": "challenge"},
         {"text": "Another evening, perhaps.", "next": "bye"}
       ]
     },

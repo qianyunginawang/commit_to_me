@@ -70,8 +70,10 @@ func test_validate_catches_broken_lessons() -> void:
 	gd.lessons["g01"]["versions"]["python"]["dialogue"] = "g01_java"   # wrong character
 	gd.routes["cpp"]["chapters"][0]["requires"] = ["g99"]               # unknown subject
 	gd.challenges["g01_cpp"]["hints"] = ["only one"]                     # needs 2 hints
+	gd.dates["g01_python"]["nodes"]["passed"]["affection"] = 5           # dialogue can't give affection
 	var problems: String = "\n".join(gd.validate())
 	check("belongs to 'java', not 'python'" in problems, "wrong character not caught:\n" + problems)
 	check("requires unknown subject 'g99'" in problems, "unknown subject not caught:\n" + problems)
 	check("'g01_cpp' needs exactly 2 hints" in problems, "missing hint not caught:\n" + problems)
+	check("affection only comes from passing lessons" in problems, "dialogue affection not caught:\n" + problems)
 	gd.free()

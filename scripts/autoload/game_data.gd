@@ -221,6 +221,8 @@ func validate() -> PackedStringArray:
 			for t in targets:
 				if t != "end" and not nodes.has(t):
 					problems.append("Date '%s' node '%s' points to missing node '%s'" % [id, node_id, t])
+			if node.has("affection") or node.get("choices", []).any(func(c): return c.has("affection")):
+				problems.append("Date '%s' node '%s' sets affection, but affection only comes from passing lessons (see Balance.md)" % [id, node_id])
 			if node.has("challenge") and not challenges.has(node["challenge"]):
 				problems.append("Date '%s' node '%s' uses unknown challenge '%s'" % [id, node_id, node["challenge"]])
 	for id in challenges:

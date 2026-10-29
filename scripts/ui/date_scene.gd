@@ -21,8 +21,9 @@ var character: Dictionary = {}
 var _date_id: String = ""
 var _line: Dictionary = {}
 var _typing_tween: Tween
-## A date only counts as done if the last code challenge was passed.
-var _last_challenge_passed := true
+## Hints the player has revealed, per challenge id. Kept across retries, so
+## giving up and trying again doesn't reset the hint cost.
+var _hints_used: Dictionary = {}
 
 
 func _ready() -> void:
@@ -44,7 +45,6 @@ func _ready() -> void:
 	player = DialoguePlayer.new(date, GameState.player_name)
 	player.line_started.connect(_show_line)
 	player.challenge_requested.connect(_open_challenge)
-	player.affection_awarded.connect(GameState.add_affection)
 	player.finished.connect(_on_finished)
 	player.start()
 
@@ -139,11 +139,14 @@ func _speaker_name(speaker: String) -> String:
 func _open_challenge(challenge_id: String) -> void:
 	_line = {}
 	var overlay := CodeChallengeScene.instantiate()
-	overlay.setup(GameData.get_challenge(challenge_id), character)
+	var first_time := not GameState.is_date_complete(_date_id)
+	overlay.setup(GameData.get_challenge(challenge_id), character, null, _hints_used.get(challenge_id, 0), first_time)
 	add_child(overlay)
 	var passed: bool = await overlay.finished
+	_hints_used[challenge_id] = overlay.hints_used
 	overlay.queue_free()
-	_last_challenge_passed = passed
+	if passed:
+		GameState.complete_lesson(_date_id, character.get("id", ""), overlay.hints_used)
 	player.complete_challenge(passed)
 
 
@@ -167,8 +170,6 @@ func _update_affection() -> void:
 
 
 func _on_finished() -> void:
-	if _last_challenge_passed:
-		GameState.mark_date_complete(_date_id)
 	_leave()
 
 

@@ -2,7 +2,8 @@ extends Control
 ## The coding mini-game shown during a date. Shows the task, a code editor,
 ## and runs the player's code against the challenge's tests.
 ##
-## Emits finished(passed) when the player continues or gives up.
+## Emits finished(passed) when the player continues or gives up. Read
+## hints_used afterwards to see how many of Quack's hints were revealed.
 
 signal finished(passed: bool)
 
@@ -11,6 +12,7 @@ signal finished(passed: bool)
 @onready var prompt_label: RichTextLabel = %PromptLabel
 @onready var hint_button: Button = %HintButton
 @onready var hint_label: Label = %HintLabel
+@onready var reward_label: Label = %RewardLabel
 @onready var editor: CodeEdit = %Editor
 @onready var run_button: Button = %RunButton
 @onready var reset_button: Button = %ResetButton
@@ -22,15 +24,24 @@ signal finished(passed: bool)
 var challenge: Dictionary = {}
 var character: Dictionary = {}
 var runner: CodeRunner
+## How many of the challenge's hints the player has revealed.
+var hints_used := 0
+## False when replaying a lesson that's already complete (no affection).
+var first_time := true
+var _hints: Array = []
 var _passed := false
 
 
 ## Call before adding to the scene tree. [param p_runner] is optional:
 ## pass one in (e.g. a FakeCodeRunner) to skip the real language runtime.
-func setup(p_challenge: Dictionary, p_character: Dictionary = {}, p_runner: CodeRunner = null) -> void:
+## [param p_hints_used] is how many hints were already revealed on an earlier
+## try. [param p_first_time] is false if the lesson is already complete.
+func setup(p_challenge: Dictionary, p_character: Dictionary = {}, p_runner: CodeRunner = null, p_hints_used: int = 0, p_first_time: bool = true) -> void:
 	challenge = p_challenge
 	character = p_character
 	runner = p_runner
+	hints_used = p_hints_used
+	first_time = p_first_time
 
 
 func _ready() -> void:
@@ -42,15 +53,15 @@ func _ready() -> void:
 	title_label.text = challenge.get("title", "Coding challenge")
 	language_label.text = language.get("display_name", language_id)
 	prompt_label.text = challenge.get("prompt", "")
-	var hints := GameData.get_hints(challenge)
-	hint_label.text = "\n\n".join(PackedStringArray(hints))
-	hint_label.visible = false
-	hint_button.visible = not hints.is_empty()
+	_hints = GameData.get_hints(challenge)
+	hints_used = clampi(hints_used, 0, _hints.size())
+	hint_button.visible = not _hints.is_empty()
+	_update_hints()
 	editor.text = challenge.get("starter_code", "")
 	editor.syntax_highlighter = _make_highlighter(language)
 	continue_button.visible = false
 
-	hint_button.pressed.connect(func(): hint_label.visible = not hint_label.visible)
+	hint_button.pressed.connect(_on_hint)
 	run_button.pressed.connect(_on_run)
 	reset_button.pressed.connect(func(): editor.text = challenge.get("starter_code", ""))
 	give_up_button.pressed.connect(func(): finished.emit(false))
@@ -61,6 +72,32 @@ func _ready() -> void:
 	else:
 		_set_status("Write your code, then press Run.", Color.WHITE)
 	editor.grab_focus()
+
+
+## Reveals Quack's next hint. Each one lowers the affection this lesson is worth.
+func _on_hint() -> void:
+	if hints_used < _hints.size():
+		hints_used += 1
+		_update_hints()
+
+
+func _update_hints() -> void:
+	var shown: PackedStringArray = []
+	for i in hints_used:
+		shown.append("Quack, hint %d: %s" % [i + 1, _hints[i]])
+	hint_label.text = "\n\n".join(shown)
+	hint_label.visible = hints_used > 0
+	if hints_used >= _hints.size():
+		hint_button.text = "No more hints"
+		hint_button.disabled = true
+	elif first_time:
+		hint_button.text = "Ask Quack for a hint (-%d <3)" % GameState.HINT_COST
+	else:
+		hint_button.text = "Ask Quack for a hint"
+	if first_time:
+		reward_label.text = "Pass to earn +%d <3" % GameState.lesson_affection(hints_used)
+	else:
+		reward_label.text = "Already completed, so there's no affection this time."
 
 
 func _on_run() -> void:

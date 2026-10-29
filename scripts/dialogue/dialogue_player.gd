@@ -12,19 +12,22 @@ extends RefCounted
 ##     "hello":  {"speaker": "python", "text": "Hi {player}!", "next": "ask"},
 ##     "ask":    {"speaker": "python", "text": "Want to code?",
 ##                "choices": [
-##                  {"text": "Yes!", "affection": 3, "next": "quiz"},
-##                  {"text": "Nah.", "affection": -2, "next": "end"}]},
+##                  {"text": "Yes!", "next": "quiz"},
+##                  {"text": "Nah.", "next": "end"}]},
 ##     "quiz":   {"challenge": "python_hello", "on_pass": "yay", "on_fail": "aww"},
-##     "yay":    {"speaker": "python", "text": "You did it!", "affection": 10, "next": "end"},
+##     "yay":    {"speaker": "python", "text": "You did it!", "next": "end"},
 ##     "aww":    {"speaker": "python", "text": "We'll try again.", "next": "end"}
 ##   }
 ## }
 ##
 ## Node kinds:
 ##   line      - has "text". Optional "speaker" (character id, "player", or
-##               "narrator"), "mood", "affection", and either "next" or "choices".
+##               "narrator"), "mood", and either "next" or "choices".
 ##   challenge - has "challenge" (a challenge id) plus "on_pass" / "on_fail".
 ## A "next" of "end" (or missing) ends the date.
+##
+## Dialogue never changes affection. Affection comes from passing the
+## challenge (see GameState.complete_lesson).
 
 ## A line of dialogue should be shown. [param line] is the node with
 ## "{player}" already replaced in its text and choices.
@@ -32,8 +35,6 @@ signal line_started(line: Dictionary)
 ## The game should open the code challenge with this id, then call
 ## complete_challenge() with the result.
 signal challenge_requested(challenge_id: String)
-## Affection should change for a character.
-signal affection_awarded(character_id: String, amount: int)
 ## The date is over.
 signal finished
 
@@ -77,7 +78,6 @@ func choose(index: int) -> void:
 		push_error("Choice %d doesn't exist on node '%s'" % [index, current_id])
 		return
 	var choice: Dictionary = choices[index]
-	_award(choice.get("affection", 0))
 	_go(choice.get("next", END))
 
 
@@ -99,7 +99,6 @@ func _go(node_id) -> void:
 
 	current_id = node_id
 	var node: Dictionary = nodes[node_id]
-	_award(node.get("affection", 0))
 
 	if node.has("challenge"):
 		challenge_requested.emit(node["challenge"])
@@ -110,11 +109,6 @@ func _go(node_id) -> void:
 	for choice in line.get("choices", []):
 		choice["text"] = _fill(choice.get("text", ""))
 	line_started.emit(line)
-
-
-func _award(amount) -> void:
-	if int(amount) != 0:
-		affection_awarded.emit(character_id, int(amount))
 
 
 func _fill(text: String) -> String:

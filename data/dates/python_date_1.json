@@ -10,20 +10,20 @@
       "speaker": "python",
       "text": "So... what do you think about whitespace?",
       "choices": [
-        {"text": "Indentation should mean something.", "affection": 5, "next": "likes"},
-        {"text": "Curly braces forever!", "affection": -3, "next": "braces"}
+        {"text": "Indentation should mean something.", "next": "likes"},
+        {"text": "Curly braces forever!", "next": "braces"}
       ]
     },
     "likes": {"speaker": "python", "mood": "blush", "text": "Finally, someone who gets it! Want to write a little code together?", "next": "challenge"},
     "braces": {"speaker": "python", "mood": "pout", "text": "Hmph. You sound like Jay. Fine, let me show you how nice it can be without them.", "next": "challenge"},
     "challenge": {"challenge": "python_hello", "on_pass": "passed", "on_fail": "failed"},
-    "passed": {"speaker": "python", "mood": "happy", "text": "Clean, readable, and friendly. Just like me. I think we'll get along great, {player}.", "affection": 10, "next": "end"},
+    "passed": {"speaker": "python", "mood": "happy", "text": "Clean, readable, and friendly. Just like me. I think we'll get along great, {player}.", "next": "end"},
     "failed": {
       "speaker": "python",
       "mood": "encouraging",
       "text": "Hey, nobody gets it right the first time. Want to try again?",
       "choices": [
-        {"text": "Let's try again.", "affection": 1, "next": "challenge"},
+        {"text": "Let's try again.", "next": "challenge"},
         {"text": "Maybe next time.", "next": "bye"}
       ]
     },

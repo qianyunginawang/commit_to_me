@@ -9,6 +9,13 @@ signal affection_changed(character_id: String, value: int, delta: int)
 const MIN_AFFECTION := 0
 const MAX_AFFECTION := 100
 
+## Affection rules (see agentcontext/Balance.md). Affection only comes from
+## lessons: passing one is worth LESSON_AFFECTION, minus HINT_COST for each
+## of Quack's hints the player used, but never less than MIN_LESSON_AFFECTION.
+const LESSON_AFFECTION := 6
+const HINT_COST := 2
+const MIN_LESSON_AFFECTION := 2
+
 ## Relationship titles, from lowest to highest. A character's level is the
 ## last entry whose "min" is <= their affection.
 const LEVELS: Array[Dictionary] = [
@@ -42,6 +49,23 @@ func add_affection(character_id: String, amount: int) -> void:
 	affection[character_id] = after
 	if after != before:
 		affection_changed.emit(character_id, after, after - before)
+
+
+## How much affection passing a lesson is worth after using [param hints_used] hints.
+static func lesson_affection(hints_used: int) -> int:
+	return maxi(LESSON_AFFECTION - HINT_COST * hints_used, MIN_LESSON_AFFECTION)
+
+
+## Call when the player passes a lesson's challenge. The first pass marks the
+## lesson complete and gives [param character_id] affection. Replaying a
+## lesson that's already complete gives nothing. Returns the amount given.
+func complete_lesson(lesson_id: String, character_id: String, hints_used: int) -> int:
+	if is_date_complete(lesson_id):
+		return 0
+	mark_date_complete(lesson_id)
+	var amount := lesson_affection(hints_used)
+	add_affection(character_id, amount)
+	return amount
 
 
 func get_level(character_id: String) -> Dictionary:
