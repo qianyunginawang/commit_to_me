@@ -149,6 +149,11 @@ func _build_affection_list() -> void:
 	for id in GameData.character_ids():
 		var label := Label.new()
 		label.text = "%s: %s (%d)" % [GameData.get_character(id).get("name", id), GameState.get_level(id)["title"], GameState.get_affection(id)]
+		if id == JayBalance.CHARACTER:
+			label.text += "  ·  " + JayBalance.describe()
+			if not JayBalance.is_balanced():
+				label.add_theme_color_override("font_color", Color(1, 0.6, 0.4))
+				label.tooltip_text = "Jay's sides are out of balance. Spend time with the other side."
 		affection_list.add_child(label)
 
 

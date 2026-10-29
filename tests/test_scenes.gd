@@ -73,6 +73,7 @@ func test_map_starts_at_orientation_with_everyone() -> void:
 	check_eq(monty._event_id, "orientation")
 	check(not scene.get_node("%Locations").get_node("main_quad").disabled, "main quad is clickable")
 	check(scene.get_node("%Locations").get_node("hopper_lab").disabled, "nothing at the lab right now")
+	check(scene.get_node("%AffectionList").get_child(1).text.contains("Day 0 · Night 0"), "Jay's balance is shown")
 
 
 func test_waiting_moves_time_and_people_move_around() -> void:
