@@ -64,9 +64,10 @@ Night chapters teach a JavaScript feature, and day chapters add TypeScript on to
 | 6 | Async and promises (dusk) | 22, 23 | Error handling; File reading and writing | The heroine gets both sides to await each other instead of fighting. Teaches promises and async/await. |
 | 7 | Final challenge (dusk) | 27 | Trees | Convert the festival site from JS to TS together, one type at a time, walking the DOM tree. Gradual typing as accepting both halves. |
 
-Confession: on the festival stage at sunset, glasses pushed up into their hair, both sides at once.
+### Confession
+On the festival stage at sunset, glasses pushed up into their hair, both sides at once.
 
-Endings.
+### Endings
 • Good (affection 80+, both meters balanced): Jay stops hiding the switch and both halves share memories. Epilogue CG: Jay at dusk in the yellow hoodie and the blue glasses, launching a site they built with the heroine.
 • Normal, day (Day affection much higher): Jay stays TypeScript full-time. Polite, proper, and a little hollow. The 2 a.m. texts stop.
 • Normal, night (Night affection much higher): JavaScript takes over. Jay quits the TA job and is always fun, but never quite there when it matters.
@@ -82,9 +83,10 @@ Endings.
 | 5 | Context managers | 22, 23 | Error handling; File reading and writing | `with open(...)` always cleans up, even when things go wrong. "It's okay to fail. You just have to catch it." |
 | 6 | Generators and decorators (final) | 29 | Graph traversal (BFS, DFS) | Exploring the garden's winding paths lazily with `yield`, one step at a time, then a decorator that adds a heart to every flower. |
 
-Confession: under the greenhouse lights at the end-of-term festival.
+### Confession
+Under the greenhouse lights at the end-of-term festival.
 
-Endings.
+### Endings
 • Good: Monty asks the heroine to co-author their senior research project. Epilogue CG: the two of them in the greenhouse, a plant labeled with her name.
 • Normal: they become close study partners, with a hint that something more could happen "in the next version".
 • Bad: "DeprecationWarning." Monty stays kind but distant, and the heroine sees them tutoring someone else.
@@ -99,9 +101,10 @@ Endings.
 | 5 | Classes and the STL | 25 | Stacks and queues | The heroine uses Ciel's own tools. Teaches std::vector, std::string, std::stack, and std::queue. |
 | 6 | Templates (final, hardest in game) | 32, 33 | Sorting; Dynamic programming | A duet: a templated, memoized solver that works on any type. Ciel's hardest and proudest feature. |
 
-Confession: on the lab roof at dawn after an all-nighter, coat around her shoulders.
+### Confession
+On the lab roof at dawn after an all-nighter, coat around her shoulders.
 
-Endings.
+### Endings
 • Good: Ciel lets the heroine contribute to their life's work, a game engine, and puts her name in the credits. Epilogue CG: both asleep on the keyboard as the build finishes.
 • Normal: Ciel admits she's "not completely incompetent" and leaves the lab door unlocked for her.
 • Bad: "Segmentation fault (core dumped)." The route crashes to a black screen, then Ciel walks past without recognizing her. Undefined behavior.
@@ -116,9 +119,10 @@ Endings.
 | 5 | Checked exceptions | 22 | Error handling | Declaring risks with `throws` is honesty, not weakness. Teaches try/catch and garbage collection ("letting go"). |
 | 6 | Generics and streams (final) | 17, 32 | Maps and dictionaries; Sorting | Planning the winter gala. Teaches `List<Guest>` and the Streams API with lambdas, with Julian visibly loosening up. |
 
-Confession: on the council room balcony after the gala, tie loosened for the first time.
+### Confession
+On the council room balcony after the gala, tie loosened for the first time.
 
-Endings.
+### Endings
 • Good: Julian keeps the presidency on their own terms and asks the heroine to be vice president, and partner. Epilogue CG: two mugs on the council desk.
 • Normal: Julian names her their most trusted council member and promises "a formal proposal in the next release".
 • Bad: "NullPointerException." Heroine reaches for his hand and finds nothing there.

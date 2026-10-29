@@ -30,14 +30,6 @@ Speech style. Day Jay is short and exact, with types "declared" in speech. Night
 • Confession (dusk): "Let me be clear about what you are to me. Type: important. Not optional, not any. ...And I've made you a lot of promises, but this one I'll keep. await me, okay? I'll always resolve."
 Backstory. Jay was thrown together in ten days for a party and spent years being laughed at for it. To be taken seriously by professors, Jay built a careful daytime self with rules and types. It works, until sunset, when the types are erased and the original Jay comes back out. Day Jay is ashamed of the nights. Night Jay thinks Day Jay is a cage. The heroine is the first person to know both.
 
-### Confession:
-On the festival stage at sunset, glasses pushed up into their hair, both sides at once.
-
-### Endings:
-• Good (affection 80+, both meters balanced): Jay stops hiding the switch and both halves share memories. Epilogue CG: Jay at dusk in the yellow hoodie and the blue glasses, launching a site they built with the heroine.
-• Normal, day (Day affection much higher): Jay stays TypeScript full-time. Polite, proper, and a little hollow. The 2 a.m. texts stop.
-• Normal, night (Night affection much higher): JavaScript takes over. Jay quits the TA job and is always fun, but never quite there when it matters.
-• Bad: "undefined." Jay waves at the heroine, then can't remember her name, day or night.
 
 ## Python
 Python: Monty Pyne
@@ -61,13 +53,6 @@ Speech style. Calm, plain sentences. No jargon unless asked. Sprinkles in Zen of
 • Flirting: "Beautiful is better than ugly. I've been thinking that a lot lately. About you, I mean."
 • Confession: "I don't need curly braces to tell you where we stand. It's always been you, at this exact level."
 Backstory. Monty used to be "Python 2" and spent years slowly changing into who they are now, which cost them friends who didn't want to follow. They're terrified of being left behind or of leaving someone behind again. They also worry people only like them because they're easy, not because they're special.
-
-### Confession: 
-Under the greenhouse lights at the end-of-term festival.
-### Endings:
-• Good: Monty asks the heroine to co-author their senior research project. Epilogue CG: the two of them in the greenhouse, a plant labeled with her name.
-• Normal: they become close study partners, with a hint that something more could happen "in the next version".
-• Bad: "DeprecationWarning." Monty stays kind but distant, and the heroine sees them tutoring someone else.
 
 
 ## C++ 
@@ -93,13 +78,6 @@ Speech style. Clipped and cutting, like a wall of compiler errors. Softens into 
 • Confession: "A reference can never be null. It has to point at something real from the start, and never change. ...That's what you are to me. Don't make me say it twice."
 Backstory. Ciel is the younger sibling of the legendary C, and has spent their whole life being compared to them. Every three years the family's "standards committee" meets and decides who Ciel should become next, so Ciel keeps reinventing themselves. They've been called dangerous and unsafe so often that they push everyone away before they can get hurt.
 
-### Confession: 
-On the lab roof at dawn after an all-nighter, coat around her shoulders.
-### Endings:
-• Good: Ciel lets the heroine contribute to their life's work, a game engine, and puts her name in the credits. Epilogue CG: both asleep on the keyboard as the build finishes.
-• Normal: Ciel admits she's "not completely incompetent" and leaves the lab door unlocked for her.
-• Bad: "Segmentation fault (core dumped)." The route crashes to a black screen, then Ciel walks past without recognizing her. Undefined behavior.
-
 
 ## Java 
 Java: Julian Duke
@@ -123,13 +101,6 @@ Speech style. Formal and complete, with every type declared. Gets shorter and wa
 • Flirting: "I've drafted a five-year plan for our study schedule. Hypothetically. For a hypothetical relationship."
 • Confession: "Write once, run anywhere. I only want to write this once: wherever you go, I want to be there."
 Backstory. Julian grew up in the warm, idealistic Sun household, which was later absorbed into the strict, wealthy Oracle family. They learned to be perfect and formal to stay useful. Younger, trendier students keep calling them outdated, and Julian worries they'll be replaced the moment they stop being dependable.
-
-### Confession: 
-On the council room balcony after the gala, tie loosened for the first time.
-### Endings:
-• Good: Julian keeps the presidency on their own terms and asks the heroine to be vice president, and partner. Epilogue CG: two mugs on the council desk.
-• Normal: Julian names her their most trusted council member and promises "a formal proposal in the next release".
-• Bad: "NullPointerException." Heroine reaches for his hand and finds nothing there.
 
 
 ## Harem Route
