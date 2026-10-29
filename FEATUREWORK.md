@@ -5,6 +5,11 @@
     - Player
 - Audio assets 
 - Code environment 
+    - editor 
+    - console outputs
+    - debugging breakpoints
+        - call stacks
+        - step up/in/over, etc 
 - Story assets
     - whole story arc + beats
     - intros 
@@ -13,12 +18,10 @@
     - dates 
     - affection events 
     - endings 
-
 - Gameplay features 
     - Save/load slots
     - skip, auto-play, go back 
     - gallery (to replay)
     - locations for dates/going to? (maybe a map?) 
     - best friend (is a sentient rubber duck) 
-    - 
 
