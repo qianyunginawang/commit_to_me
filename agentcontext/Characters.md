@@ -137,7 +137,7 @@ Harem route: the Polyglot ending
 If the player keeps all four love interests at 80+ affection, they get the Polyglot ending, where the heroine refuses to choose and the whole cast ends up together. It pays off the game's title: the story climaxes in a merge conflict, and the heroine's answer is "I commit to all of you."
 How to unlock it.
 • Available on a replay, after the player has seen at least one good ending, so they already know how affection works.
-• At the week 4 route lock, if all four are at 40+ affection, a hidden choice appears: "Why choose just one language?"
+• At the end of week 4, if all four are at 20+ affection, a hidden choice appears: "Why choose just one language?"
 • From there, every character must reach 80+ by week 14. Jay's day and night meters must both be healthy. Time slots are scarce, so the challenge is the schedule, not any one route.
 • The final challenge has a part from each language, so the player must have learned from all of them.
 Story outline.

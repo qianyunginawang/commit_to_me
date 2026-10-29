@@ -12,7 +12,7 @@ The fall semester at Runtime University runs 14 weeks, from Monday, August 31 to
 | 1 | Aug 31 – Sep 6 | **Orientation day** (Mon): the heroine gets Quack and a campus map, then the campus tour where she meets all four love interests. **Club fair** on the main quad (Fri). Quack's "birthday" is orientation day. | 1–2 |
 | 2 | Sep 7 – Sep 13 | **Day 256 Hackathon** (Sat–Sun night), held on Programmers' Day (Sep 13, the 256th day of the year). Night Jay's first scene (Jay Ch1). | 3–5 |
 | 3 | Sep 14 – Sep 20 | First problem set due. Tutoring center opens its evening hours. | 6–8 |
-| 4 | Sep 21 – Sep 27 | **Route lock:** affection decides which routes stay open. On a replay, if all four are at 40+, the hidden Polyglot choice appears ("Why choose just one language?"). | 9–11 |
+| 4 | Sep 21 – Sep 27 | **Quack's check-in:** a full affection report. On a replay, if all four are at 20+, the hidden Polyglot choice appears ("Why choose just one language?"). | 9–11 |
 | 5 | Sep 28 – Oct 4 | **Fall carnival opens** on the athletic field (weekend nights). Jay Ch3 (Equality and coercion). Polyglot: the rivalry starts. | 12–14 |
 | 6 | Oct 5 – Oct 11 | Carnival's last weekend. Hacktoberfest starts on campus (open-source contribution month, all of October). | 15–17 |
 | 7 | Oct 12 – Oct 18 | **Midterms week.** **Ada Lovelace Day** (Tue, Oct 13): a campus talk in Lovelace Library. **Ciel's birthday** (Wed, Oct 14). | 18–19 |
