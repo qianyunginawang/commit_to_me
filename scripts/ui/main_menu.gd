@@ -5,6 +5,7 @@ extends Control
 @onready var new_game_button: Button = %NewGameButton
 @onready var continue_button: Button = %ContinueButton
 @onready var quit_button: Button = %QuitButton
+@onready var endings_label: Label = %EndingsLabel
 
 
 func _ready() -> void:
@@ -16,6 +17,9 @@ func _ready() -> void:
 	name_edit.text = GameState.DEFAULT_PLAYER_NAME
 	name_edit.select_all()
 	name_edit.grab_focus()
+	var count := Profile.ending_count()
+	endings_label.text = "Endings seen: %d/%d" % [count["seen"], count["total"]]
+	endings_label.visible = count["seen"] > 0
 	GameData.warm_up_runtimes()
 
 

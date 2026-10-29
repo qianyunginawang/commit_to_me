@@ -42,6 +42,7 @@ func _on_chosen(character_id: String) -> void:
 	var ending := Endings.ending_for(character_id)
 	GameState.ending_id = ending.get("id", "")
 	GameState.save_game()
+	Profile.record_ending(GameState.ending_id)
 	Router.goto(Router.DATE, {"date_id": ending.get("dialogue", ""), "return_to": Router.ENDINGS})
 
 
