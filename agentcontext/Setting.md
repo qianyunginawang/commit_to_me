@@ -95,5 +95,3 @@ Campus locations, grouped by area. Each one lists the dates that use it. "Generi
     - Generic 7 (User input: a dorm survey), 15 (Scope: what's in your own room versus the common room)
     - Polyglot week 4 choice (the heroine admits to Quack she can't pick: "You absolute multithreader.")
 
-
-# Calendar 
