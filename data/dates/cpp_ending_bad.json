@@ -1,0 +1,18 @@
+{
+  "id": "cpp_ending_bad",
+  "character": "cpp",
+  "title": "Bad ending: Segmentation fault",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "Segmentation fault (core dumped).",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "narrator",
+      "text": "The screen goes black. Later, Ciel walks right past you in the hallway, as if you'd never met. Undefined behavior.",
+      "next": "end"
+    }
+  }
+}

@@ -34,6 +34,7 @@ func _data() -> Node:
 	gd.routes = GameData.routes.duplicate(true)
 	gd.locations = GameData.locations
 	gd.calendar = GameData.calendar
+	gd.endings = GameData.endings
 	for chapter in gd.routes["javascript"]["chapters"]:
 		chapter["dialogue"] = "test_" + chapter["id"]
 	_nodes.append(gd)

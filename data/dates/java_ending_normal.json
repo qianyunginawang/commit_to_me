@@ -1,0 +1,24 @@
+{
+  "id": "java_ending_normal",
+  "character": "java",
+  "title": "Normal ending: Next release",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "After the gala, Julian hands you a neatly labeled folder.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "java",
+      "text": "You are now my most trusted council member. As for anything more... I promise a formal proposal in the next release.",
+      "next": "l2",
+      "mood": "formal"
+    },
+    "l2": {
+      "speaker": "narrator",
+      "text": "Julian's cowlick, for once, is sticking straight up.",
+      "next": "end"
+    }
+  }
+}

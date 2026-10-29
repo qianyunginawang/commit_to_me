@@ -1,0 +1,30 @@
+{
+  "id": "python_ending_good",
+  "character": "python",
+  "title": "Good ending: Co-authors",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "The end-of-term festival. The greenhouse lights glow through the glass, warm against the cold night.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "python",
+      "text": "I don't need curly braces to tell you where we stand. It's always been you, {player}, at this exact level.",
+      "next": "l2",
+      "mood": "blush"
+    },
+    "l2": {
+      "speaker": "python",
+      "text": "So... would you co-author my senior research project with me? I already wrote your name on the title page. In pencil. Mostly.",
+      "next": "l3",
+      "mood": "happy"
+    },
+    "l3": {
+      "speaker": "narrator",
+      "text": "Epilogue: the two of you in the greenhouse, and a small plant on the shelf labeled with your name.",
+      "next": "end"
+    }
+  }
+}

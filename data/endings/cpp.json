@@ -1,0 +1,29 @@
+{
+  "character": "cpp",
+  "endings": [
+    {
+      "id": "cpp_ending_good",
+      "character": "cpp",
+      "kind": "good",
+      "title": "Good ending: In the credits",
+      "summary": "Ciel lets you work on their game engine and puts your name in the credits.",
+      "dialogue": "cpp_ending_good"
+    },
+    {
+      "id": "cpp_ending_normal",
+      "character": "cpp",
+      "kind": "normal",
+      "title": "Normal ending: Door unlocked",
+      "summary": "Ciel admits you're \"not completely incompetent.\"",
+      "dialogue": "cpp_ending_normal"
+    },
+    {
+      "id": "cpp_ending_bad",
+      "character": "cpp",
+      "kind": "bad",
+      "title": "Bad ending: Segmentation fault",
+      "summary": "Segmentation fault (core dumped).",
+      "dialogue": "cpp_ending_bad"
+    }
+  ]
+}

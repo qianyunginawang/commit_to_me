@@ -1,0 +1,29 @@
+{
+  "character": "java",
+  "endings": [
+    {
+      "id": "java_ending_good",
+      "character": "java",
+      "kind": "good",
+      "title": "Good ending: Vice president",
+      "summary": "Julian asks you to be vice president, and partner.",
+      "dialogue": "java_ending_good"
+    },
+    {
+      "id": "java_ending_normal",
+      "character": "java",
+      "kind": "normal",
+      "title": "Normal ending: Next release",
+      "summary": "Julian names you their most trusted council member.",
+      "dialogue": "java_ending_normal"
+    },
+    {
+      "id": "java_ending_bad",
+      "character": "java",
+      "kind": "bad",
+      "title": "Bad ending: NullPointerException",
+      "summary": "You reach for Julian's hand and find nothing there.",
+      "dialogue": "java_ending_bad"
+    }
+  ]
+}

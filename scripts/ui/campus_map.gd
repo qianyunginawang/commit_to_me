@@ -36,8 +36,10 @@ func refresh() -> void:
 	for loc in places:
 		names.append_array(PackedStringArray(places[loc]["events"]))
 	events_label.text = ("Happening now: " + ", ".join(names)) if not names.is_empty() else "Nothing special is happening right now."
-	wait_button.text = "Wait until tonight" if GameState.slot == "day" else "Wait until tomorrow"
-	wait_button.disabled = GameState.is_semester_over()
+	if GameState.is_semester_over():
+		wait_button.text = "See how it ends"
+	else:
+		wait_button.text = "Wait until tonight" if GameState.slot == "day" else "Wait until tomorrow"
 
 	if not places.has(selected_location):
 		selected_location = _first_place_with_people(places)
@@ -158,6 +160,9 @@ func _build_affection_list() -> void:
 
 
 func _on_wait() -> void:
+	if GameState.is_semester_over():
+		Router.goto(Router.ENDINGS)
+		return
 	GameState.advance_time()
 	GameState.save_game()
 	refresh()

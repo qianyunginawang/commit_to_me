@@ -1,0 +1,24 @@
+{
+  "id": "javascript_ending_normal_day",
+  "character": "javascript",
+  "title": "Normal ending: Strict mode",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "After the festival, Jay never takes the glasses off again.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "javascript",
+      "text": "I've decided to keep my types from now on. It's more reliable. ...Thank you for your patience this semester, {player}.",
+      "next": "l2",
+      "mood": "polite"
+    },
+    "l2": {
+      "speaker": "narrator",
+      "text": "Jay is always on time and always correct. The 2 a.m. texts stop.",
+      "next": "end"
+    }
+  }
+}

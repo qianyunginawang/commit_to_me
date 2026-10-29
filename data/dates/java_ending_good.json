@@ -1,0 +1,30 @@
+{
+  "id": "java_ending_good",
+  "character": "java",
+  "title": "Good ending: Vice president",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "The council room balcony after the winter gala. Julian's tie is loosened for the first time all semester.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "java",
+      "text": "Write once, run anywhere. I only want to write this once: wherever you go, I want to be there.",
+      "next": "l2",
+      "mood": "blush"
+    },
+    "l2": {
+      "speaker": "java",
+      "text": "I'm keeping the presidency, on my own terms this time. And I'd like you to be my vice president. ...And my partner.",
+      "next": "l3",
+      "mood": "smile"
+    },
+    "l3": {
+      "speaker": "narrator",
+      "text": "Epilogue: two mugs, side by side, on the council desk.",
+      "next": "end"
+    }
+  }
+}

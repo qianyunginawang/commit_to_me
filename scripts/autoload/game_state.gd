@@ -39,6 +39,8 @@ var completed_dates: Array[String] = []
 var week: int = 1
 var day: int = 0
 var slot: String = "day"
+## The ending the player chose at the end of the semester ("" until then).
+var ending_id: String = ""
 
 
 func new_game(p_player_name: String) -> void:
@@ -48,6 +50,7 @@ func new_game(p_player_name: String) -> void:
 	week = 1
 	day = 0
 	slot = "day"
+	ending_id = ""
 
 
 ## Moves to the next slot: day -> night, night -> the next day.
@@ -136,6 +139,7 @@ func to_dict() -> Dictionary:
 		"affection": affection,
 		"completed_dates": completed_dates,
 		"time": {"week": week, "day": day, "slot": slot},
+		"ending": ending_id,
 	}
 
 
@@ -150,6 +154,7 @@ func from_dict(data: Dictionary) -> void:
 	week = int(time.get("week", 1))
 	day = int(time.get("day", 0))
 	slot = time.get("slot", "day")
+	ending_id = data.get("ending", "")
 
 
 func has_save() -> bool:

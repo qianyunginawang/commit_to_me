@@ -1,0 +1,18 @@
+{
+  "id": "python_ending_bad",
+  "character": "python",
+  "title": "Bad ending: DeprecationWarning",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "DeprecationWarning: this relationship is no longer supported.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "narrator",
+      "text": "Monty still waves when they see you. But at the tutoring center, they're helping someone else with their indentation now.",
+      "next": "end"
+    }
+  }
+}

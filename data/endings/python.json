@@ -1,0 +1,29 @@
+{
+  "character": "python",
+  "endings": [
+    {
+      "id": "python_ending_good",
+      "character": "python",
+      "kind": "good",
+      "title": "Good ending: Co-authors",
+      "summary": "Monty asks you to co-author their senior research project.",
+      "dialogue": "python_ending_good"
+    },
+    {
+      "id": "python_ending_normal",
+      "character": "python",
+      "kind": "normal",
+      "title": "Normal ending: In the next version",
+      "summary": "You and Monty become close study partners. Maybe something more, in the next version.",
+      "dialogue": "python_ending_normal"
+    },
+    {
+      "id": "python_ending_bad",
+      "character": "python",
+      "kind": "bad",
+      "title": "Bad ending: DeprecationWarning",
+      "summary": "Monty stays kind but distant.",
+      "dialogue": "python_ending_bad"
+    }
+  ]
+}

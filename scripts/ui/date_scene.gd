@@ -184,4 +184,4 @@ func _leave() -> void:
 	if not takes_no_time:
 		GameState.advance_time()
 	GameState.save_game()
-	Router.goto(Router.MAP)
+	Router.goto(Router.params.get("return_to", Router.MAP))

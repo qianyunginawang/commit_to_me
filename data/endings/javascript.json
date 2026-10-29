@@ -1,0 +1,37 @@
+{
+  "character": "javascript",
+  "endings": [
+    {
+      "id": "javascript_ending_good",
+      "character": "javascript",
+      "kind": "good",
+      "title": "Good ending: Both halves",
+      "summary": "Jay stops hiding the switch, and both halves share their memories.",
+      "dialogue": "javascript_ending_good"
+    },
+    {
+      "id": "javascript_ending_normal_day",
+      "character": "javascript",
+      "kind": "normal_day",
+      "title": "Normal ending: Strict mode",
+      "summary": "Jay stays TypeScript full-time. Polite, proper, and a little hollow.",
+      "dialogue": "javascript_ending_normal_day"
+    },
+    {
+      "id": "javascript_ending_normal_night",
+      "character": "javascript",
+      "kind": "normal_night",
+      "title": "Normal ending: Runs everywhere",
+      "summary": "JavaScript takes over. Always fun, never quite there when it matters.",
+      "dialogue": "javascript_ending_normal_night"
+    },
+    {
+      "id": "javascript_ending_bad",
+      "character": "javascript",
+      "kind": "bad",
+      "title": "Bad ending: undefined",
+      "summary": "Jay forgets your name, day and night.",
+      "dialogue": "javascript_ending_bad"
+    }
+  ]
+}

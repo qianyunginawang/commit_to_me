@@ -10,6 +10,7 @@ extends Node
 const MAIN_MENU := "res://scenes/main_menu.tscn"
 const MAP := "res://scenes/campus_map.tscn"
 const DATE := "res://scenes/date.tscn"
+const ENDINGS := "res://scenes/endings.tscn"
 
 ## Data for the scene being opened.
 var params: Dictionary = {}

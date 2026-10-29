@@ -24,6 +24,7 @@ func _data() -> Node:
 	gd.routes = GameData.routes.duplicate(true)
 	gd.locations = GameData.locations
 	gd.calendar = GameData.calendar
+	gd.endings = GameData.endings
 	_nodes.append(gd)
 	return gd
 

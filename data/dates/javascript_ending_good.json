@@ -1,0 +1,30 @@
+{
+  "id": "javascript_ending_good",
+  "character": "javascript",
+  "title": "Good ending: Both halves",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "The festival stage at sunset. Jay's glasses are pushed up into their hair, and for once, both sides are here at the same time.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "javascript",
+      "text": "Let me be clear about what you are to me. Type: important. Not optional, not any.",
+      "next": "l2",
+      "mood": "blush"
+    },
+    "l2": {
+      "speaker": "javascript",
+      "text": "...And I've made you a lot of promises, but this one I'll keep. await me, okay? I'll always resolve.",
+      "next": "l3",
+      "mood": "excited"
+    },
+    "l3": {
+      "speaker": "narrator",
+      "text": "Epilogue: Jay at dusk in the yellow hoodie and the blue glasses, launching the site you built together.",
+      "next": "end"
+    }
+  }
+}

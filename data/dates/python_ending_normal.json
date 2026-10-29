@@ -1,0 +1,24 @@
+{
+  "id": "python_ending_normal",
+  "character": "python",
+  "title": "Normal ending: In the next version",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "The festival winds down. Monty walks you back from the greenhouse, talking about next semester's classes.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "python",
+      "text": "You're my favorite study partner, you know. Maybe... in the next version, we could be something more?",
+      "next": "l2",
+      "mood": "blush"
+    },
+    "l2": {
+      "speaker": "narrator",
+      "text": "Monty smiles, and the greenhouse lights click off behind you.",
+      "next": "end"
+    }
+  }
+}

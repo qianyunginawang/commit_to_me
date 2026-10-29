@@ -15,6 +15,7 @@ extends Node
 ##   data/routes/*.json      - each character's special chapters, in order
 ##   data/locations.json     - campus locations lessons can happen at
 ##   data/calendar.json      - the semester's events (see Calendar)
+##   data/endings/*.json     - each character's endings (see Endings)
 ##
 ## A lesson is a dialogue (a file in data/dates/) with one challenge node in
 ## it. Generic subjects and special chapters can be listed before their
@@ -32,6 +33,7 @@ const LESSONS_DIR := "res://data/lessons"
 const ROUTES_DIR := "res://data/routes"
 const LOCATIONS_PATH := "res://data/locations.json"
 const CALENDAR_PATH := "res://data/calendar.json"
+const ENDINGS_DIR := "res://data/endings"
 
 ## Time slots a lesson can happen in. "dusk" is Jay's in-between time and
 ## counts as both day and night.
@@ -51,6 +53,8 @@ var routes: Dictionary = {}
 var locations: Dictionary = {}
 ## {start_date, weeks, events: [...]}. See Calendar.
 var calendar: Dictionary = {}
+## Character id -> {"character": ..., "endings": [{id, kind, title, summary, dialogue}]}.
+var endings: Dictionary = {}
 
 var _warm_up_started := false
 
@@ -73,6 +77,7 @@ func load_all() -> void:
 	locations = locs if locs is Dictionary else {}
 	var cal = load_json(CALENDAR_PATH)
 	calendar = cal if cal is Dictionary else {}
+	endings = load_dir(ENDINGS_DIR)
 	for problem in validate():
 		push_warning("[GameData] " + problem)
 
@@ -245,6 +250,25 @@ func validate() -> PackedStringArray:
 			problems.append("Challenge '%s' needs exactly 2 hints" % id)
 	problems.append_array(_validate_lessons())
 	problems.append_array(_validate_calendar())
+	problems.append_array(_validate_endings())
+	return problems
+
+
+func _validate_endings() -> PackedStringArray:
+	var problems: PackedStringArray = []
+	for character_id in characters:
+		var needed := ["good", "normal_day", "normal_night", "bad"] if character_id == "javascript" else ["good", "normal", "bad"]
+		var kinds := []
+		for ending in endings.get(character_id, {}).get("endings", []):
+			kinds.append(ending.get("kind", ""))
+			var dialogue_id: String = ending.get("dialogue", "")
+			if not dates.has(dialogue_id):
+				problems.append("Ending '%s' uses unknown dialogue '%s'" % [ending.get("id", "?"), dialogue_id])
+			elif dates[dialogue_id].get("character", "") != character_id:
+				problems.append("Ending '%s': dialogue '%s' belongs to someone else" % [ending.get("id", "?"), dialogue_id])
+		for kind in needed:
+			if not kinds.has(kind):
+				problems.append("Character '%s' has no '%s' ending" % [character_id, kind])
 	return problems
 
 

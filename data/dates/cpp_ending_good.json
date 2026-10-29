@@ -1,0 +1,30 @@
+{
+  "id": "cpp_ending_good",
+  "character": "cpp",
+  "title": "Good ending: In the credits",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "The lab roof at dawn, after the all-nighter. Ciel's coat is around your shoulders.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "cpp",
+      "text": "A reference can never be null. It has to point at something real from the start, and never change.",
+      "next": "l2",
+      "mood": "blush"
+    },
+    "l2": {
+      "speaker": "cpp",
+      "text": "...That's what you are to me. Don't make me say it twice. And you're in the credits of my engine now. Don't let it go to your head.",
+      "next": "l3",
+      "mood": "smirk"
+    },
+    "l3": {
+      "speaker": "narrator",
+      "text": "Epilogue: the two of you asleep on the keyboard as the build finishes.",
+      "next": "end"
+    }
+  }
+}

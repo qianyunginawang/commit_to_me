@@ -1,0 +1,18 @@
+{
+  "id": "java_ending_bad",
+  "character": "java",
+  "title": "Bad ending: NullPointerException",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "NullPointerException.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "narrator",
+      "text": "You reach for Julian's hand, and find nothing there. The council meets without you.",
+      "next": "end"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "javascript_ending_normal_night",
+  "character": "javascript",
+  "title": "Normal ending: Runs everywhere",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "After the festival, Jay quits the TA job.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "javascript",
+      "text": "Who needs rules anyway?! Come on, there's a party on the roof, and another one after that!",
+      "next": "l2",
+      "mood": "excited"
+    },
+    "l2": {
+      "speaker": "narrator",
+      "text": "Jay is always fun. But when you really need them, the message just says: undefined.",
+      "next": "end"
+    }
+  }
+}

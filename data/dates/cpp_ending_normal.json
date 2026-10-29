@@ -1,0 +1,24 @@
+{
+  "id": "cpp_ending_normal",
+  "character": "cpp",
+  "title": "Normal ending: Door unlocked",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "Hopper Lab, the last night of the semester.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "cpp",
+      "text": "Fine. You're not completely incompetent. ...The door code is 0x2A. Don't make me regret it.",
+      "next": "l2",
+      "mood": "bored"
+    },
+    "l2": {
+      "speaker": "narrator",
+      "text": "From then on, the lab door is always unlocked when you get there.",
+      "next": "end"
+    }
+  }
+}

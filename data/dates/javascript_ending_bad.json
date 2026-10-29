@@ -1,0 +1,24 @@
+{
+  "id": "javascript_ending_bad",
+  "character": "javascript",
+  "title": "Bad ending: undefined",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "undefined.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "javascript",
+      "text": "Hey! Hi! You look familiar. Sorry, what was your name again?",
+      "next": "l2",
+      "mood": "excited"
+    },
+    "l2": {
+      "speaker": "narrator",
+      "text": "Day or night, Jay can't remember you at all.",
+      "next": "end"
+    }
+  }
+}
