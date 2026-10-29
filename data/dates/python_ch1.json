@@ -1,0 +1,55 @@
+{
+  "id": "python_ch1",
+  "character": "python",
+  "title": "The Zen of Python",
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "speaker": "narrator",
+      "text": "The tutoring center, after hours. Monty has made two cups of tea and opened the Python REPL.",
+      "next": "hello"
+    },
+    "hello": {
+      "speaker": "python",
+      "text": "I want to show you something. Type import this, and Python reads you a little poem about itself. It's called the Zen of Python.",
+      "next": "zen",
+      "mood": "happy"
+    },
+    "zen": {
+      "speaker": "python",
+      "text": "\"Readability counts.\" That one's my favorite. Python's also relaxed about types: one variable can hold a number, and then a string.",
+      "next": "challenge",
+      "mood": "happy"
+    },
+    "challenge": {
+      "challenge": "python_ch1",
+      "on_pass": "passed",
+      "on_fail": "failed"
+    },
+    "passed": {
+      "speaker": "python",
+      "text": "See? The variable didn't mind changing. ...Simple is better than complex. I've been thinking that a lot lately. About us studying together, I mean.",
+      "next": "end",
+      "mood": "blush"
+    },
+    "failed": {
+      "speaker": "python",
+      "text": "Hm, not quite. Readability counts, so let's read it again together.",
+      "choices": [
+        {
+          "text": "Okay, together.",
+          "next": "challenge"
+        },
+        {
+          "text": "Maybe next time.",
+          "next": "bye"
+        }
+      ]
+    },
+    "bye": {
+      "speaker": "python",
+      "text": "The tea will still be warm. Probably.",
+      "next": "end"
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "id": "g01_python",
+  "character": "python",
+  "title": "Printing to the console",
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "speaker": "narrator",
+      "text": "Orientation day. A help desk on the main quad, piled with maps and tea. The person behind it waves you over.",
+      "next": "hello"
+    },
+    "hello": {
+      "speaker": "python",
+      "text": "Oh, you're new? Don't worry. I'm Monty. Here, everything just needs to line up nicely, and we'll get along fine.",
+      "next": "teach",
+      "mood": "happy"
+    },
+    "teach": {
+      "speaker": "python",
+      "text": "Every programmer starts the same way: by saying hello to the world. In Python, that's one line.",
+      "next": "challenge"
+    },
+    "challenge": {
+      "challenge": "g01_python",
+      "on_pass": "passed",
+      "on_fail": "failed"
+    },
+    "passed": {
+      "speaker": "python",
+      "text": "There it is. Beautiful is better than ugly, and that was beautiful. Welcome to Runtime, {player}.",
+      "next": "end",
+      "mood": "happy"
+    },
+    "failed": {
+      "speaker": "python",
+      "text": "Hm. Not quite. It's okay! Want to try again?",
+      "choices": [
+        {
+          "text": "Let's try again.",
+          "next": "challenge"
+        },
+        {
+          "text": "Maybe later.",
+          "next": "bye"
+        }
+      ]
+    },
+    "bye": {
+      "speaker": "python",
+      "text": "No rush. The help desk is open all day.",
+      "next": "end"
+    }
+  }
+}

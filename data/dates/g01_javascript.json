@@ -1,0 +1,55 @@
+{
+  "id": "g01_javascript",
+  "character": "javascript",
+  "title": "Printing to the console",
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "speaker": "narrator",
+      "text": "Night. The student union hackathon hall is all LED strips, pizza boxes, and somebody yelling about a merge.",
+      "next": "hello"
+    },
+    "hello": {
+      "speaker": "javascript",
+      "text": "Hiii! New person! I'm Jay, you're coming to the hackathon, I already added you to the group chat. Do you like pizza? Too late, I ordered it.",
+      "next": "teach",
+      "mood": "excited"
+    },
+    "teach": {
+      "speaker": "javascript",
+      "text": "Okay okay okay, rule one of hackathons: if you don't know what's happening, console.log it! Here, you try!",
+      "next": "challenge",
+      "mood": "excited"
+    },
+    "challenge": {
+      "challenge": "g01_javascript",
+      "on_pass": "passed",
+      "on_fail": "failed"
+    },
+    "passed": {
+      "speaker": "javascript",
+      "text": "YES! You're officially a hacker now! Have a slice!",
+      "next": "end",
+      "mood": "excited"
+    },
+    "failed": {
+      "speaker": "javascript",
+      "text": "Ooh, close-ish! Run it back?",
+      "choices": [
+        {
+          "text": "Run it back!",
+          "next": "challenge"
+        },
+        {
+          "text": "I need a pizza break.",
+          "next": "bye"
+        }
+      ]
+    },
+    "bye": {
+      "speaker": "javascript",
+      "text": "Totally fine! The hackathon goes all night anyway!",
+      "next": "end"
+    }
+  }
+}

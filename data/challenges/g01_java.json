@@ -1,0 +1,17 @@
+{
+  "id": "g01_java",
+  "language": "java",
+  "title": "A proper introduction",
+  "prompt": "Julian insists that every Java program starts in main, inside a class.\n\nIn Java, System.out.println() prints a line. Fill in main so the program prints exactly:\n\nHello, world!",
+  "hints": [
+    "System.out.println(...) goes inside main, between its curly braces. Text goes in double quotes, and the line ends with a semicolon.",
+    "Inside main, add: System.out.println(\"Hello, world!\");"
+  ],
+  "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // TODO: print the greeting\n    }\n}\n",
+  "tests": [
+    {
+      "stdin": "",
+      "expected_stdout": "Hello, world!"
+    }
+  ]
+}

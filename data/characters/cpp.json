@@ -4,6 +4,7 @@
   "name": "Ciel",
   "language": "C++",
   "languages": ["cpp"],
+  "lesson_languages": {"cpp": "any"},
   "tagline": "Intense, powerful, and expects you to manage your own memory.",
   "bio": "Ciel Vector is fast, a little intimidating, and gives you complete control (and complete responsibility). Earn Ciel's trust and nothing can slow you down.",
   "color": "#00599C",

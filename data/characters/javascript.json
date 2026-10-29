@@ -4,6 +4,7 @@
   "name": "Jay",
   "language": "JavaScript / TypeScript",
   "languages": ["javascript", "typescript"],
+  "lesson_languages": {"typescript": "day", "javascript": "night"},
   "tagline": "Spontaneous, runs everywhere, a little unpredictable.",
   "bio": "By day, Jay Eich is TypeScript: a strict TA with glasses and color-coded notes. At sunset the types are erased and JavaScript comes out: wild, spontaneous, and up to mischief.",
   "color": "#F7DF1E",

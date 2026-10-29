@@ -1,0 +1,56 @@
+{
+  "id": "g01_cpp",
+  "character": "cpp",
+  "title": "Printing to the console",
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "speaker": "narrator",
+      "text": "Hopper Computer Lab, long after dark. One machine is still on. Someone in a long coat is typing very, very fast.",
+      "next": "hello"
+    },
+    "hello": {
+      "speaker": "cpp",
+      "text": "You. Line 1. 'cout' is not a member of 'std'. How did you even get in here?",
+      "next": "teach",
+      "mood": "glare"
+    },
+    "teach": {
+      "speaker": "cpp",
+      "text": "...Sit down. The compiler is telling you exactly what's wrong. Read it, then fix it.",
+      "next": "challenge",
+      "mood": "bored"
+    },
+    "challenge": {
+      "challenge": "g01_cpp",
+      "on_pass": "passed",
+      "on_fail": "failed"
+    },
+    "passed": {
+      "speaker": "cpp",
+      "text": "It compiles. Don't look so proud, it's one line. ...I'm Ciel. Close the door on your way out.",
+      "next": "end",
+      "mood": "smirk"
+    },
+    "failed": {
+      "speaker": "cpp",
+      "text": "Still broken. Read the error again.",
+      "choices": [
+        {
+          "text": "Fine, again.",
+          "next": "challenge"
+        },
+        {
+          "text": "I'm leaving.",
+          "next": "bye"
+        }
+      ]
+    },
+    "bye": {
+      "speaker": "cpp",
+      "text": "Good. Fewer people to debug.",
+      "next": "end",
+      "mood": "bored"
+    }
+  }
+}

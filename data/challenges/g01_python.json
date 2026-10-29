@@ -1,0 +1,17 @@
+{
+  "id": "g01_python",
+  "language": "python",
+  "title": "Hello, world!",
+  "prompt": "Monty has the help desk all ready for you.\n\nIn Python, print() shows text on the screen. Make the program print exactly:\n\nHello, world!",
+  "hints": [
+    "Put the text you want to show inside print(...), wrapped in quotes.",
+    "Type this on its own line: print(\"Hello, world!\")"
+  ],
+  "starter_code": "# Your very first line of Python goes below this one.\n",
+  "tests": [
+    {
+      "stdin": "",
+      "expected_stdout": "Hello, world!"
+    }
+  ]
+}

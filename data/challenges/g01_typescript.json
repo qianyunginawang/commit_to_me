@@ -1,0 +1,17 @@
+{
+  "id": "g01_typescript",
+  "language": "typescript",
+  "title": "Log the greeting",
+  "prompt": "Day Jay has already declared the variable, with its type. Now print it.\n\nIn TypeScript, console.log() prints to the console. Make the program print exactly:\n\nHello, world!",
+  "hints": [
+    "console.log(...) prints whatever you put between the parentheses. You can pass it a variable.",
+    "Add this line under the declaration: console.log(greeting);"
+  ],
+  "starter_code": "const greeting: string = \"Hello, world!\";\n\n// TODO: print greeting with console.log\n",
+  "tests": [
+    {
+      "stdin": "",
+      "expected_stdout": "Hello, world!"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "id": "g01_java",
+  "character": "java",
+  "title": "Printing to the console",
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "speaker": "narrator",
+      "text": "The student council room. Labeled folders, a large binder, and a thermos of coffee. Someone has placed a pen in your hand.",
+      "next": "hello"
+    },
+    "hello": {
+      "speaker": "java",
+      "text": "Good morning. Allow me to formally introduce myself: public, static, Julian Duke, President. You may call me President Duke.",
+      "next": "teach",
+      "mood": "formal"
+    },
+    "teach": {
+      "speaker": "java",
+      "text": "Every Java program begins in main, inside a class. Every word is there for a reason, and I will happily explain each one. First, though, the greeting.",
+      "next": "challenge",
+      "mood": "formal"
+    },
+    "challenge": {
+      "challenge": "g01_java",
+      "on_pass": "passed",
+      "on_fail": "failed"
+    },
+    "passed": {
+      "speaker": "java",
+      "text": "Properly declared, properly printed. You'd make an excellent council member, {player}.",
+      "next": "end",
+      "mood": "smile"
+    },
+    "failed": {
+      "speaker": "java",
+      "text": "I can't accept this. ...Here. We'll go through it again. Slowly.",
+      "choices": [
+        {
+          "text": "Let's go again.",
+          "next": "challenge"
+        },
+        {
+          "text": "Can I come back later?",
+          "next": "bye"
+        }
+      ]
+    },
+    "bye": {
+      "speaker": "java",
+      "text": "Very well. I'll file it under \"pending\".",
+      "next": "end",
+      "mood": "formal"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "character": "cpp",
+  "chapters": [
+    {"id": "cpp_ch1", "chapter": 1, "title": "Compiling and types", "requires": ["g04", "g08"], "location": "hopper_lab", "slot": "night", "language": "cpp"},
+    {"id": "cpp_ch2", "chapter": 2, "title": "Pointers and references", "requires": ["g16"], "location": "hopper_lab", "slot": "any", "language": "cpp"},
+    {"id": "cpp_ch3", "chapter": 3, "title": "Memory management", "requires": ["g24"], "location": "hopper_lab", "slot": "night", "language": "cpp"},
+    {"id": "cpp_ch4", "chapter": 4, "title": "RAII and smart pointers", "requires": ["g20"], "location": "game_dev_club_room", "slot": "any", "language": "cpp"},
+    {"id": "cpp_ch5", "chapter": 5, "title": "Classes and the STL", "requires": ["g25"], "location": "hopper_lab", "slot": "any", "language": "cpp"},
+    {"id": "cpp_ch6", "chapter": 6, "title": "Templates", "requires": ["g32", "g33"], "location": "hopper_lab", "slot": "night", "language": "cpp", "final": true}
+  ]
+}

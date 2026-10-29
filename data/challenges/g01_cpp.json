@@ -1,0 +1,17 @@
+{
+  "id": "g01_cpp",
+  "language": "cpp",
+  "title": "Fix the #include",
+  "prompt": "Ciel glares at your screen. Your Hello World doesn't even compile.\n\nstd::cout prints to the console, but it lives in a header file you have to include first. Fix the program so it prints exactly:\n\nHello, world!",
+  "hints": [
+    "Read the compiler error. It's telling you std::cout hasn't been declared, because its header isn't included.",
+    "Add this as the very first line: #include <iostream>"
+  ],
+  "starter_code": "int main() {\n    std::cout << \"Hello, world!\" << std::endl;\n    return 0;\n}\n",
+  "tests": [
+    {
+      "stdin": "",
+      "expected_stdout": "Hello, world!"
+    }
+  ]
+}

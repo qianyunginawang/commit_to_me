@@ -8,17 +8,45 @@ extends Node
 ##   data/challenges/*.json  - coding exercises used during dates
 ##   data/languages.json     - how to compile/run each programming language
 ##
+## Lessons (see agentcontext/DatesAndRoutes.md and Balance.md):
+##   data/curriculum.json    - the 33 generic subjects, in unlock order
+##   data/lessons/*.json     - the written versions of a generic subject, one
+##                             per language, e.g. data/lessons/g01.json
+##   data/routes/*.json      - each character's special chapters, in order
+##   data/locations.json     - campus locations lessons can happen at
+##
+## A lesson is a dialogue (a file in data/dates/) with one challenge node in
+## it. Generic subjects and special chapters can be listed before their
+## dialogue is written: a subject with no versions yet, or a chapter with no
+## "dialogue", is just not playable yet.
+##
 ## Available everywhere as the `GameData` autoload.
 
 const CHARACTERS_DIR := "res://data/characters"
 const DATES_DIR := "res://data/dates"
 const CHALLENGES_DIR := "res://data/challenges"
 const LANGUAGES_PATH := "res://data/languages.json"
+const CURRICULUM_PATH := "res://data/curriculum.json"
+const LESSONS_DIR := "res://data/lessons"
+const ROUTES_DIR := "res://data/routes"
+const LOCATIONS_PATH := "res://data/locations.json"
+
+## Time slots a lesson can happen in. "dusk" is Jay's in-between time and
+## counts as both day and night.
+const SLOTS := ["any", "day", "night", "dusk"]
 
 var characters: Dictionary = {}
 var dates: Dictionary = {}
 var challenges: Dictionary = {}
 var languages: Dictionary = {}
+## Generic subjects in curriculum order: {id, number, title, unit, location}.
+var curriculum: Array = []
+## Generic subject id -> {"id": ..., "versions": {language id: {"dialogue": ...}}}.
+var lessons: Dictionary = {}
+## Character id -> {"character": ..., "chapters": [{id, chapter, title, ...}]}.
+var routes: Dictionary = {}
+## Location id -> {name, area}.
+var locations: Dictionary = {}
 
 var _warm_up_started := false
 
@@ -33,6 +61,12 @@ func load_all() -> void:
 	challenges = load_dir(CHALLENGES_DIR)
 	var langs = load_json(LANGUAGES_PATH)
 	languages = langs if langs is Dictionary else {}
+	var curr = load_json(CURRICULUM_PATH)
+	curriculum = curr.get("subjects", []) if curr is Dictionary else []
+	lessons = load_dir(LESSONS_DIR)
+	routes = load_dir(ROUTES_DIR)
+	var locs = load_json(LOCATIONS_PATH)
+	locations = locs if locs is Dictionary else {}
 	for problem in validate():
 		push_warning("[GameData] " + problem)
 
@@ -55,6 +89,85 @@ func get_date(id: String) -> Dictionary:
 
 func get_challenge(id: String) -> Dictionary:
 	return challenges.get(id, {})
+
+
+## The challenge's hints, in order. Every challenge has two.
+static func get_hints(challenge: Dictionary) -> Array:
+	return challenge.get("hints", [])
+
+
+## A generic subject from the curriculum by id ("g01"), or {} if unknown.
+func get_subject(subject_id: String) -> Dictionary:
+	for subject in curriculum:
+		if subject.get("id") == subject_id:
+			return subject
+	return {}
+
+
+## The character whose lessons use this language, or "" if none.
+## (Jay's lessons use both "typescript" and "javascript".)
+func character_for_language(language_id: String) -> String:
+	for id in characters:
+		if characters[id].get("lesson_languages", {}).has(language_id):
+			return id
+	return ""
+
+
+## One written version of a generic subject, filled in with everything the
+## game needs to offer it:
+##   {subject, language, character, slot, dialogue, challenge, location}
+## Returns {} if that version hasn't been written yet.
+func get_generic_lesson(subject_id: String, language_id: String) -> Dictionary:
+	var version: Dictionary = lessons.get(subject_id, {}).get("versions", {}).get(language_id, {})
+	if version.is_empty():
+		return {}
+	var character_id := character_for_language(language_id)
+	var dialogue_id: String = version.get("dialogue", "")
+	return {
+		"subject": subject_id,
+		"language": language_id,
+		"character": character_id,
+		"slot": get_character(character_id).get("lesson_languages", {}).get(language_id, "any"),
+		"dialogue": dialogue_id,
+		"challenge": dialogue_challenge(dialogue_id),
+		"location": get_subject(subject_id).get("location", ""),
+	}
+
+
+## Every written version of a generic subject that a character can teach.
+## Usually one; two for Jay (TypeScript by day, JavaScript by night).
+func generic_lessons_for(subject_id: String, character_id: String) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for language_id in get_character(character_id).get("lesson_languages", {}):
+		var lesson := get_generic_lesson(subject_id, language_id)
+		if not lesson.is_empty():
+			out.append(lesson)
+	return out
+
+
+## A character's special chapters, in order.
+func special_chapters(character_id: String) -> Array:
+	return routes.get(character_id, {}).get("chapters", [])
+
+
+## A special chapter by id ("python_ch1"), with "character" filled in, or {}.
+func get_special_chapter(chapter_id: String) -> Dictionary:
+	for character_id in routes:
+		for chapter in special_chapters(character_id):
+			if chapter.get("id") == chapter_id:
+				var out: Dictionary = chapter.duplicate()
+				out["character"] = character_id
+				out["challenge"] = dialogue_challenge(chapter.get("dialogue", ""))
+				return out
+	return {}
+
+
+## The id of the first challenge node in a dialogue, or "" if it has none.
+func dialogue_challenge(dialogue_id: String) -> String:
+	for node in get_date(dialogue_id).get("nodes", {}).values():
+		if node.has("challenge"):
+			return node["challenge"]
+	return ""
 
 
 ## Makes a code runner for a language id from languages.json ("python", "cpp", ...).
@@ -114,6 +227,96 @@ func validate() -> PackedStringArray:
 		var lang: String = challenges[id].get("language", "")
 		if not languages.has(lang):
 			problems.append("Challenge '%s' uses unknown language '%s'" % [id, lang])
+		var hints = challenges[id].get("hints")
+		if not (hints is Array and hints.size() == 2 and hints.all(func(h): return h is String and not h.strip_edges().is_empty())):
+			problems.append("Challenge '%s' needs exactly 2 hints" % id)
+	problems.append_array(_validate_lessons())
+	return problems
+
+
+func _validate_lessons() -> PackedStringArray:
+	var problems: PackedStringArray = []
+	var subject_ids := {}
+	for i in curriculum.size():
+		var subject: Dictionary = curriculum[i]
+		var id: String = subject.get("id", "")
+		if subject_ids.has(id):
+			problems.append("Curriculum lists subject '%s' twice" % id)
+		subject_ids[id] = true
+		if int(subject.get("number", 0)) != i + 1:
+			problems.append("Curriculum subject '%s' should be number %d" % [id, i + 1])
+		if not locations.has(subject.get("location", "")):
+			problems.append("Subject '%s' has unknown location '%s'" % [id, subject.get("location", "")])
+
+	for id in characters:
+		var lesson_languages = characters[id].get("lesson_languages")
+		if not (lesson_languages is Dictionary and not lesson_languages.is_empty()):
+			problems.append("Character '%s' has no lesson_languages" % id)
+			continue
+		for lang in lesson_languages:
+			if not languages.has(lang):
+				problems.append("Character '%s' teaches unknown language '%s'" % [id, lang])
+			if not lesson_languages[lang] in SLOTS:
+				problems.append("Character '%s' has unknown slot '%s' for %s" % [id, lesson_languages[lang], lang])
+
+	for subject_id in lessons:
+		if not subject_ids.has(subject_id):
+			problems.append("Lesson file '%s' isn't a subject in the curriculum" % subject_id)
+		for lang in lessons[subject_id].get("versions", {}):
+			var where := "Lesson '%s' (%s)" % [subject_id, lang]
+			var character_id := character_for_language(lang)
+			if character_id == "":
+				problems.append("%s: no character teaches %s" % [where, lang])
+				continue
+			var dialogue_id: String = lessons[subject_id]["versions"][lang].get("dialogue", "")
+			problems.append_array(_validate_lesson_dialogue(where, dialogue_id, character_id, lang))
+
+	for character_id in routes:
+		if not characters.has(character_id):
+			problems.append("Route file '%s' isn't a character" % character_id)
+			continue
+		var chapters := special_chapters(character_id)
+		if chapters.is_empty():
+			problems.append("Route '%s' has no chapters" % character_id)
+		for i in chapters.size():
+			var chapter: Dictionary = chapters[i]
+			var where := "Chapter '%s'" % chapter.get("id", "?")
+			if int(chapter.get("chapter", 0)) != i + 1:
+				problems.append("%s should be chapter %d" % [where, i + 1])
+			if chapter.get("final", false) != (i == chapters.size() - 1):
+				problems.append("%s: only the last chapter of a route is the final" % where)
+			for req in chapter.get("requires", []):
+				if not subject_ids.has(req):
+					problems.append("%s requires unknown subject '%s'" % [where, req])
+			if not locations.has(chapter.get("location", "")):
+				problems.append("%s has unknown location '%s'" % [where, chapter.get("location", "")])
+			if not chapter.get("slot", "") in SLOTS:
+				problems.append("%s has unknown slot '%s'" % [where, chapter.get("slot", "")])
+			var lang: String = chapter.get("language", "")
+			if not get_character(character_id).get("lesson_languages", {}).has(lang):
+				problems.append("%s uses %s, which %s doesn't teach" % [where, lang, character_id])
+			if chapter.has("dialogue"):
+				problems.append_array(_validate_lesson_dialogue(where, chapter["dialogue"], character_id, lang))
+	for character_id in characters:
+		if not routes.has(character_id):
+			problems.append("Character '%s' has no route file in %s" % [character_id, ROUTES_DIR])
+	return problems
+
+
+## A lesson's dialogue must exist, belong to the right character, and have
+## a challenge in the lesson's language.
+func _validate_lesson_dialogue(where: String, dialogue_id: String, character_id: String, language_id: String) -> PackedStringArray:
+	var problems: PackedStringArray = []
+	if not dates.has(dialogue_id):
+		problems.append("%s uses unknown dialogue '%s'" % [where, dialogue_id])
+		return problems
+	if dates[dialogue_id].get("character", "") != character_id:
+		problems.append("%s: dialogue '%s' belongs to '%s', not '%s'" % [where, dialogue_id, dates[dialogue_id].get("character", ""), character_id])
+	var challenge_id := dialogue_challenge(dialogue_id)
+	if challenge_id == "":
+		problems.append("%s: dialogue '%s' has no challenge" % [where, dialogue_id])
+	elif get_challenge(challenge_id).get("language", "") != language_id:
+		problems.append("%s: challenge '%s' isn't in %s" % [where, challenge_id, language_id])
 	return problems
 
 

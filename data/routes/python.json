@@ -1,0 +1,11 @@
+{
+  "character": "python",
+  "chapters": [
+    {"id": "python_ch1", "chapter": 1, "title": "The Zen of Python", "requires": ["g02", "g03"], "location": "tutoring_center", "slot": "any", "language": "python", "dialogue": "python_ch1"},
+    {"id": "python_ch2", "chapter": 2, "title": "Slicing and unpacking", "requires": ["g05", "g16"], "location": "cafe_cache", "slot": "any", "language": "python"},
+    {"id": "python_ch3", "chapter": 3, "title": "Comprehensions", "requires": ["g12", "g17"], "location": "picnic_lawn", "slot": "any", "language": "python"},
+    {"id": "python_ch4", "chapter": 4, "title": "Duck typing", "requires": ["g14", "g20"], "location": "duck_pond", "slot": "any", "language": "python"},
+    {"id": "python_ch5", "chapter": 5, "title": "Context managers", "requires": ["g22", "g23"], "location": "greenhouse", "slot": "any", "language": "python"},
+    {"id": "python_ch6", "chapter": 6, "title": "Generators and decorators", "requires": ["g29"], "location": "campus_garden", "slot": "any", "language": "python", "final": true}
+  ]
+}

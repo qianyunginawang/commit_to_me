@@ -3,7 +3,10 @@
   "language": "python",
   "title": "Say hi with an f-string",
   "prompt": "Monty wants to hear you say hello properly.\n\nThe starter code reads a name with input(). Print a greeting using an f-string so the output looks exactly like:\n\nHi Monty, I'm <name>!\n\nFor example, if the name is Gee, print: Hi Monty, I'm Gee!",
-  "hint": "An f-string starts with f before the quotes, and you put variables in curly braces: f\"Hello {name}\"",
+  "hints": [
+    "An f-string starts with f before the quotes, and you put variables in curly braces: f\"Hello {name}\"",
+    "Write print(f\"Hi Monty, I'm {name}!\") under the first line."
+  ],
   "starter_code": "name = input()\n\n# TODO: print the greeting using an f-string\n",
   "tests": [
     {

@@ -1,0 +1,56 @@
+{
+  "id": "g01_typescript",
+  "character": "javascript",
+  "title": "Printing to the console",
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "speaker": "narrator",
+      "text": "Turing Hall, TA office hours. Everything on the desk is color-coded. The TA doesn't look up.",
+      "next": "hello"
+    },
+    "hello": {
+      "speaker": "javascript",
+      "text": "Good afternoon. I'm Jay, the TA for Intro to Programming. I've declared a variable for you. Its type is string.",
+      "next": "teach",
+      "mood": "polite"
+    },
+    "teach": {
+      "speaker": "javascript",
+      "text": "Your task is to print it. Exactly. Please don't add anything I didn't ask for.",
+      "next": "challenge",
+      "mood": "stern"
+    },
+    "challenge": {
+      "challenge": "g01_typescript",
+      "on_pass": "passed",
+      "on_fail": "failed"
+    },
+    "passed": {
+      "speaker": "javascript",
+      "text": "Correct, and on the first pass. ...That was well done, {player}.",
+      "next": "end",
+      "mood": "blush"
+    },
+    "failed": {
+      "speaker": "javascript",
+      "text": "That output doesn't match the specification. Again, please.",
+      "choices": [
+        {
+          "text": "Okay, again.",
+          "next": "challenge"
+        },
+        {
+          "text": "I'll come back later.",
+          "next": "bye"
+        }
+      ]
+    },
+    "bye": {
+      "speaker": "javascript",
+      "text": "Office hours end at five. Sharp.",
+      "next": "end",
+      "mood": "polite"
+    }
+  }
+}

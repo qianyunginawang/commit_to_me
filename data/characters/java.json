@@ -4,6 +4,7 @@
   "name": "Julian",
   "language": "Java",
   "languages": ["java"],
+  "lesson_languages": {"java": "any"},
   "tagline": "Formal, dependable, and very into classes.",
   "bio": "Julian Duke, student council president, wears a blazer to the coffee shop and has a design pattern for everything. Verbose? Maybe. But Julian will never let a type error slip through.",
   "color": "#E76F00",

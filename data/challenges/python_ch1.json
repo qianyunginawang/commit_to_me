@@ -1,0 +1,17 @@
+{
+  "id": "python_ch1",
+  "language": "python",
+  "title": "One variable, two types",
+  "prompt": "Monty types import this and reads the Zen of Python out loud. Then Monty shows you that a Python variable can hold any type.\n\nMake the program print exactly:\n\nint\nstr\n\nThe first print is already there. Give thing a new value that's a string, then print its type the same way.",
+  "hints": [
+    "type(thing).__name__ gives the name of thing's type. Python lets you reassign thing to a string, like thing = \"forty-two\".",
+    "After the first print, add: thing = \"forty-two\" and then print(type(thing).__name__)"
+  ],
+  "starter_code": "thing = 42\nprint(type(thing).__name__)\n\n# TODO: make thing a string, then print its type again\n",
+  "tests": [
+    {
+      "stdin": "",
+      "expected_stdout": "int\nstr"
+    }
+  ]
+}

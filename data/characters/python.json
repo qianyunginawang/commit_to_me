@@ -4,6 +4,7 @@
   "name": "Monty",
   "language": "Python",
   "languages": ["python"],
+  "lesson_languages": {"python": "any"},
   "tagline": "Gentle, readable, and always happy to help.",
   "bio": "Monty Pyne is the warm senior who makes everyone feel welcome. Monty keeps things simple, hates unnecessary curly braces, and gets genuinely upset about messy indentation.",
   "color": "#3776AB",

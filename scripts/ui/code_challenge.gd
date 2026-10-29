@@ -42,9 +42,10 @@ func _ready() -> void:
 	title_label.text = challenge.get("title", "Coding challenge")
 	language_label.text = language.get("display_name", language_id)
 	prompt_label.text = challenge.get("prompt", "")
-	hint_label.text = challenge.get("hint", "")
+	var hints := GameData.get_hints(challenge)
+	hint_label.text = "\n\n".join(PackedStringArray(hints))
 	hint_label.visible = false
-	hint_button.visible = challenge.has("hint")
+	hint_button.visible = not hints.is_empty()
 	editor.text = challenge.get("starter_code", "")
 	editor.syntax_highlighter = _make_highlighter(language)
 	continue_button.visible = false

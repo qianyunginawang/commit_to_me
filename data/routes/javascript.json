@@ -1,0 +1,12 @@
+{
+  "character": "javascript",
+  "chapters": [
+    {"id": "javascript_ch1", "chapter": 1, "title": "Variables", "requires": ["g03"], "location": "hackathon_hall", "slot": "night", "language": "javascript"},
+    {"id": "javascript_ch2", "chapter": 2, "title": "Type annotations", "requires": ["g04", "g05", "g06"], "location": "ta_office", "slot": "day", "language": "typescript"},
+    {"id": "javascript_ch3", "chapter": 3, "title": "Equality and coercion", "requires": ["g06", "g09"], "location": "fall_carnival", "slot": "night", "language": "javascript"},
+    {"id": "javascript_ch4", "chapter": 4, "title": "Interfaces", "requires": ["g14", "g20"], "location": "ta_office", "slot": "day", "language": "typescript"},
+    {"id": "javascript_ch5", "chapter": 5, "title": "Closures and the DOM", "requires": ["g15"], "location": "hackathon_hall", "slot": "night", "language": "javascript"},
+    {"id": "javascript_ch6", "chapter": 6, "title": "Async and promises", "requires": ["g22", "g23"], "location": "union_rooftop", "slot": "dusk", "language": "typescript"},
+    {"id": "javascript_ch7", "chapter": 7, "title": "Convert the festival site to TypeScript", "requires": ["g27"], "location": "lovelace_library", "slot": "dusk", "language": "typescript", "final": true}
+  ]
+}

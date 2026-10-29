@@ -1,0 +1,17 @@
+{
+  "id": "g01_javascript",
+  "language": "javascript",
+  "title": "Log it!",
+  "prompt": "Night Jay is holding a slice of pizza in each hand and wants you to type.\n\nIn JavaScript, console.log() prints to the console. Make the program print exactly:\n\nHello, hackathon!",
+  "hints": [
+    "console.log(...) prints whatever you put between the parentheses. Text goes in quotes.",
+    "Type this: console.log(\"Hello, hackathon!\");"
+  ],
+  "starter_code": "// Just log it! Don't overthink it!\n",
+  "tests": [
+    {
+      "stdin": "",
+      "expected_stdout": "Hello, hackathon!"
+    }
+  ]
+}

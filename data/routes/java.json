@@ -1,0 +1,11 @@
+{
+  "character": "java",
+  "chapters": [
+    {"id": "java_ch1", "chapter": 1, "title": "The JVM", "requires": ["g03", "g04"], "location": "council_room", "slot": "any", "language": "java"},
+    {"id": "java_ch2", "chapter": 2, "title": "== vs .equals()", "requires": ["g05", "g06"], "location": "council_room", "slot": "any", "language": "java"},
+    {"id": "java_ch3", "chapter": 3, "title": "Primitives and wrappers", "requires": ["g16"], "location": "cafe_cache", "slot": "any", "language": "java"},
+    {"id": "java_ch4", "chapter": 4, "title": "Null and Optional", "requires": ["g20", "g21"], "location": "university_archive", "slot": "any", "language": "java"},
+    {"id": "java_ch5", "chapter": 5, "title": "Checked exceptions", "requires": ["g22"], "location": "council_room", "slot": "any", "language": "java"},
+    {"id": "java_ch6", "chapter": 6, "title": "Generics and streams", "requires": ["g17", "g32"], "location": "oracle_great_hall", "slot": "any", "language": "java", "final": true}
+  ]
+}
