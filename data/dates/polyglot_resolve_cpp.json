@@ -1,0 +1,28 @@
+{
+  "id": "polyglot_resolve_cpp",
+  "character": "",
+  "title": "Resolving Ciel's conflict",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "Hopper Lab, late. Ciel doesn't look up.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "cpp",
+      "text": "Go ahead. Call me dangerous like everyone else does.",
+      "next": "l2"
+    },
+    "l2": {
+      "speaker": "player",
+      "text": "You're not dangerous. You're the reason the engine is fast enough to run at all.",
+      "next": "l3"
+    },
+    "l3": {
+      "speaker": "cpp",
+      "text": "...Fine. I'll share. Don't get used to it.",
+      "next": "end"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "polyglot_resolve_python",
+  "character": "",
+  "title": "Resolving Monty's conflict",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "The greenhouse. Monty is repotting the same plant for the third time.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "python",
+      "text": "I'm scared that if I keep up with everyone else, I'll leave someone behind again. Or get left behind.",
+      "next": "l2"
+    },
+    "l2": {
+      "speaker": "player",
+      "text": "Nobody's getting left behind. Not this time.",
+      "next": "l3"
+    },
+    "l3": {
+      "speaker": "python",
+      "text": "...Okay. Let's merge my part.",
+      "next": "end"
+    }
+  }
+}

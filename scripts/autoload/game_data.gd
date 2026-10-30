@@ -221,7 +221,7 @@ func validate() -> PackedStringArray:
 				problems.append("Character '%s' lists unknown date '%s'" % [id, date_id])
 	for id in dates:
 		var date: Dictionary = dates[id]
-		if not characters.has(date.get("character", "")):
+		if date.get("character", "") != "" and not characters.has(date.get("character", "")):
 			problems.append("Date '%s' has unknown character '%s'" % [id, date.get("character", "")])
 		var nodes: Dictionary = date.get("nodes", {})
 		if not nodes.has(date.get("start", "start")):
@@ -234,6 +234,8 @@ func validate() -> PackedStringArray:
 					targets.append(node[key])
 			for choice in node.get("choices", []):
 				targets.append(choice.get("next", "end"))
+				if choice.has("set_flag") and not choice["set_flag"] in Story.FLAGS:
+					problems.append("Date '%s' node '%s' sets unknown flag '%s'" % [id, node_id, choice["set_flag"]])
 			for t in targets:
 				if t != "end" and not nodes.has(t):
 					problems.append("Date '%s' node '%s' points to missing node '%s'" % [id, node_id, t])
@@ -256,15 +258,17 @@ func validate() -> PackedStringArray:
 
 func _validate_endings() -> PackedStringArray:
 	var problems: PackedStringArray = []
-	for character_id in characters:
+	for character_id in characters.keys() + ["polyglot"]:
 		var needed := ["good", "normal_day", "normal_night", "bad"] if character_id == "javascript" else ["good", "normal", "bad"]
+		if character_id == "polyglot":
+			needed = ["good", "bad"]
 		var kinds := []
 		for ending in endings.get(character_id, {}).get("endings", []):
 			kinds.append(ending.get("kind", ""))
 			var dialogue_id: String = ending.get("dialogue", "")
 			if not dates.has(dialogue_id):
 				problems.append("Ending '%s' uses unknown dialogue '%s'" % [ending.get("id", "?"), dialogue_id])
-			elif dates[dialogue_id].get("character", "") != character_id:
+			elif dates[dialogue_id].get("character", "") != (character_id if character_id != "polyglot" else ""):
 				problems.append("Ending '%s': dialogue '%s' belongs to someone else" % [ending.get("id", "?"), dialogue_id])
 		for kind in needed:
 			if not kinds.has(kind):
@@ -307,6 +311,13 @@ func _validate_calendar() -> PackedStringArray:
 		for c in event.get("characters", []):
 			if not characters.has(c):
 				problems.append("%s has unknown character '%s'" % [where, c])
+		if not event.get("requires", "") in Story.CONDITIONS:
+			problems.append("%s requires unknown condition '%s'" % [where, event.get("requires", "")])
+		for scene in event.get("scenes", []):
+			if not scene.get("if", "") in Story.CONDITIONS:
+				problems.append("%s has a scene with unknown condition '%s'" % [where, scene.get("if", "")])
+			if not dates.has(scene.get("dialogue", "")):
+				problems.append("%s uses unknown dialogue '%s'" % [where, scene.get("dialogue", "")])
 	return problems
 
 

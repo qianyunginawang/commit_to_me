@@ -1,0 +1,28 @@
+{
+  "id": "polyglot_ending_bad",
+  "character": "",
+  "title": "The merge conflict ending",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "The end-of-term festival. One by one, all four of them walk away.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "narrator",
+      "text": "You end up on the bench by the fountain, alone with a rubber duck.",
+      "next": "l2"
+    },
+    "l2": {
+      "speaker": "quack",
+      "text": "So. You and me, then.",
+      "next": "l3"
+    },
+    "l3": {
+      "speaker": "narrator",
+      "text": "Unlocked: the rubber duck ending.",
+      "next": "end"
+    }
+  }
+}

@@ -66,9 +66,12 @@ static func who_is_where(state: Node = null, data: Node = null) -> Dictionary:
 			continue
 		var loc: String = event.get("location", "")
 		if not places.has(loc):
-			places[loc] = {"characters": [], "events": []}
+			places[loc] = {"characters": [], "events": [], "scenes": []}
 		places[loc]["events"].append(event.get("name", ""))
 		places[loc]["characters"].append_array(who)
+		var scene := Story.scene_for(event, state, data)
+		if scene != "":
+			places[loc]["scenes"].append({"event": event, "dialogue": scene})
 	return places
 
 
@@ -127,10 +130,17 @@ func _show_location(loc: String, places: Dictionary) -> void:
 		return
 	var info: Dictionary = GameData.locations.get(loc, {})
 	place_name.text = info.get("name", loc)
-	var place: Dictionary = places.get(loc, {"characters": [], "events": []})
+	var place: Dictionary = places.get(loc, {"characters": [], "events": [], "scenes": []})
 	place_events.text = ", ".join(PackedStringArray(place["events"]))
-	if place["characters"].is_empty():
+	if place["characters"].is_empty() and place["scenes"].is_empty():
 		place_events.text += "\nNobody to meet here right now."
+	for scene in place["scenes"]:
+		var button := Button.new()
+		button.name = scene["dialogue"]
+		button.text = "Watch: " + scene["event"].get("name", "")
+		button.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+		button.pressed.connect(_on_date_requested.bind("", scene["dialogue"], scene["event"]["id"]))
+		place_cards.add_child(button)
 	var crowded: bool = place["characters"].size() > 2
 	for id in place["characters"]:
 		var card := CharacterCardScene.instantiate()

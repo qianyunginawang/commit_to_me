@@ -13,6 +13,7 @@ extends RefCounted
 ##                 at an event right now.
 ##   takes_no_time (optional) - doing lessons here doesn't move time forward
 ##                 (the orientation-day campus tour, where you meet all four).
+##   requires, scenes (optional) - story conditions and scenes (see Story).
 ##
 ## Functions take an optional state and data so tests can pass their own.
 
@@ -66,7 +67,8 @@ static func events_now(state: Node = null, data: Node = null) -> Array[Dictionar
 		return out
 	for kind in ["story", "recurring", "info"]:
 		for event in _data(data).calendar.get("events", []):
-			if event.get("kind", "") == kind and is_event_on(event, state.week, state.day, state.slot):
+			if event.get("kind", "") == kind and is_event_on(event, state.week, state.day, state.slot) \
+					and Story.check(event.get("requires", ""), state, data):
 				out.append(event)
 	return out
 

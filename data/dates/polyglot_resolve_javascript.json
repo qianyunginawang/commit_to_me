@@ -1,0 +1,28 @@
+{
+  "id": "polyglot_resolve_javascript",
+  "character": "",
+  "title": "Resolving Jay's conflict",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "The student union rooftop, at dusk. Jay is half in glasses, half in the hoodie.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "javascript",
+      "text": "Everyone only ever likes half of me. Which half do you want on the team?",
+      "next": "l2"
+    },
+    "l2": {
+      "speaker": "player",
+      "text": "Both. I want both of you.",
+      "next": "l3"
+    },
+    "l3": {
+      "speaker": "javascript",
+      "text": "...Okay. Then I'll push both.",
+      "next": "end"
+    }
+  }
+}

@@ -24,6 +24,7 @@ extends RefCounted
 ##   line      - has "text". Optional "speaker" (character id, "player", or
 ##               "narrator"), "mood", and either "next" or "choices".
 ##   challenge - has "challenge" (a challenge id) plus "on_pass" / "on_fail".
+## A choice can have "set_flag" to set a story flag (see Story).
 ## A "next" of "end" (or missing) ends the date.
 ##
 ## Dialogue never changes affection. Affection comes from passing the
@@ -35,6 +36,8 @@ signal line_started(line: Dictionary)
 ## The game should open the code challenge with this id, then call
 ## complete_challenge() with the result.
 signal challenge_requested(challenge_id: String)
+## A choice set a story flag (see Story).
+signal flag_set(flag: String)
 ## The date is over.
 signal finished
 
@@ -78,6 +81,8 @@ func choose(index: int) -> void:
 		push_error("Choice %d doesn't exist on node '%s'" % [index, current_id])
 		return
 	var choice: Dictionary = choices[index]
+	if choice.get("set_flag", "") != "":
+		flag_set.emit(choice["set_flag"])
 	_go(choice.get("next", END))
 
 

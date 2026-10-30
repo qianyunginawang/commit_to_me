@@ -35,8 +35,15 @@ func _ready() -> void:
 		return
 
 	character = GameData.get_character(date.get("character", ""))
-	title_label.text = "%s with %s" % [date.get("title", "A date"), character.get("name", "?")]
-	portrait.show_character(character)
+	if character.is_empty():
+		# A story scene (Quack, or the whole cast): no one date to show.
+		title_label.text = date.get("title", "")
+		portrait.visible = false
+		affection_bar.visible = false
+		affection_label.visible = false
+	else:
+		title_label.text = "%s with %s" % [date.get("title", "A date"), character.get("name", "?")]
+		portrait.show_character(character)
 	heart_popup.modulate.a = 0.0
 	leave_button.pressed.connect(_leave)
 	GameState.affection_changed.connect(_on_affection_changed)
@@ -45,6 +52,7 @@ func _ready() -> void:
 	player = DialoguePlayer.new(date, GameState.player_name)
 	player.line_started.connect(_show_line)
 	player.challenge_requested.connect(_open_challenge)
+	player.flag_set.connect(GameState.set_flag)
 	player.finished.connect(_on_finished)
 	player.start()
 
@@ -130,6 +138,8 @@ func _speaker_name(speaker: String) -> String:
 			return ""
 		"player":
 			return GameState.player_name
+		"quack":
+			return "Quack"
 		_:
 			return GameData.get_character(speaker).get("name", speaker)
 
@@ -170,6 +180,9 @@ func _update_affection() -> void:
 
 
 func _on_finished() -> void:
+	# Scenes without a challenge (story scenes, endings) are done once watched.
+	if GameData.dialogue_challenge(_date_id) == "":
+		GameState.mark_date_complete(_date_id)
 	_leave()
 
 

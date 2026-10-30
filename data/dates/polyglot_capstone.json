@@ -1,0 +1,28 @@
+{
+  "id": "polyglot_capstone",
+  "character": "",
+  "title": "The capstone project",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "The capstone team room. The professor reads out the team list, and somehow all four of them are on yours.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "narrator",
+      "text": "The assignment: build an app together. Monty takes the AI, Julian the server, Ciel the engine, and Jay the front end.",
+      "next": "l2"
+    },
+    "l2": {
+      "speaker": "javascript",
+      "text": "Wait. We're building... a dating sim? That's so meta. I love it.",
+      "next": "l3"
+    },
+    "l3": {
+      "speaker": "quack",
+      "text": "I have a bad feeling about the merge.",
+      "next": "end"
+    }
+  }
+}

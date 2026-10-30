@@ -1,0 +1,23 @@
+{
+  "id": "quack_check_in",
+  "character": "",
+  "title": "Quack's check-in",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "Sunday night in your dorm room. Quack is sitting on your pillow like it owns the place.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "quack",
+      "text": "Four weeks in, {player}! Let's see how everyone's doing. I've been keeping notes. Ducks are very observant.",
+      "next": "l2"
+    },
+    "l2": {
+      "speaker": "quack",
+      "text": "Keep showing up for lessons, and they'll keep showing up for you. Goodnight!",
+      "next": "end"
+    }
+  }
+}

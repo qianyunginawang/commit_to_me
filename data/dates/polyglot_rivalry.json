@@ -1,0 +1,38 @@
+{
+  "id": "polyglot_rivalry",
+  "character": "",
+  "title": "The rivalry",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "The main quad. All four of them are here, and all four of them have noticed each other.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "java",
+      "text": "I couldn't help but notice you've been spending time with... others. I've drafted a schedule. For fairness.",
+      "next": "l2"
+    },
+    "l2": {
+      "speaker": "cpp",
+      "text": "A schedule? Ridiculous. She'll allocate her time where it performs best. Obviously that's me.",
+      "next": "l3"
+    },
+    "l3": {
+      "speaker": "python",
+      "text": "Can we not do this here? ...Although I did save her a seat in the greenhouse.",
+      "next": "l4"
+    },
+    "l4": {
+      "speaker": "javascript",
+      "text": "Day me says this is highly irregular. Night me says this is the BEST drama on campus.",
+      "next": "l5"
+    },
+    "l5": {
+      "speaker": "quack",
+      "text": "Oh no. They're competing. This is going to be a long semester.",
+      "next": "end"
+    }
+  }
+}

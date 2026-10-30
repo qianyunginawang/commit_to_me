@@ -14,6 +14,8 @@ func _ready() -> void:
 	menu_button.pressed.connect(func(): Router.goto(Router.MAIN_MENU))
 	if GameState.ending_id != "":
 		_show_result(Endings.find(GameState.ending_id))
+	elif GameState.has_flag("polyglot"):
+		_show_polyglot()
 	else:
 		_show_route(Endings.route_characters())
 
@@ -38,8 +40,21 @@ func _show_route(top: Array[String]) -> void:
 		choices.add_child(button)
 
 
+func _show_polyglot() -> void:
+	title_label.text = "The semester is over"
+	subtitle_label.text = "You chose all four. Time to find out if it compiles."
+	var button := Button.new()
+	button.name = "polyglot"
+	button.text = "Spend the end of the semester with everyone"
+	button.pressed.connect(_play.bind(Endings.polyglot_ending()))
+	choices.add_child(button)
+
+
 func _on_chosen(character_id: String) -> void:
-	var ending := Endings.ending_for(character_id)
+	_play(Endings.ending_for(character_id))
+
+
+func _play(ending: Dictionary) -> void:
 	GameState.ending_id = ending.get("id", "")
 	GameState.save_game()
 	Profile.record_ending(GameState.ending_id)

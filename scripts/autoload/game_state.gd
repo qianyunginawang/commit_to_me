@@ -41,6 +41,8 @@ var day: int = 0
 var slot: String = "day"
 ## The ending the player chose at the end of the semester ("" until then).
 var ending_id: String = ""
+## Story flags set by dialogue choices (see Story), e.g. {"polyglot": true}.
+var flags: Dictionary = {}
 
 
 func new_game(p_player_name: String) -> void:
@@ -51,6 +53,7 @@ func new_game(p_player_name: String) -> void:
 	day = 0
 	slot = "day"
 	ending_id = ""
+	flags.clear()
 
 
 ## Moves to the next slot: day -> night, night -> the next day.
@@ -65,6 +68,14 @@ func advance_time() -> void:
 	if day > 6:
 		day = 0
 		week += 1
+
+
+func set_flag(flag: String) -> void:
+	flags[flag] = true
+
+
+func has_flag(flag: String) -> bool:
+	return flags.get(flag, false)
 
 
 func is_semester_over() -> bool:
@@ -140,6 +151,7 @@ func to_dict() -> Dictionary:
 		"completed_dates": completed_dates,
 		"time": {"week": week, "day": day, "slot": slot},
 		"ending": ending_id,
+		"flags": flags,
 	}
 
 
@@ -155,6 +167,7 @@ func from_dict(data: Dictionary) -> void:
 	day = int(time.get("day", 0))
 	slot = time.get("slot", "day")
 	ending_id = data.get("ending", "")
+	flags = data.get("flags", {}).duplicate()
 
 
 func has_save() -> bool:

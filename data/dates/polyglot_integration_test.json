@@ -1,0 +1,23 @@
+{
+  "id": "polyglot_integration_test",
+  "character": "",
+  "title": "The integration test",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "The capstone team room. The integration test is about to run: one part in every language.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "narrator",
+      "text": "(The integration test challenge isn't written yet. For now, it passes if every route's final chapter is done.)",
+      "next": "l2"
+    },
+    "l2": {
+      "speaker": "quack",
+      "text": "Everyone's code, all at once. Fingers crossed. Well. Feathers crossed.",
+      "next": "end"
+    }
+  }
+}

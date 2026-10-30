@@ -1,0 +1,21 @@
+{
+  "character": "polyglot",
+  "endings": [
+    {
+      "id": "polyglot_ending_good",
+      "character": "polyglot",
+      "kind": "good",
+      "title": "The Polyglot ending",
+      "summary": "\"I commit to all of you.\"",
+      "dialogue": "polyglot_ending_good"
+    },
+    {
+      "id": "polyglot_ending_bad",
+      "character": "polyglot",
+      "kind": "bad",
+      "title": "The merge conflict ending",
+      "summary": "Everyone walks away, and it's just you and Quack.",
+      "dialogue": "polyglot_ending_bad"
+    }
+  ]
+}

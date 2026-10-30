@@ -1,0 +1,48 @@
+{
+  "id": "polyglot_merge_conflict",
+  "character": "",
+  "title": "The merge conflict",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "The night before the demo, all four push their code at the same time.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "narrator",
+      "text": "CONFLICT (content): Merge conflict in main.",
+      "next": "l2"
+    },
+    "l2": {
+      "speaker": "cpp",
+      "text": "Obviously the engine should be main.",
+      "next": "l3"
+    },
+    "l3": {
+      "speaker": "java",
+      "text": "Absolutely not. The server is the foundation of the entire architecture.",
+      "next": "l4"
+    },
+    "l4": {
+      "speaker": "python",
+      "text": "Can we just... talk about this?",
+      "next": "l5"
+    },
+    "l5": {
+      "speaker": "javascript",
+      "text": "Fine! I'll just rewrite the whole thing in a framework!",
+      "next": "l6"
+    },
+    "l6": {
+      "speaker": "narrator",
+      "text": "Everyone walks out. The build stays broken.",
+      "next": "l7"
+    },
+    "l7": {
+      "speaker": "quack",
+      "text": "Okay. You've got one week to resolve this, one conflict at a time.",
+      "next": "end"
+    }
+  }
+}

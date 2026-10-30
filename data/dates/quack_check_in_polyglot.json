@@ -1,0 +1,43 @@
+{
+  "id": "quack_check_in_polyglot",
+  "character": "",
+  "title": "Quack's check-in",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "Sunday night in your dorm room. Quack is sitting on your pillow like it owns the place.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "quack",
+      "text": "Four weeks in, {player}, and... huh. All four of them like you. Like, a lot. So, have you picked one yet?",
+      "next": "choose"
+    },
+    "choose": {
+      "speaker": "player",
+      "text": "...",
+      "choices": [
+        {
+          "text": "Why choose just one language?",
+          "set_flag": "polyglot",
+          "next": "yes"
+        },
+        {
+          "text": "I'll figure it out.",
+          "next": "no"
+        }
+      ]
+    },
+    "yes": {
+      "speaker": "quack",
+      "text": "You absolute multithreader. Fine. But keep all four happy, or this is going to crash. Hard.",
+      "next": "end"
+    },
+    "no": {
+      "speaker": "quack",
+      "text": "Smart. Probably. Goodnight!",
+      "next": "end"
+    }
+  }
+}

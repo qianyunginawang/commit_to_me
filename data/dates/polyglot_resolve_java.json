@@ -1,0 +1,28 @@
+{
+  "id": "polyglot_resolve_java",
+  "character": "",
+  "title": "Resolving Julian's conflict",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "The council room. Julian is pretending to read a binder.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "java",
+      "text": "If the others can do everything, what's the point of me? I'll be replaced.",
+      "next": "l2"
+    },
+    "l2": {
+      "speaker": "player",
+      "text": "The whole app runs on your server, Julian. Nobody's replacing you.",
+      "next": "l3"
+    },
+    "l3": {
+      "speaker": "java",
+      "text": "...Very well. I'll resolve my conflicts. Formally.",
+      "next": "end"
+    }
+  }
+}

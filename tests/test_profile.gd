@@ -25,7 +25,7 @@ func test_nothing_unlocked_at_first() -> void:
 	var p := _profile()
 	check(not p.is_polyglot_unlocked(), "no Polyglot yet")
 	check(not p.is_secret_route_unlocked(), "no Ferris yet")
-	check_eq(p.ending_count(), {"seen": 0, "total": 13})
+	check_eq(p.ending_count(), {"seen": 0, "total": 15})
 
 
 func test_one_good_ending_unlocks_polyglot() -> void:

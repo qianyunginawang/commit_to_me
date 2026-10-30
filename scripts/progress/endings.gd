@@ -63,6 +63,12 @@ static func ending_for(character_id: String, state: Node = null, data: Node = nu
 	return get_ending(character_id, ending_kind(character_id, state, data), data)
 
 
+## The Polyglot route's ending: "good" (the Polyglot ending) if Story says
+## so, otherwise "bad" (the merge conflict ending).
+static func polyglot_ending(state: Node = null, data: Node = null) -> Dictionary:
+	return get_ending("polyglot", "good" if Story.is_polyglot_good(state, data) else "bad", data)
+
+
 ## An ending by character and kind, or {} if it isn't in the data.
 static func get_ending(character_id: String, kind: String, data: Node = null) -> Dictionary:
 	data = data if data != null else GameData
