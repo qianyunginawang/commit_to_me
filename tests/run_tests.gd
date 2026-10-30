@@ -20,9 +20,17 @@ func _run_all() -> void:
 	var failed := 0
 	var files := DirAccess.get_files_at(TESTS_DIR)
 	for file in files:
-		if not (file.begins_with("test_") and file.ends_with(".gd")):
+		if not (file.begins_with("test_") and file.ends_with(".gd")) or file == "test_case.gd":
 			continue
+		# A file that doesn't compile loads as a script with no methods, so its
+		# tests would silently not run. Count it as a failure instead.
 		var script: GDScript = load(TESTS_DIR.path_join(file))
+		if script == null or not script.can_instantiate():
+			total += 1
+			failed += 1
+			print("  FAIL  %s doesn't compile (see the error above)" % file)
+			continue
+		var ran := 0
 		for method in script.get_script_method_list():
 			var method_name: String = method["name"]
 			if not method_name.begins_with("test_"):
@@ -30,6 +38,7 @@ func _run_all() -> void:
 			var test: TestCase = script.new()
 			test.tree = self
 			total += 1
+			ran += 1
 			await test.call(method_name)
 			test.cleanup()
 			if test.failures.is_empty():
@@ -39,5 +48,9 @@ func _run_all() -> void:
 				print("  FAIL  %s.%s" % [file.get_basename(), method_name])
 				for f in test.failures:
 					print("          - " + f)
+		if ran == 0:
+			total += 1
+			failed += 1
+			print("  FAIL  %s has no test_ methods" % file)
 	print("\n%d tests, %d failed" % [total, failed])
 	quit(1 if failed > 0 else 0)

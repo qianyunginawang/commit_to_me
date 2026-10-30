@@ -9,7 +9,7 @@ godot --headless --path . -s tests/run_tests.gd
 
 (On a Mac, `godot` is `/Applications/Godot.app/Contents/MacOS/Godot`.)
 
-- Every `test_*.gd` file here is picked up automatically.
+- Every `test_*.gd` file here is picked up automatically. A file that doesn't compile, or has no `test_` methods, counts as a failure.
 - Each test file `extends TestCase` and has methods starting with `test_`.
 - Use `check(condition, "message")` and `check_eq(actual, expected)`.
 - `solutions/` has a working answer for every coding challenge. The tests make
