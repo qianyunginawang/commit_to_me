@@ -6,12 +6,22 @@
   "nodes": {
     "l0": {
       "speaker": "narrator",
-      "text": "You walk into the main quad to the smell fresh textbook pages, overpriced espresso, and pure, unfiltered anxiety. Welcome to Runtime University, where your academic future is bright, your sleep schedule is bleak, and your romantic destiny is directly tied to your GPA",
+      "text": "You walk into the main quad to the smell fresh textbook pages, overpriced espresso, and pure, unfiltered anxiety.",
+      "next": "l0_1"
+    },
+    "l0_1": {
+      "speaker": "narrator",
+      "text": "Welcome to Runtime University, where your academic future is bright, your sleep schedule is bleak, and your romantic destiny is directly tied to your GPA.",
       "next": "l1"
     },
     "l1": {
       "speaker": "narrator",
-      "text": "After sitting through a grueling welcome speech by President Fortran, you are handed a welcome bag and shuffled off into a tour group. In your welcome bag you find a lanyard, a campus map, a calendar of events, and a small yellow rubber duck.",
+      "text": "After sitting through a grueling welcome speech by President Fortran, you are handed a welcome bag and shuffled off into a tour group.",
+      "next": "l1_1"
+    },
+    "l1_1": {
+      "speaker": "narrator",
+      "text": "In your welcome bag you find a lanyard, a campus map, a calendar of events, and a small yellow rubber duck.",
       "next": "l2"
     },
     "l2": {
@@ -32,7 +42,12 @@
     },
     "l3": {
       "speaker": "quack",
-      "text": "When your code breaks, you explain it to me, line by line, and suddenly you'll see the bug. It's called rubber duck debugging. I also give hints. When your love life feels like confusing, I can also give you relationship advice. Not that I've ever been in a relationship",
+      "text": "When your code breaks, you explain it to me, line by line, and suddenly you'll see the bug. It's called rubber duck debugging. I also give hints.",
+      "next": "l3_0"
+    },
+    "l3_0": {
+      "speaker": "quack",
+      "text": "When your love life feels like confusing, I'll give you relationship advice! Not that I've ever been in a relationship.",
       "next": "l4"
     },
     "l4": {
