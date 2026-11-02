@@ -1,34 +1,40 @@
 extends Control
-## Title screen: start a new game, continue a saved one, or quit.
+## Title screen: continue a saved game, start a new one, settings, or quit.
 
-@onready var name_edit: LineEdit = %NameEdit
-@onready var new_game_button: Button = %NewGameButton
+## A new game opens with orientation, where Quack asks the player's name.
+const OPENING_SCENE := "orientation"
+const OPENING_EVENT := "orientation"
+
 @onready var continue_button: Button = %ContinueButton
+@onready var new_game_button: Button = %NewGameButton
+@onready var settings_button: Button = %SettingsButton
 @onready var quit_button: Button = %QuitButton
 @onready var endings_label: Label = %EndingsLabel
+@onready var title_label: Label = %Title
 
 
 func _ready() -> void:
-	continue_button.visible = GameState.has_save()
-	new_game_button.pressed.connect(_on_new_game)
-	continue_button.pressed.connect(_on_continue)
+	continue_button.pressed.connect(func(): Router.goto(Router.LOAD_GAME))
+	new_game_button.pressed.connect(new_game)
+	settings_button.pressed.connect(func(): Router.goto(Router.SETTINGS))
 	quit_button.pressed.connect(func(): get_tree().quit())
-	name_edit.text_submitted.connect(func(_t): _on_new_game())
-	name_edit.text = GameState.DEFAULT_PLAYER_NAME
-	name_edit.select_all()
-	name_edit.grab_focus()
+	# Continue is greyed out until there's a save to continue. The first
+	# button you can press is the bright one, and has focus for the keyboard.
+	continue_button.disabled = not GameState.has_any_save()
+	var main := new_game_button if continue_button.disabled else continue_button
+	main.theme_type_variation = &"BrightButton"
+	main.grab_focus.call_deferred()
+	UiStyle.style_banner(title_label, "Commit to Me", UiStyle.PINK, UiStyle.TEXT, 84)
+	title_label.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	var count := Profile.ending_count()
-	endings_label.text = "Endings seen: %d/%d" % [count["seen"], count["total"]]
+	endings_label.text = "ENDINGS SEEN: %d/%d" % [count["seen"], count["total"]]
 	endings_label.visible = count["seen"] > 0
 	GameData.warm_up_runtimes()
 
 
-func _on_new_game() -> void:
-	GameState.new_game(name_edit.text)
-	GameState.save_game()
-	Router.goto(Router.MAP)
-
-
-func _on_continue() -> void:
-	if GameState.load_game():
-		Router.goto(Router.MAP)
+## Starts a new game in its own save slot (old saves are kept) and plays
+## orientation. The slot is first written once the player gives their name.
+func new_game() -> void:
+	GameState.new_game("")
+	GameState.start_new_save()
+	Router.goto(Router.DATE, {"date_id": OPENING_SCENE, "event_id": OPENING_EVENT})

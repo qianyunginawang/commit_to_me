@@ -81,7 +81,7 @@ func test_choice_sets_the_flag_and_it_is_saved() -> void:
 
 
 func test_polyglot_events_only_happen_on_the_route() -> void:
-	var gs := _state(5, 0, "day")
+	var gs := _state(5, 1, "day")   # Monday of week 5
 	var ids := func(): return Calendar.events_now(gs).map(func(e): return e["id"])
 	check(not ids.call().has("polyglot_rivalry"), "off the route")
 	gs.set_flag("polyglot")

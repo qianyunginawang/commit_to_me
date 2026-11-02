@@ -215,10 +215,6 @@ func warm_up_runtimes() -> void:
 ## problems (empty means all good). The test suite fails if this isn't empty.
 func validate() -> PackedStringArray:
 	var problems: PackedStringArray = []
-	for id in characters:
-		for date_id in characters[id].get("dates", []):
-			if not dates.has(date_id):
-				problems.append("Character '%s' lists unknown date '%s'" % [id, date_id])
 	for id in dates:
 		var date: Dictionary = dates[id]
 		if date.get("character", "") != "" and not characters.has(date.get("character", "")):
@@ -282,7 +278,7 @@ func _validate_calendar() -> PackedStringArray:
 	if weeks != GameState.SEMESTER_WEEKS:
 		problems.append("Calendar has %d weeks, but GameState.SEMESTER_WEEKS is %d" % [weeks, GameState.SEMESTER_WEEKS])
 	if Time.get_unix_time_from_datetime_string(calendar.get("start_date", "")) <= 0:
-		problems.append("Calendar start_date '%s' isn't a date like 2026-08-31" % calendar.get("start_date", ""))
+		problems.append("Calendar start_date '%s' isn't a date like 2030-09-01" % calendar.get("start_date", ""))
 	var ids := {}
 	for event in calendar.get("events", []):
 		var id: String = event.get("id", "")

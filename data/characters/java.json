@@ -9,6 +9,8 @@
   "bio": "Julian Duke, student council president, wears a blazer to the coffee shop and has a design pattern for everything. Verbose? Maybe. But Julian will never let a type error slip through.",
   "color": "#E76F00",
   "accent": "#5382A1",
-  "portrait": "res://assets/portraits/java.png",
-  "dates": ["java_date_1"]
+  "banner_color": "#c4282c",
+  "banner_text_color": "#ffffff",
+  "card_color": "#4a2a36",
+  "portrait": "res://assets/portraits/java.png"
 }

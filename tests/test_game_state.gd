@@ -38,29 +38,55 @@ func test_levels() -> void:
 	check_eq(GameStateScript.level_for(100)["title"], "Committed")
 
 
-func test_next_date() -> void:
-	var gs := _make()
-	check_eq(gs.next_date(["a", "b"]), "a")
-	gs.mark_date_complete("a")
-	check_eq(gs.next_date(["a", "b"]), "b")
-	gs.mark_date_complete("b")
-	check_eq(gs.next_date(["a", "b"]), "")
-	gs.free()
-
-
 func test_save_and_load() -> void:
 	var gs := _make()
 	gs.new_game("  Gee  ")
 	gs.add_affection("cpp", 42)
-	gs.mark_date_complete("cpp_date_1")
+	gs.mark_date_complete("g01_cpp")
 	check(gs.save_game(), "save_game() failed")
 
 	var loaded := _make()
 	check(loaded.load_game(), "load_game() failed")
 	check_eq(loaded.player_name, "Gee")
 	check_eq(loaded.get_affection("cpp"), 42)
-	check(loaded.is_date_complete("cpp_date_1"), "completed date not loaded")
+	check(loaded.is_date_complete("g01_cpp"), "completed date not loaded")
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(gs.save_path))
+	gs.free()
+	loaded.free()
+
+
+func test_each_new_game_gets_its_own_save_slot() -> void:
+	var gs := _make()
+	gs.saves_dir = "user://test_slots"
+	gs.save_path = ""
+	gs.new_game("First")
+	gs.start_new_save()
+	gs.save_game()
+	var first: String = gs.save_path
+	gs.new_game("Second")
+	gs.start_new_save()
+	gs.advance_time()
+	gs.save_game()
+	check(gs.save_path != first, "a new game shouldn't overwrite the old save")
+
+	var saves: Array[Dictionary] = gs.list_saves()
+	check_eq(saves.size(), 2)
+	check_eq(saves[0]["player_name"], "Second", "the most recent save comes first:")
+	check_eq(saves[0]["slot"], "night")
+	check_eq(saves[1]["player_name"], "First")
+
+	# Playing the older game again moves it to the top.
+	var loaded := _make()
+	loaded.saves_dir = gs.saves_dir
+	check(loaded.load_game(first), "load_game(path) failed")
+	check_eq(loaded.player_name, "First")
+	loaded.save_game()
+	check_eq(loaded.list_saves()[0]["player_name"], "First")
+
+	for save in saves:
+		DirAccess.remove_absolute(save["path"])
+	DirAccess.remove_absolute(gs.saves_dir)
+	check(not gs.has_any_save(), "no saves left")
 	gs.free()
 	loaded.free()
 

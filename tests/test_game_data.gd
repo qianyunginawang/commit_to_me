@@ -10,11 +10,6 @@ func test_four_characters_in_order() -> void:
 	check_eq(GameData.character_ids(), ["python", "javascript", "java", "cpp"] as Array[String])
 
 
-func test_every_character_has_a_date() -> void:
-	for id in GameData.character_ids():
-		check(not GameData.get_character(id).get("dates", []).is_empty(), "%s has no dates" % id)
-
-
 func test_curriculum_has_33_subjects_in_order() -> void:
 	check_eq(GameData.curriculum.size(), 33)
 	check_eq(GameData.curriculum[0].get("title"), "Printing to the console")

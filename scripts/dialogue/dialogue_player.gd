@@ -5,7 +5,7 @@ extends RefCounted
 ##
 ## A dialogue file (res://data/dates/*.json) looks like:
 ## {
-##   "id": "python_date_1",
+##   "id": "python_ch1",
 ##   "character": "python",
 ##   "start": "hello",
 ##   "nodes": {
@@ -14,7 +14,7 @@ extends RefCounted
 ##                "choices": [
 ##                  {"text": "Yes!", "next": "quiz"},
 ##                  {"text": "Nah.", "next": "end"}]},
-##     "quiz":   {"challenge": "python_hello", "on_pass": "yay", "on_fail": "aww"},
+##     "quiz":   {"challenge": "python_ch1", "on_pass": "yay", "on_fail": "aww"},
 ##     "yay":    {"speaker": "python", "text": "You did it!", "next": "end"},
 ##     "aww":    {"speaker": "python", "text": "We'll try again.", "next": "end"}
 ##   }
@@ -23,6 +23,8 @@ extends RefCounted
 ## Node kinds:
 ##   line      - has "text". Optional "speaker" (character id, "player", or
 ##               "narrator"), "mood", and either "next" or "choices".
+##               With "ask_name": true, the player types their name after
+##               the line; call set_player_name() and then advance().
 ##   challenge - has "challenge" (a challenge id) plus "on_pass" / "on_fail".
 ## A choice can have "set_flag" to set a story flag (see Story).
 ## A "next" of "end" (or missing) ends the date.
@@ -72,6 +74,11 @@ func advance() -> void:
 		push_warning("advance() called on a line with choices; use choose().")
 		return
 	_go(node.get("next", END))
+
+
+## The player typed their name (an "ask_name" line). Later lines use it.
+func set_player_name(p_player_name: String) -> void:
+	player_name = p_player_name
 
 
 ## Pick choice number [param index] on the current line.
