@@ -28,9 +28,9 @@ func _event_ids(gs: Node) -> Array:
 
 
 func test_dates_match_the_real_calendar() -> void:
-	check_eq(Calendar.date_for(1, 0), "Monday, August 31")
-	check_eq(Calendar.date_for(7, 2), "Wednesday, October 14", "Ciel's birthday:")
-	check_eq(Calendar.date_for(14, 4), "Friday, December 4", "Jay's birthday:")
+	check_eq(Calendar.date_for(1, 0), "Sunday, September 1")
+	check_eq(Calendar.date_for(7, 1), "Monday, October 14", "Ciel's birthday:")
+	check_eq(Calendar.date_for(14, 3), "Wednesday, December 4", "Jay's birthday:")
 
 
 func test_time_moves_day_then_night_then_next_day() -> void:
@@ -38,14 +38,14 @@ func test_time_moves_day_then_night_then_next_day() -> void:
 	gs.advance_time()
 	check_eq([gs.week, gs.day, gs.slot], [1, 6, "night"])
 	gs.advance_time()
-	check_eq([gs.week, gs.day, gs.slot], [2, 0, "day"], "Sunday night -> Monday of next week:")
+	check_eq([gs.week, gs.day, gs.slot], [2, 0, "day"], "Saturday night -> Sunday of next week:")
 
 
 func test_semester_ends_after_week_14() -> void:
 	var gs := _state(14, 6, "night")
 	check(not gs.is_semester_over(), "still week 14")
 	gs.advance_time()
-	check(gs.is_semester_over(), "over after week 14 Sunday night")
+	check(gs.is_semester_over(), "over after week 14 Saturday night")
 	check_eq(Calendar.events_now(gs), [] as Array[Dictionary])
 	gs.advance_time()
 	check_eq(gs.week, 15, "time stops moving")
@@ -61,11 +61,11 @@ func test_time_is_saved() -> void:
 
 
 func test_recurring_and_story_events() -> void:
-	check(_event_ids(_state(1, 0, "day")).has("orientation"), "orientation on week 1 Monday")
-	check(_event_ids(_state(3, 3, "night")).has("tutoring_shift"), "Monty tutors Thursday nights")
-	check(_event_ids(_state(3, 5, "night")).has("hackathon_night"), "hackathon on weekend nights")
-	check(not _event_ids(_state(3, 4, "night")).has("hackathon_night"), "no hackathon on Friday")
-	check(_event_ids(_state(7, 2, "night")).has("ciel_birthday"), "Ciel's birthday")
+	check(_event_ids(_state(1, 0, "day")).has("orientation"), "orientation on week 1 Sunday")
+	check(_event_ids(_state(3, 4, "night")).has("tutoring_shift"), "Monty tutors Thursday nights")
+	check(_event_ids(_state(3, 6, "night")).has("hackathon_night"), "hackathon on weekend nights")
+	check(not _event_ids(_state(3, 5, "night")).has("hackathon_night"), "no hackathon on Friday")
+	check(_event_ids(_state(7, 1, "night")).has("ciel_birthday"), "Ciel's birthday")
 
 
 func test_everyone_is_at_orientation() -> void:
@@ -77,7 +77,7 @@ func test_everyone_is_at_orientation() -> void:
 
 
 func test_characters_are_only_around_at_their_events() -> void:
-	var gs := _state(1, 1, "day")   # Tuesday daytime: Jay's office hours and Julian's coffee society
+	var gs := _state(1, 2, "day")   # Tuesday daytime: Jay's office hours and Julian's coffee society
 	check(not Calendar.opportunity_for("javascript", gs).is_empty(), "Jay holds office hours")
 	check(not Calendar.opportunity_for("java", gs).is_empty(), "Julian is at the coffee society")
 	check(Calendar.opportunity_for("python", gs).is_empty(), "Monty isn't around")
@@ -93,8 +93,8 @@ func test_two_characters_are_around_every_slot() -> void:
 
 
 func test_jay_teaches_typescript_by_day_and_javascript_by_night() -> void:
-	var day := Calendar.opportunity_for("javascript", _state(1, 1, "day"))
+	var day := Calendar.opportunity_for("javascript", _state(1, 2, "day"))
 	check_eq(day["lessons"].map(func(l): return l["language"]), ["typescript"])
-	var night := Calendar.opportunity_for("javascript", _state(4, 5, "night"))
+	var night := Calendar.opportunity_for("javascript", _state(4, 6, "night"))
 	check_eq(night["event"]["id"], "hackathon_night")
 	check_eq(night["lessons"].map(func(l): return l["language"]), ["javascript"])

@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/date_scene.gd" id="1_date"]
 [ext_resource type="PackedScene" path="res://scenes/portrait.tscn" id="2_portrait"]
+[ext_resource type="Script" path="res://scripts/ui/kit/backdrop.gd" id="3_backdrop"]
+[ext_resource type="Script" path="res://scripts/ui/kit/hud.gd" id="4_hud"]
+[ext_resource type="Script" path="res://scripts/ui/kit/glass_panel.gd" id="5_glass"]
 
 [node name="Date" type="Control"]
 layout_mode = 3
@@ -12,7 +15,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_date")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Backdrop" type="Control" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,44 +24,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.16, 0.11, 0.22, 1)
-
-[node name="Header" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 24.0
-offset_top = 16.0
-offset_right = -24.0
-offset_bottom = 56.0
-grow_horizontal = 2
-theme_override_constants/separation = 12
-
-[node name="TitleLabel" type="Label" parent="Header"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 24
-text = "Date title"
-vertical_alignment = 1
-
-[node name="AffectionLabel" type="Label" parent="Header"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Stranger"
-vertical_alignment = 1
-
-[node name="AffectionBar" type="ProgressBar" parent="Header"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(220, 16)
-layout_mode = 2
-size_flags_vertical = 4
-show_percentage = false
-
-[node name="LeaveButton" type="Button" parent="Header"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Leave date"
+script = ExtResource("3_backdrop")
 
 [node name="Portrait" parent="." instance=ExtResource("2_portrait")]
 unique_name_in_owner = true
@@ -65,54 +32,120 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -150.0
-offset_top = 76.0
-offset_right = 150.0
-offset_bottom = 456.0
+offset_left = -200.0
+offset_top = 64.0
+offset_right = 200.0
+offset_bottom = 600.0
 grow_horizontal = 2
 mouse_filter = 2
+
+[node name="PortraitFrame" type="Panel" parent="Portrait"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_type_variation = &"PortraitFrame"
+
+[node name="Hud" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("4_hud")
+
+[node name="AffectionPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -266.0
+offset_top = 80.0
+offset_right = -16.0
+offset_bottom = 160.0
+grow_horizontal = 0
+mouse_filter = 2
+script = ExtResource("5_glass")
+tab_text = "Affection"
+
+[node name="VBox" type="VBoxContainer" parent="AffectionPanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="AffectionLabel" type="Label" parent="AffectionPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Caption"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "STRANGER · 0"
+
+[node name="AffectionBar" type="ProgressBar" parent="AffectionPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+mouse_filter = 2
+show_percentage = false
+
+[node name="BalanceLabel" type="Label" parent="AffectionPanel/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "DAY 0 · NIGHT 0"
 
 [node name="HeartPopup" type="Label" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = 170.0
-offset_top = 100.0
-offset_right = 330.0
-offset_bottom = 150.0
-grow_horizontal = 2
-theme_override_font_sizes/font_size = 36
-text = "<3 +5"
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -266.0
+offset_top = 170.0
+offset_right = -16.0
+offset_bottom = 220.0
+grow_horizontal = 0
+theme_type_variation = &"Title"
+theme_override_colors/font_color = Color(1, 0.239, 0.498, 1)
+theme_override_font_sizes/font_size = 34
+text = "+6"
+horizontal_alignment = 2
 
 [node name="DialogueBox" type="PanelContainer" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 40.0
-offset_top = -250.0
-offset_right = -40.0
-offset_bottom = -24.0
+offset_left = 90.0
+offset_top = -190.0
+offset_right = -90.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2
+script = ExtResource("5_glass")
 
-[node name="VBox" type="VBoxContainer" parent="DialogueBox"]
+[node name="Margin" type="MarginContainer" parent="DialogueBox"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/separation = 8
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 14
 
-[node name="SpeakerLabel" type="Label" parent="DialogueBox/VBox"]
-unique_name_in_owner = true
+[node name="VBox" type="VBoxContainer" parent="DialogueBox/Margin"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.36, 0.54, 1)
-theme_override_font_sizes/font_size = 24
-text = "Speaker"
+mouse_filter = 2
 
-[node name="TextLabel" type="RichTextLabel" parent="DialogueBox/VBox"]
+[node name="TextLabel" type="RichTextLabel" parent="DialogueBox/Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -122,14 +155,95 @@ bbcode_enabled = true
 text = "Dialogue goes here."
 fit_content = true
 
-[node name="Choices" type="VBoxContainer" parent="DialogueBox/VBox"]
+[node name="Choices" type="VBoxContainer" parent="DialogueBox/Margin/VBox"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
+theme_override_constants/separation = 4
 
-[node name="ContinueHint" type="Label" parent="DialogueBox/VBox"]
-unique_name_in_owner = true
+[node name="Buttons" type="HBoxContainer" parent="DialogueBox/Margin/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.66, 0.8, 1)
-theme_override_font_sizes/font_size = 14
-text = "Click or press Enter to continue"
-horizontal_alignment = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+alignment = 2
+
+[node name="Spacer" type="Control" parent="DialogueBox/Margin/VBox/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="HistoryButton" type="Button" parent="DialogueBox/Margin/VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(76, 28)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"QuickButton"
+text = "HISTORY"
+
+[node name="AutoButton" type="Button" parent="DialogueBox/Margin/VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(76, 28)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"QuickButton"
+toggle_mode = true
+text = "AUTO"
+
+[node name="SkipButton" type="Button" parent="DialogueBox/Margin/VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(76, 28)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"QuickButton"
+toggle_mode = true
+text = "SKIP"
+
+[node name="NextButton" type="Button" parent="DialogueBox/Margin/VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 30)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 12
+text = "NEXT  ▶"
+
+[node name="NameRow" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 112.0
+offset_top = -222.0
+offset_right = 700.0
+offset_bottom = -176.0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 14
+
+[node name="MenuButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -136.0
+offset_top = 20.0
+offset_right = -16.0
+offset_bottom = 62.0
+grow_horizontal = 0
+focus_mode = 0
+text = "MENU"
+
+[node name="CalendarButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -282.0
+offset_top = 20.0
+offset_right = -146.0
+offset_bottom = 62.0
+grow_horizontal = 0
+focus_mode = 0
+text = "CALENDAR"

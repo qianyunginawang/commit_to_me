@@ -9,6 +9,8 @@
   "bio": "Ciel Vector is fast, a little intimidating, and gives you complete control (and complete responsibility). Earn Ciel's trust and nothing can slow you down.",
   "color": "#00599C",
   "accent": "#9CC3E6",
-  "portrait": "res://assets/portraits/cpp.png",
-  "dates": ["cpp_date_1"]
+  "banner_color": "#5b7da3",
+  "banner_text_color": "#ffffff",
+  "card_color": "#26324a",
+  "portrait": "res://assets/portraits/cpp.png"
 }

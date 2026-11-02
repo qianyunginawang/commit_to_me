@@ -9,6 +9,8 @@
   "bio": "Monty Pyne is the warm senior who makes everyone feel welcome. Monty keeps things simple, hates unnecessary curly braces, and gets genuinely upset about messy indentation.",
   "color": "#3776AB",
   "accent": "#FFD43B",
-  "portrait": "res://assets/portraits/python.png",
-  "dates": ["python_date_1"]
+  "banner_color": "#e6cf86",
+  "banner_text_color": "#1b2340",
+  "card_color": "#2c4a6e",
+  "portrait": "res://assets/portraits/python.png"
 }

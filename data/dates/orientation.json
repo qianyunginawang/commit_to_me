@@ -1,0 +1,106 @@
+{
+  "id": "orientation",
+  "character": "",
+  "title": "Orientation day",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "Sunday, September 1. Runtime University's main quad is packed with new students, lost parents and a banner that says HELLO, WORLD!",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "narrator",
+      "text": "Your welcome bag has a lanyard, a campus map, a coupon for Café Cache... and a small yellow rubber duck.",
+      "next": "l2"
+    },
+    "l2": {
+      "speaker": "quack",
+      "text": "Hi! I'm Quack Overflow. Quack for short. Every CS student gets a rubber duck, and you got the best one.",
+      "next": "name"
+    },
+    "name": {
+      "speaker": "quack",
+      "text": "Wait, where are my manners? I introduced myself and didn't even ask. What's your name?",
+      "ask_name": true,
+      "next": "nice"
+    },
+    "nice": {
+      "speaker": "quack",
+      "text": "{player}! Great name. Very readable. Nice to meet you, {player}.",
+      "next": "l3"
+    },
+    "l3": {
+      "speaker": "quack",
+      "text": "When your code breaks, you explain it to me, line by line, and suddenly you'll see the bug. It's called rubber duck debugging. I also give hints.",
+      "next": "l4"
+    },
+    "l4": {
+      "speaker": "quack",
+      "text": "Also, it's my birthday! I'm one day old. Where's my cake?",
+      "next": "ask"
+    },
+    "ask": {
+      "speaker": "quack",
+      "text": "Okay, {player}, important question. Why did you pick computer science?",
+      "choices": [
+        {
+          "text": "I want to make games.",
+          "next": "games"
+        },
+        {
+          "text": "Honestly? The money.",
+          "next": "money"
+        },
+        {
+          "text": "I'm curious how computers actually work.",
+          "next": "curious"
+        },
+        {
+          "text": "I panicked on the application form.",
+          "next": "panicked"
+        }
+      ]
+    },
+    "games": {
+      "speaker": "quack",
+      "text": "A game dev! Then you'll want to meet the people in the Hopper Computer Lab. Well, one of them. You'll know who.",
+      "next": "calendar"
+    },
+    "money": {
+      "speaker": "quack",
+      "text": "Respect. Rent is real. Good news: every line of code you write here is an investment.",
+      "next": "calendar"
+    },
+    "curious": {
+      "speaker": "quack",
+      "text": "Ooh, a curious one. Careful, that's how you end up reading compiler source code at 3 a.m.",
+      "next": "calendar"
+    },
+    "panicked": {
+      "speaker": "quack",
+      "text": "Ha! Same. I panicked my way into being a duck. It worked out great.",
+      "next": "calendar"
+    },
+    "calendar": {
+      "speaker": "quack",
+      "text": "Okay, the calendar. Every day has two free slots, Day and Night. Spend them on extracurriculars, office hours or tutoring.",
+      "next": "events"
+    },
+    "events": {
+      "speaker": "quack",
+      "text": "Special events pop up during the semester, like the club fair and the fall carnival. They're all marked on your calendar. It's the button next to Menu, so check it often!",
+      "next": "map"
+    },
+    "map": {
+      "speaker": "quack",
+      "text": "Then there's the map. Pick a place, see who's there, and spend your free slot with them.",
+      "next": "tour"
+    },
+    "tour": {
+      "speaker": "quack",
+      "text": "First, the campus tour! I'll show you around. Who knows, maybe you'll meet someone interesting.",
+      "next": "end"
+    }
+  }
+}

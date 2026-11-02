@@ -1,57 +1,73 @@
 extends Control
-## The campus map: the home screen between dates. Shows the date and time,
-## every campus location grouped by area, and who is where right now. Pick a
-## location to see who's there and the lessons they can do with you.
-##
-## There's no map art yet, so locations are a list of buttons. A location is
-## only clickable while something is happening there.
+## The campus map: the home screen between dates. A holographic map of campus
+## with a pin wherever someone is (or a story scene is waiting). Pick a pin to
+## see who's there and what you can do with them, pick a lesson or scene in
+## the panel, then press Start.
 
-const CharacterCardScene := preload("res://scenes/character_card.tscn")
-
-@onready var time_label: Label = %TimeLabel
-@onready var events_label: Label = %EventsLabel
+@onready var map_view: CampusMapView = %MapView
+@onready var hud: Hud = %Hud
+@onready var place_name: Label = %PlaceName
+@onready var place_blurb: Label = %PlaceBlurb
+@onready var place_events: Label = %PlaceEvents
+@onready var place_body: VBoxContainer = %PlaceBody
+@onready var start_button: Button = %StartButton
+@onready var affection_strip: GlassPanel = %AffectionStrip
+@onready var affection_list: HBoxContainer = %AffectionList
 @onready var wait_button: Button = %WaitButton
 @onready var menu_button: Button = %MenuButton
-@onready var affection_list: VBoxContainer = %AffectionList
-@onready var locations_box: VBoxContainer = %Locations
-@onready var place_name: Label = %PlaceName
-@onready var place_events: Label = %PlaceEvents
-@onready var place_cards: HBoxContainer = %PlaceCards
 
-## The location shown on the right.
+const PANEL_WIDTH := 324.0
+
+## The location shown in the panel.
 var selected_location: String = ""
+## What's picked in the panel: {"dialogue", "event_id", "kind"} with kind
+## "lesson" or "scene", or {} if nothing can be picked.
+var selected_item: Dictionary = {}
+var _rows := ButtonGroup.new()
 
 
 func _ready() -> void:
 	menu_button.pressed.connect(func(): Router.goto(Router.MAIN_MENU))
+	%CalendarButton.pressed.connect(func(): add_child(CalendarView.new()))
 	wait_button.pressed.connect(_on_wait)
+	start_button.pressed.connect(_on_start)
+	map_view.location_selected.connect(_on_location_pressed)
+	var strip_box := UiStyle.glass_box(10)
+	strip_box.content_margin_left = 18
+	strip_box.content_margin_right = 18
+	strip_box.content_margin_top = 16
+	strip_box.content_margin_bottom = 6
+	affection_strip.add_theme_stylebox_override("panel", strip_box)
 	refresh()
 
 
 ## Rebuilds everything for the current time.
 func refresh() -> void:
-	time_label.text = Calendar.describe_now()
 	var places := who_is_where()
-	var names: PackedStringArray = []
-	for loc in places:
-		names.append_array(PackedStringArray(places[loc]["events"]))
-	events_label.text = ("Happening now: " + ", ".join(names)) if not names.is_empty() else "Nothing special is happening right now."
 	if GameState.is_semester_over():
 		wait_button.text = "See how it ends"
 	else:
 		wait_button.text = "Wait until tonight" if GameState.slot == "day" else "Wait until tomorrow"
+	hud.refresh("Where to today?" if GameState.slot == "day" else "Where to tonight?")
 
 	if not places.has(selected_location):
 		selected_location = _first_place_with_people(places)
-	_build_location_list(places)
+	var pins := {}
+	for loc in places:
+		var looks: Array = []
+		for id in places[loc]["characters"]:
+			looks.append(Looks.speaker_look(id, GameState.slot))
+		pins[loc] = {"looks": looks, "has_scene": not places[loc]["scenes"].is_empty()}
+	map_view.show_places(pins, selected_location)
 	_show_location(selected_location, places)
 	_build_affection_list()
 
 
-## Location id -> {"characters": [ids], "events": [event names]} for every
-## location where something is happening right now. A character at two
-## events at once (a story event and their usual one) is only at the event
-## Calendar picks, and an event whose characters are all elsewhere is left out.
+## Location id -> {"characters": [ids], "events": [event names], "scenes":
+## [{event, dialogue}]} for every location where something is happening right
+## now. A character at two events at once (a story event and their usual one)
+## is only at the event Calendar picks, and an event whose characters are all
+## elsewhere is left out.
 static func who_is_where(state: Node = null, data: Node = null) -> Dictionary:
 	var places := {}
 	var gd: Node = data if data != null else GameData
@@ -75,6 +91,33 @@ static func who_is_where(state: Node = null, data: Node = null) -> Dictionary:
 	return places
 
 
+## Everything the player can pick at a place, in panel order: story scenes
+## first, then each person's lessons (special chapter first), then each
+## person's next special chapter if it's still locked.
+## Each item: {kind: "scene" | "lesson" | "locked", text, tag, dialogue,
+## event_id, character, missing}.
+static func place_items(place: Dictionary, state: Node = null, data: Node = null) -> Array[Dictionary]:
+	var gd: Node = data if data != null else GameData
+	var items: Array[Dictionary] = []
+	for scene in place.get("scenes", []):
+		items.append({"kind": "scene", "text": scene["event"].get("name", ""), "tag": "SCENE",
+			"dialogue": scene["dialogue"], "event_id": scene["event"]["id"]})
+	for id in place.get("characters", []):
+		var here := Calendar.opportunity_for(id, state, data)
+		var who: String = gd.get_character(id).get("name", id)
+		for lesson in here.get("lessons", []):
+			var special: bool = lesson.has("chapter")
+			var text := "%s · Ch. %d: %s" % [who, int(lesson["chapter"]), lesson.get("title", "")] if special \
+				else "%s · %s" % [who, lesson.get("title", "")]
+			items.append({"kind": "lesson", "text": text, "tag": "NEW" if special else "OPEN",
+				"dialogue": lesson["dialogue"], "event_id": here["event"]["id"], "character": id})
+		var next := Unlocks.next_special_chapter(id, state, data)
+		if next.has("dialogue") and not Unlocks.is_chapter_unlocked(next["id"], state, data):
+			items.append({"kind": "locked", "text": "%s · Ch. %d: %s" % [who, int(next["chapter"]), next.get("title", "")],
+				"tag": "LOCKED", "character": id, "missing": Unlocks.missing_for_chapter(next["id"], state, data)})
+	return items
+
+
 func _first_place_with_people(places: Dictionary) -> String:
 	for loc in GameData.locations:
 		if places.has(loc) and not places[loc]["characters"].is_empty():
@@ -85,88 +128,186 @@ func _first_place_with_people(places: Dictionary) -> String:
 	return ""
 
 
-func _build_location_list(places: Dictionary) -> void:
-	for child in locations_box.get_children():
-		locations_box.remove_child(child)
-		child.queue_free()
-	var area := ""
-	for loc in GameData.locations:
-		var info: Dictionary = GameData.locations[loc]
-		if info.get("area", "") != area:
-			area = info.get("area", "")
-			var header := Label.new()
-			header.text = area
-			header.add_theme_color_override("font_color", Color(1, 0.36, 0.54))
-			locations_box.add_child(header)
-		var button := Button.new()
-		button.name = loc
-		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		button.text = info.get("name", loc)
-		if places.has(loc):
-			var who: PackedStringArray = []
-			for id in places[loc]["characters"]:
-				who.append(GameData.get_character(id).get("name", id))
-			if not who.is_empty():
-				button.text += "  ·  " + ", ".join(who)
-		button.disabled = not places.has(loc)
-		button.toggle_mode = true
-		button.button_pressed = loc == selected_location
-		button.pressed.connect(_on_location_pressed.bind(loc))
-		locations_box.add_child(button)
-
-
 func _on_location_pressed(loc: String) -> void:
 	selected_location = loc
 	refresh()
 
 
+# --- The location panel ----------------------------------------------------------
+
 func _show_location(loc: String, places: Dictionary) -> void:
-	for child in place_cards.get_children():
-		place_cards.remove_child(child)
+	for child in place_body.get_children():
+		place_body.remove_child(child)
 		child.queue_free()
+	selected_item = {}
 	if loc == "":
-		place_name.text = "Nobody's around right now"
-		place_events.text = "Wait until later, or come back another day."
+		UiStyle.style_banner(place_name, "Nobody's around", UiStyle.NAVY_2, UiStyle.TEXT, 30, PANEL_WIDTH)
+		place_blurb.text = "Wait until later, or come back another day."
+		place_events.visible = false
+		_update_start_button()
 		return
 	var info: Dictionary = GameData.locations.get(loc, {})
-	place_name.text = info.get("name", loc)
+	UiStyle.style_banner(place_name, info.get("name", loc), UiStyle.PINK, UiStyle.TEXT, 32, PANEL_WIDTH)
+	place_blurb.text = info.get("blurb", "")
 	var place: Dictionary = places.get(loc, {"characters": [], "events": [], "scenes": []})
-	place_events.text = ", ".join(PackedStringArray(place["events"]))
-	if place["characters"].is_empty() and place["scenes"].is_empty():
-		place_events.text += "\nNobody to meet here right now."
-	for scene in place["scenes"]:
-		var button := Button.new()
-		button.name = scene["dialogue"]
-		button.text = "Watch: " + scene["event"].get("name", "")
-		button.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-		button.pressed.connect(_on_date_requested.bind("", scene["dialogue"], scene["event"]["id"]))
-		place_cards.add_child(button)
-	var crowded: bool = place["characters"].size() > 2
-	for id in place["characters"]:
-		var card := CharacterCardScene.instantiate()
-		card.setup(GameData.get_character(id))
-		if crowded:
-			# Smaller cards so four fit side by side (orientation, festivals).
-			card.custom_minimum_size.x = 0
-			card.get_node("%Portrait").custom_minimum_size.y = 120
-			card.get_node("%TaglineLabel").visible = false
-		card.date_requested.connect(_on_date_requested)
-		place_cards.add_child(card)
+	place_events.text = " · ".join(PackedStringArray(place["events"])).to_upper()
+	place_events.visible = place_events.text != ""
 
+	if not place["characters"].is_empty():
+		place_body.add_child(UiStyle.caption("Here now"))
+		var compact: bool = place["characters"].size() > 2
+		for id in place["characters"]:
+			place_body.add_child(_person_row(id, compact))
+
+	var items := place_items(place)
+	if not items.is_empty():
+		place_body.add_child(UiStyle.caption("Lessons here" if place["scenes"].is_empty() else "Things to do"))
+		for item in items:
+			place_body.add_child(_item_row(item))
+	elif place["characters"].is_empty():
+		place_body.add_child(UiStyle.caption("Nobody to meet here right now"))
+	else:
+		place_body.add_child(UiStyle.caption("Nothing new to learn here yet"))
+
+	# Pick the first thing that can be done.
+	for row in place_body.get_children():
+		if row is Button and not row.disabled:
+			row.button_pressed = true
+			row.pressed.emit()
+			break
+	_update_start_button()
+
+
+## A person at this location: a framed portrait, their name, and the event.
+func _person_row(id: String, compact: bool) -> Control:
+	var look := Looks.speaker_look(id, GameState.slot)
+	var row := HBoxContainer.new()
+	row.name = id
+	row.add_theme_constant_override("separation", 12)
+	var thumb: Portrait = preload("res://scenes/portrait.tscn").instantiate()
+	thumb.custom_minimum_size = Vector2(46, 52) if compact else Vector2(64, 72)
+	row.add_child(thumb)
+	thumb.show_look(look)
+	thumb.get_node("%Initial").add_theme_font_size_override("font_size", 30 if compact else 40)
+	var frame := Panel.new()
+	frame.theme_type_variation = &"PortraitFrame"
+	frame.set_anchors_preset(Control.PRESET_FULL_RECT)
+	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	thumb.add_child(frame)
+	var text := VBoxContainer.new()
+	text.alignment = BoxContainer.ALIGNMENT_CENTER
+	text.add_theme_constant_override("separation", 4)
+	var name_label := Label.new()
+	name_label.text = look.get("name", id).to_upper()
+	name_label.add_theme_font_override("font", UiStyle.display_font())
+	name_label.add_theme_font_size_override("font_size", 20 if compact else 26)
+	text.add_child(name_label)
+	# The event is already named above, so the chip shows the language.
+	var chip := UiStyle.chip(look.get("language", ""), UiStyle.SLOT_COLORS.get(GameState.slot, UiStyle.GOLD), UiStyle.INK, 10)
+	text.add_child(chip)
+	row.add_child(text)
+	return row
+
+
+## One thing to do (or a locked chapter) as a row you can pick.
+func _item_row(item: Dictionary) -> Button:
+	var button := Button.new()
+	button.theme_type_variation = &"ListRow"
+	button.toggle_mode = true
+	button.button_group = _rows
+	button.custom_minimum_size = Vector2(0, 38)
+	button.name = item.get("dialogue", "locked_" + item.get("character", ""))
+	var row := HBoxContainer.new()
+	row.set_anchors_preset(Control.PRESET_FULL_RECT)
+	row.offset_left = 14
+	row.offset_right = -12
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var label := Label.new()
+	label.text = item["text"]
+	label.add_theme_font_override("font", UiStyle.body_font(700 if item["kind"] != "locked" else 600))
+	label.add_theme_font_size_override("font_size", 14)
+	label.add_theme_color_override("font_color", UiStyle.TEXT_DIM if item["kind"] == "locked" else UiStyle.TEXT)
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	label.size_flags_vertical = Control.SIZE_FILL
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	label.clip_text = true
+	row.add_child(label)
+	var tag: Label
+	match item["kind"]:
+		"scene":
+			tag = UiStyle.chip("Scene", UiStyle.GOLD, UiStyle.INK, 10)
+		"locked":
+			tag = UiStyle.caption("Locked", UiStyle.TEXT_DIM, 10)
+		_:
+			tag = UiStyle.chip("New", UiStyle.PINK, UiStyle.TEXT, 10) if item["tag"] == "NEW" \
+				else UiStyle.caption("Open", UiStyle.CYAN, 10)
+	tag.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	row.add_child(tag)
+	button.add_child(row)
+	button.tooltip_text = item["text"]
+	if item["kind"] == "locked":
+		button.disabled = true
+		button.tooltip_text += "\nStill needed: " + ", ".join(PackedStringArray(item["missing"].map(_describe_requirement)))
+	else:
+		button.pressed.connect(func():
+			selected_item = {"kind": item["kind"], "dialogue": item["dialogue"], "event_id": item["event_id"]}
+			_update_start_button())
+	return button
+
+
+func _describe_requirement(id: String) -> String:
+	var subject: Dictionary = GameData.get_subject(id)
+	if not subject.is_empty():
+		return subject.get("title", id)
+	return GameData.get_special_chapter(id).get("title", id)
+
+
+func _update_start_button() -> void:
+	start_button.disabled = selected_item.is_empty()
+	match selected_item.get("kind", ""):
+		"scene":
+			start_button.text = "Watch scene"
+		"lesson":
+			start_button.text = "Start lesson"
+		_:
+			start_button.text = "Start"
+
+
+func _on_start() -> void:
+	if not selected_item.is_empty():
+		Router.goto(Router.DATE, {"date_id": selected_item["dialogue"], "event_id": selected_item["event_id"]})
+
+
+# --- Affection strip ----------------------------------------------------------------
 
 func _build_affection_list() -> void:
 	for child in affection_list.get_children():
 		affection_list.remove_child(child)
 		child.queue_free()
 	for id in GameData.character_ids():
-		var label := Label.new()
-		label.text = "%s: %s (%d)" % [GameData.get_character(id).get("name", id), GameState.get_level(id)["title"], GameState.get_affection(id)]
+		var entry := VBoxContainer.new()
+		entry.name = id
+		entry.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		entry.add_theme_constant_override("separation", 3)
+		var value := GameState.get_affection(id)
+		var text := "%s · %d" % [GameData.get_character(id).get("name", id), value]
+		var label := UiStyle.caption(text, UiStyle.TEXT, 11)
 		if id == JayBalance.CHARACTER:
-			label.text += "  ·  " + JayBalance.describe()
+			label.text += "  ·  " + JayBalance.describe().to_upper()
 			if not JayBalance.is_balanced():
-				label.add_theme_color_override("font_color", Color(1, 0.6, 0.4))
+				label.add_theme_color_override("font_color", UiStyle.DUSK)
 				label.tooltip_text = "Jay's sides are out of balance. Spend time with the other side."
-		affection_list.add_child(label)
+				label.mouse_filter = Control.MOUSE_FILTER_PASS
+		entry.add_child(label)
+		var bar := ProgressBar.new()
+		bar.show_percentage = false
+		bar.custom_minimum_size = Vector2(0, 6)
+		bar.max_value = GameState.MAX_AFFECTION
+		bar.value = value
+		bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		entry.add_child(bar)
+		affection_list.add_child(entry)
 
 
 func _on_wait() -> void:
@@ -176,7 +317,3 @@ func _on_wait() -> void:
 	GameState.advance_time()
 	GameState.save_game()
 	refresh()
-
-
-func _on_date_requested(_character_id: String, date_id: String, event_id: String) -> void:
-	Router.goto(Router.DATE, {"date_id": date_id, "event_id": event_id})

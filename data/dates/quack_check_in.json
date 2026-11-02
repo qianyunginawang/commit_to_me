@@ -6,7 +6,7 @@
   "nodes": {
     "l0": {
       "speaker": "narrator",
-      "text": "Sunday night in your dorm room. Quack is sitting on your pillow like it owns the place.",
+      "text": "Saturday night in your dorm room. Quack is sitting on your pillow like it owns the place.",
       "next": "l1"
     },
     "l1": {

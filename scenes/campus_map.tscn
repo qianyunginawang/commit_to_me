@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/campus_map.gd" id="1_map"]
+[ext_resource type="Script" path="res://scripts/ui/kit/campus_map_view.gd" id="2_view"]
+[ext_resource type="Script" path="res://scripts/ui/kit/hud.gd" id="3_hud"]
+[ext_resource type="Script" path="res://scripts/ui/kit/glass_panel.gd" id="4_glass"]
 
 [node name="CampusMap" type="Control"]
 layout_mode = 3
@@ -18,100 +21,160 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.09, 0.06, 0.14, 1)
+mouse_filter = 2
+color = Color(0.043, 0.078, 0.149, 1)
 
-[node name="Margin" type="MarginContainer" parent="."]
+[node name="MapView" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 26.0
+offset_bottom = 26.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_view")
+
+[node name="Hud" type="Control" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 32
-theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 24
+mouse_filter = 2
+script = ExtResource("3_hud")
 
-[node name="VBox" type="VBoxContainer" parent="Margin"]
+[node name="LocationPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -380.0
+offset_top = 116.0
+offset_right = -16.0
+offset_bottom = -76.0
+grow_horizontal = 0
+grow_vertical = 2
+script = ExtResource("4_glass")
+tab_text = "Location"
+
+[node name="VBox" type="VBoxContainer" parent="LocationPanel"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 10
 
-[node name="Header" type="HBoxContainer" parent="Margin/VBox"]
-layout_mode = 2
-
-[node name="TimeInfo" type="VBoxContainer" parent="Margin/VBox/Header"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="TimeLabel" type="Label" parent="Margin/VBox/Header/TimeInfo"]
+[node name="PlaceName" type="Label" parent="LocationPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
-text = "Week 1 · Monday, August 31 · Day"
+size_flags_horizontal = 0
+text = "PLACE"
 
-[node name="EventsLabel" type="Label" parent="Margin/VBox/Header/TimeInfo"]
+[node name="PlaceBlurb" type="Label" parent="LocationPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
-text = "Happening now:"
+theme_override_colors/font_color = Color(0.612, 0.776, 0.847, 1)
+theme_override_font_sizes/font_size = 14
+text = "What this place is like."
 autowrap_mode = 3
 
-[node name="WaitButton" type="Button" parent="Margin/VBox/Header"]
+[node name="PlaceEvents" type="Label" parent="LocationPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 4
-text = "Wait until tonight"
+theme_type_variation = &"Caption"
+theme_override_colors/font_color = Color(1, 0.82, 0.4, 1)
+text = "EVENT"
+autowrap_mode = 3
 
-[node name="MenuButton" type="Button" parent="Margin/VBox/Header"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 4
-text = "Main menu"
-
-[node name="Body" type="HBoxContainer" parent="Margin/VBox"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 24
-
-[node name="Side" type="VBoxContainer" parent="Margin/VBox/Body"]
-custom_minimum_size = Vector2(340, 0)
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="AffectionList" type="VBoxContainer" parent="Margin/VBox/Body/Side"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Scroll" type="ScrollContainer" parent="Margin/VBox/Body/Side"]
+[node name="Scroll" type="ScrollContainer" parent="LocationPanel/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="Locations" type="VBoxContainer" parent="Margin/VBox/Body/Side/Scroll"]
+[node name="PlaceBody" type="VBoxContainer" parent="LocationPanel/VBox/Scroll"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 8
 
-[node name="Place" type="VBoxContainer" parent="Margin/VBox/Body"]
+[node name="StartButton" type="Button" parent="LocationPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_type_variation = &"BrightButton"
+text = "START"
+
+[node name="AffectionStrip" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -66.0
+offset_right = -396.0
+offset_bottom = -14.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+script = ExtResource("4_glass")
+tab_text = "Affection"
+
+[node name="AffectionList" type="HBoxContainer" parent="AffectionStrip"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -380.0
+offset_top = -62.0
+offset_right = -16.0
+offset_bottom = -14.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/separation = 10
+
+[node name="WaitButton" type="Button" parent="Buttons"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 12
+text = "WAIT UNTIL TONIGHT"
 
-[node name="PlaceName" type="Label" parent="Margin/VBox/Body/Place"]
+[node name="CalendarButton" type="Button" parent="."]
 unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Main quad"
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -282.0
+offset_top = 20.0
+offset_right = -146.0
+offset_bottom = 62.0
+grow_horizontal = 0
+focus_mode = 0
+text = "CALENDAR"
 
-[node name="PlaceEvents" type="Label" parent="Margin/VBox/Body/Place"]
+[node name="MenuButton" type="Button" parent="."]
 unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
-text = "Events here"
-autowrap_mode = 3
-
-[node name="PlaceCards" type="HBoxContainer" parent="Margin/VBox/Body/Place"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 16
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -136.0
+offset_top = 20.0
+offset_right = -16.0
+offset_bottom = 62.0
+grow_horizontal = 0
+focus_mode = 0
+text = "MENU"

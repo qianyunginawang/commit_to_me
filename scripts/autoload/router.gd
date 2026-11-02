@@ -1,13 +1,15 @@
 extends Node
 ## Tiny helper for switching screens and passing data to the next one.
 ##
-##     Router.goto(Router.DATE, {"date_id": "python_date_1"})
+##     Router.goto(Router.DATE, {"date_id": "g01_python"})
 ## then in the new scene:
 ##     var date_id = Router.params.get("date_id")
 ##
 ## Available everywhere as the `Router` autoload.
 
 const MAIN_MENU := "res://scenes/main_menu.tscn"
+const LOAD_GAME := "res://scenes/load_game.tscn"
+const SETTINGS := "res://scenes/settings.tscn"
 const MAP := "res://scenes/campus_map.tscn"
 const DATE := "res://scenes/date.tscn"
 const ENDINGS := "res://scenes/endings.tscn"

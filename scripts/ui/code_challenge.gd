@@ -55,7 +55,7 @@ func _ready() -> void:
 	prompt_label.text = challenge.get("prompt", "")
 	_hints = GameData.get_hints(challenge)
 	hints_used = clampi(hints_used, 0, _hints.size())
-	hint_button.visible = not _hints.is_empty()
+	hint_button.visible = not _hints.is_empty() and Settings.quack_hints()
 	_update_hints()
 	editor.text = challenge.get("starter_code", "")
 	editor.syntax_highlighter = _make_highlighter(language)

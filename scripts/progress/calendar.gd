@@ -17,21 +17,22 @@ extends RefCounted
 ##
 ## Functions take an optional state and data so tests can pass their own.
 
-const DAY_KEYS := ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
-const DAY_NAMES := ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+## Weeks run Sunday to Saturday: day 0 is Sunday.
+const DAY_KEYS := ["sun", "mon", "tue", "wed", "thu", "fri", "sat"]
+const DAY_NAMES := ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 const MONTH_NAMES := ["January", "February", "March", "April", "May", "June", "July",
 	"August", "September", "October", "November", "December"]
 
 
-## The real date for a week (1-14) and day (0 = Monday), like "Monday, August 31".
+## The real date for a week (1-14) and day (0 = Sunday), like "Sunday, September 1".
 static func date_for(week: int, day: int, data: Node = null) -> String:
-	var start: String = _data(data).calendar.get("start_date", "2026-08-31")
+	var start: String = _data(data).calendar.get("start_date", "2030-09-01")
 	var unix := Time.get_unix_time_from_datetime_string(start) + ((week - 1) * 7 + day) * 86400
 	var d := Time.get_datetime_dict_from_unix_time(unix)
 	return "%s, %s %d" % [DAY_NAMES[day], MONTH_NAMES[d["month"] - 1], d["day"]]
 
 
-## Like "Week 1 · Monday, August 31 · Day".
+## Like "Week 1 · Sunday, September 1 · Day".
 static func describe_now(state: Node = null, data: Node = null) -> String:
 	state = _state(state)
 	if state.is_semester_over():

@@ -16,6 +16,18 @@ The work needed to turn the design docs (Setting, Calendar, StoryBeats, Balance,
 ## Phase 2: Vertical slice
 Build weeks 1 to 3 end to end with placeholder art: orientation, the campus tour, the club fair, the hackathon, and the first special chapters. Play it, check that the pacing and affection feel right, and fix the systems before making lots of content. Monty is the best character to polish first, since his route is the easy one and the recommended first playthrough.
 
+The UI follows style 02, "Modern Anime", from the Art Styles design canvas: glass frames with glowing cyan edges, slanted name banners, and Anton, Chakra Petch and Nunito. The shared pieces live in `scripts/ui/kit/`, and `assets/theme.tres` is built from `scripts/ui/kit/ui_style.gd` by `tools/build_theme.gd`.
+
+1. **Opening, new look and cleanup.** A new game opens with the orientation scene (Quack, "Why did you pick CS?"). The dialogue screen, campus map and title screen use the new style. The map's location panel lists every lesson and scene there, plus locked chapters. Remove the old hub-era dates and challenges.
+2. **Hook up portraits.** Quack's portrait when Quack speaks, and Jay's day/night swap (placeholders until the art lands).
+3. **Campus tour.** Meet all four at their tour stops on orientation day, doing Generic 1 with each, with Quack explaining lessons, affection, hints and unlocks.
+4. **Club fair and Generic 2.** Each character introduces their recurring events, and Quack explains Day and Night slots.
+5. **Generic 3 to 5** in all 5 versions, with solutions and dialogue.
+6. **Generic 6 to 8** in all 5 versions, with solutions and dialogue.
+7. **Monty Ch1, Julian Ch1, Ciel Ch1 and Julian Ch2.**
+8. **Jay's arc.** The Day 256 Hackathon (Jay Ch1, night), Day Jay's Monday-after scene, and Jay Ch2 with the sunset reveal. Best done once Jay's art exists.
+9. **Playtest.** A script that plays weeks 1 to 3 on pace and reports affection and unlocks, then play it and tune.
+
 ## Phase 3: Content (parallel)
 The biggest phase, and the easiest to split up.
 - **Generic lessons:** 33 subjects × 5 versions (Python, Java, C++, TypeScript for Day Jay, JavaScript for Night Jay) = 165 challenges. The TypeScript and JavaScript versions can share most of their content. Each one needs the challenge, 2 hints, a test solution in `tests/solutions/`, and short dialogue in that character's voice. Write them one subject at a time (all 5 versions together), in curriculum order, so the vertical slice and early weeks are finished first. Splitting by language also works, with one person on Python and Java and another on C++ and JS/TS.
