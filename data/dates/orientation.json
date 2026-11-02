@@ -6,22 +6,22 @@
   "nodes": {
     "l0": {
       "speaker": "narrator",
-      "text": "Sunday, September 1. Runtime University's main quad is packed with new students, lost parents and a banner that says HELLO, WORLD!",
+      "text": "You walk into the main quad to the smell fresh textbook pages, overpriced espresso, and pure, unfiltered anxiety. Welcome to Runtime University, where your academic future is bright, your sleep schedule is bleak, and your romantic destiny is directly tied to your GPA",
       "next": "l1"
     },
     "l1": {
       "speaker": "narrator",
-      "text": "Your welcome bag has a lanyard, a campus map, a coupon for Café Cache... and a small yellow rubber duck.",
+      "text": "After sitting through a grueling welcome speech by President Fortran, you are handed a welcome bag and shuffled off into a tour group. In your welcome bag you find a lanyard, a campus map, a calendar of events, and a small yellow rubber duck.",
       "next": "l2"
     },
     "l2": {
       "speaker": "quack",
-      "text": "Hi! I'm Quack Overflow. Quack for short. Every CS student gets a rubber duck, and you got the best one.",
+      "text": "Hi! I'm Quack Overflow. Quack for short. Every student gets a rubber duck, and you got the best one.",
       "next": "name"
     },
     "name": {
       "speaker": "quack",
-      "text": "Wait, where are my manners? I introduced myself and didn't even ask. What's your name?",
+      "text": "Wait, where are my manners? I introduced myself and didn't even ask who you are. What's your name?",
       "ask_name": true,
       "next": "nice"
     },
@@ -32,12 +32,12 @@
     },
     "l3": {
       "speaker": "quack",
-      "text": "When your code breaks, you explain it to me, line by line, and suddenly you'll see the bug. It's called rubber duck debugging. I also give hints.",
+      "text": "When your code breaks, you explain it to me, line by line, and suddenly you'll see the bug. It's called rubber duck debugging. I also give hints. When your love life feels like confusing, I can also give you relationship advice. Not that I've ever been in a relationship",
       "next": "l4"
     },
     "l4": {
       "speaker": "quack",
-      "text": "Also, it's my birthday! I'm one day old. Where's my cake?",
+      "text": "I'm one day old. It's my birthday! Where's my cake?",
       "next": "ask"
     },
     "ask": {
@@ -84,7 +84,7 @@
     },
     "calendar": {
       "speaker": "quack",
-      "text": "Okay, the calendar. Every day has two free slots, Day and Night. Spend them on extracurriculars, office hours or tutoring.",
+      "text": "Okay, the calendar. Every day has two free slots, Day and Night. You can spend them on extracurriculars, office hours, tutoring, and just generally getting to know people.",
       "next": "events"
     },
     "events": {
@@ -94,7 +94,7 @@
     },
     "map": {
       "speaker": "quack",
-      "text": "Then there's the map. Pick a place, see who's there, and spend your free slot with them.",
+      "text": "Then there's the map. Pick a place, see who's there, and spend some time with them.",
       "next": "tour"
     },
     "tour": {
