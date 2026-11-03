@@ -7,6 +7,7 @@ The campus has **11 buildings**. Each building has **rooms** (or wings, floors, 
 - **Building** = one clickable shape on the map. Its bubble shows which love interests are in any of its rooms right now.
 - **Room** = one entry in the list that opens when you click a building. A room with a love interest starts a scene and a lesson list. A room with nobody there shows its "walk-in" line and a button back to the map.
 - Every room has an **id**. Ids that already exist in `data/locations.json` are kept, so `calendar.json`, `curriculum.json` and `routes/*.json` keep working. Rooms marked **(new)** need to be added to `locations.json`.
+- **Flavor rooms** are marked (flavor). Nothing happens in them, and no love interest is ever there. They only have a description, shown as the walk-in text, so the player has more to explore.
 - Outdoor areas (the quad, the gardens, the athletic fields) are treated as buildings too, so the map works the same way everywhere.
 
 Event names below match `data/calendar.json`. "Generic N" is a subject from the general curriculum (1 to 33). "Jay/Monty/Ciel/Julian Ch N" is a special chapter from that character's route. Generic lessons happen with whoever is in the room, so a generic subject's room is only its flavor setting.
@@ -40,19 +41,19 @@ Why things sit where they do:
 ## Buildings at a glance
 | Map cell | Building | Building id | Rooms | Who's usually here |
 |---|---|---|---|---|
-| A1 | Turing Hall | `turing` | Lecture hall, Locker hallway, TA office, Tutoring center, Exam hall | Day Jay (days), Monty (weeknights) |
-| B1 | Oracle Hall | `oracle_hall` | Student council room, Council balcony, Server room, Oracle Great Hall | Julian (weekend nights) |
-| C1 | Lovelace Library | `library` | Reading room, The stacks, University Archive (Sun Wing) | Nobody regularly |
-| D1 | Knuth Hall | `knuth_hall` | Hopper Computer Lab, Capstone team room, Knuth Hall rooftop | Ciel (weeknights) |
-| A2 | Student Union | `student_union` | Hackathon hall, Game dev club room, Arcade, Union rooftop | Night Jay (weekend nights), Ciel (weekend days) |
-| B2–C2 | Main Quad | `main_quad_area` | Quad lawn, Fountain bench, Picnic hill, Festival stage (week 14 only) | Nobody regularly |
-| D2 | Observatory | `observatory_bld` | Observatory dome | Nobody regularly |
-| A3 | The Commons | `commons` | The Stack (dining hall), Café Cache, Campus bookstore | Julian (weekday mornings) |
-| B3 | Babbage Hall | `babbage` | Your room, Common room, Laundry room | Quack (always) |
-| C3 | Greenhouse and Gardens | `gardens` | Greenhouse, Hedge maze garden, Duck pond | Monty (weekend days) |
-| D3 | Athletic Complex | `athletics` | Gym, Running track | Nobody regularly |
+| A1 | Turing Hall | `turing` | Lecture hall, Locker hallway, TA office, Tutoring center, Exam hall. Flavor: Vending alcove, Faculty hallway | Day Jay (days), Monty (weeknights) |
+| B1 | Oracle Hall | `oracle_hall` | Student council room, Council balcony, Server room, Oracle Great Hall. Flavor: Registrar's office, President Fortran's waiting room | Julian (weekend nights) |
+| C1 | Lovelace Library | `library` | Reading room, The stacks, University Archive (Sun Wing). Flavor: Quiet study carrels, Microfilm room | Nobody regularly |
+| D1 | Knuth Hall | `knuth_hall` | Hopper Computer Lab, Capstone team room, Knuth Hall rooftop. Flavor: Department lounge, Computer museum hallway, Lab stairwell | Ciel (weeknights) |
+| A2 | Student Union | `student_union` | Hackathon hall, Game dev club room, Arcade, Union rooftop. Flavor: Campus radio booth, TV lounge | Night Jay (weekend nights), Ciel (weekend days) |
+| B2–C2 | Main Quad | `main_quad_area` | Quad lawn, Fountain bench, Picnic hill, Festival stage (week 14 only). Flavor: Clock tower, Founders' statue | Nobody regularly |
+| D2 | Observatory | `observatory_bld` | Observatory dome. Flavor: Observatory lobby, Viewing deck | Nobody regularly |
+| A3 | The Commons | `commons` | The Stack (dining hall), Café Cache, Campus bookstore. Flavor: The Heap (convenience store), Mail room | Julian (weekday mornings) |
+| B3 | Babbage Hall | `babbage` | Your room, Common room, Laundry room. Flavor: Front desk, Kitchenette | Quack (always) |
+| C3 | Greenhouse and Gardens | `gardens` | Greenhouse, Hedge maze garden, Duck pond. Flavor: Compost corner, Gazebo | Monty (weekend days) |
+| D3 | Athletic Complex | `athletics` | Gym, Running track. Flavor: Swimming pool, Climbing wall, Bleachers | Nobody regularly |
 
-Totals: 11 buildings, 35 rooms. Rooms marked (new) aren't in `data/locations.json` yet.
+Totals: 11 buildings, 59 rooms (24 of them flavor rooms). Rooms marked (new) aren't in `data/locations.json` yet.
 
 ---
 
@@ -98,6 +99,18 @@ The main lecture building, where Intro to Programming is taught. Long hallways l
 - **Story events:** Midterms week (week 7), Finals week (week 14)
 - **Lessons:** Generic 33 (Dynamic programming: a finals-week cram session)
 
+### Vending alcove (flavor)
+- **id:** `turing_vending` (new)
+- **Open:** Day and Night
+- **Description:** A vending machine that eats every third dollar. Someone taped a sign to it that says "Known issue. Won't fix."
+- **Events:** None. Exploration only.
+
+### Faculty hallway (flavor)
+- **id:** `faculty_hallway` (new)
+- **Open:** Day
+- **Description:** Office doors covered in old comics, and a "Back in 5 minutes" sign that has been up since 2019.
+- **Events:** None. Exploration only.
+
 ---
 
 ## B1. Oracle Hall
@@ -132,6 +145,18 @@ The administration building, donated by the Oracle family. President Fortran's o
 - **Special chapters:** Julian Ch6 (Generics and streams final: planning the winter gala)
 - **Endings:** Julian normal ending, Next release (at the end of the gala, Julian raises a toast to his most trusted council member)
 
+### Registrar's office (flavor)
+- **id:** `registrar` (new)
+- **Open:** Day
+- **Description:** A long line, a take-a-number machine, and a screen that says "Now serving: 404."
+- **Events:** None. Exploration only.
+
+### President Fortran's waiting room (flavor)
+- **id:** `fortran_waiting_room` (new)
+- **Open:** Day
+- **Description:** Leather chairs, a ticking grandfather clock, and a framed punch card on the wall. The door to the president's office is always closed.
+- **Events:** None. Exploration only.
+
 ---
 
 ## C1. Lovelace Library
@@ -160,6 +185,18 @@ Tall shelves, reading lamps, and big west windows. Open in the Day slot, plus la
 - **Lessons:** Generic 21 (Inheritance and polymorphism: family-tree portraits), Generic 23 (File reading and writing: digging through old records)
 - **Endings:** Julian bad ending, NullPointerException (she reaches for Julian's hand among the old portraits and finds nothing there)
 
+### Quiet study carrels (flavor)
+- **id:** `study_carrels` (new)
+- **Open:** Day (and Night in week 14)
+- **Description:** Rows of tiny desks with walls. It's so quiet you can hear someone's laptop fan spinning up.
+- **Events:** None. Exploration only.
+
+### Microfilm room (flavor)
+- **id:** `microfilm_room` (new)
+- **Open:** Day
+- **Description:** A windowless room with two microfilm readers. One of them hums. Nobody has asked for microfilm in years.
+- **Events:** None. Exploration only.
+
 ---
 
 ## D1. Knuth Hall
@@ -186,6 +223,24 @@ Home of the computer science department, named after Donald Knuth. The lab is in
 - **Open:** Story only
 - **Description:** Through the fire door at the top of the lab stairwell. Quiet, cold, and facing the sunrise.
 - **Endings:** Ciel confession (at dawn after the Templates all-nighter, coat around her shoulders)
+
+### Department lounge (flavor)
+- **id:** `cs_lounge` (new)
+- **Open:** Day and Night
+- **Description:** A worn couch, an espresso machine with a handwritten user manual, and a whiteboard asking "Free pizza Friday???"
+- **Events:** None. Exploration only.
+
+### Computer museum hallway (flavor)
+- **id:** `computer_museum` (new)
+- **Open:** Day
+- **Description:** Glass cases of old machines: a punch card reader, a beige desktop with a floppy drive, and a modem that still makes the noise when you press the button.
+- **Events:** None. Exploration only.
+
+### Lab stairwell (flavor)
+- **id:** `lab_stairwell` (new)
+- **Open:** Day and Night
+- **Description:** Concrete stairs from the basement lab to the roof. Someone has been keeping a tally of all-nighters on the wall. It's a lot.
+- **Events:** None. Exploration only.
 
 ---
 
@@ -225,6 +280,18 @@ The loud, busy building on the west edge of campus. Clubs, events, and the best 
 - **Special chapters:** Jay Ch2 ending (the heroine watches the sunset switch happen: the reveal), Jay Ch6 (Async and promises, dusk)
 - **Endings:** Polyglot confession (at dusk, so both sides of Jay are there), Polyglot ending epilogue CG (all five at sunset, Quack on her shoulder)
 
+### Campus radio booth (flavor)
+- **id:** `campus_radio` (new)
+- **Open:** Day and Night
+- **Description:** WRUN, the student radio station. A tiny booth with a red ON AIR light and lo-fi beats playing around the clock.
+- **Events:** None. Exploration only.
+
+### TV lounge (flavor)
+- **id:** `union_lounge` (new)
+- **Open:** Day and Night
+- **Description:** Big couches, a TV stuck on the weather channel, and a ping pong table with one paddle.
+- **Events:** None. Exploration only.
+
 ---
 
 ## B2–C2. Main Quad
@@ -256,6 +323,18 @@ The open center of campus: a big lawn, a fountain with benches, and a sunny hill
 - **Story events:** End-of-term festival and Jay's birthday (week 14, Wed, Day), End-of-term festival (week 14, Wed, Night)
 - **Endings:** Jay confession (at sunset, glasses pushed up into his hair, both sides at once), Merge conflict ending, first scene (everyone walks away at the festival)
 
+### Clock tower (flavor)
+- **id:** `clock_tower` (new)
+- **Open:** Day and Night
+- **Description:** The old clock tower at the edge of the quad. It's been exactly one hour off since daylight saving time ended. Students call it the off-by-one clock.
+- **Events:** None. Exploration only.
+
+### Founders' statue (flavor)
+- **id:** `founders_statue` (new)
+- **Open:** Day and Night
+- **Description:** A bronze statue of the university's founders with a small bronze rubber duck at its base. Its beak is shiny from students rubbing it for luck before exams.
+- **Events:** None. Exploration only.
+
 ---
 
 ## D2. Observatory
@@ -266,6 +345,18 @@ A small domed building on the hill at the east edge of campus, away from the lig
 - **Open:** Night (stargazing nights)
 - **Description:** A big old telescope under a dome that opens with a loud crank.
 - **Lessons:** Generic 28 (Graphs: constellations as nodes and edges)
+
+### Observatory lobby (flavor)
+- **id:** `observatory_lobby` (new)
+- **Open:** Night
+- **Description:** A model of the solar system hangs from the ceiling. Pluto is attached with tape and a sticky note that says "still counts".
+- **Events:** None. Exploration only.
+
+### Viewing deck (flavor)
+- **id:** `observatory_deck` (new)
+- **Open:** Night
+- **Description:** A narrow deck around the dome. On a clear night you can see the whole campus lit up below.
+- **Events:** None. Exploration only.
 
 ---
 
@@ -292,6 +383,18 @@ Food and shopping, all under one roof next to the dorms. Short hours during Than
 - **Description:** Textbooks, hoodies, and a wall of laptop stickers.
 - **Lessons:** Generic 2 (Comments: sticky notes in used textbooks), Generic 18 (Sets: a sticker collection with no duplicates), Generic 19 (Iterating over collections: browsing the shelves)
 
+### The Heap (convenience store) (flavor)
+- **id:** `the_heap` (new)
+- **Open:** Day and Night
+- **Description:** A tiny corner store where everything is piled in no particular order. You can always find what you need, eventually.
+- **Events:** None. Exploration only.
+
+### Mail room (flavor)
+- **id:** `mail_room` (new)
+- **Open:** Day
+- **Description:** A wall of package lockers and a bin of packages nobody has picked up. One of them has been here since last spring.
+- **Events:** None. Exploration only.
+
 ---
 
 ## B3. Babbage Hall
@@ -316,6 +419,18 @@ The heroine's dorm. Quack talks to her here every night.
 - **Open:** Day and Night
 - **Description:** Four washers and a schedule on the wall that Monty scripted. It actually works.
 - **Lessons:** Generic 26 (Recursion: folding a fitted sheet. Fold it in half, then fold that in half, until it's small enough)
+
+### Front desk (flavor)
+- **id:** `babbage_lobby` (new)
+- **Open:** Day and Night
+- **Description:** A sleepy RA, a bowl of free mints, and a bulletin board full of flyers for clubs that meet at 8 a.m.
+- **Events:** None. Exploration only.
+
+### Kitchenette (flavor)
+- **id:** `kitchenette` (new)
+- **Open:** Day and Night
+- **Description:** A shared kitchen with one working burner, a fridge full of labeled leftovers, and a note on the microwave: "PLEASE cover your food. You know who you are."
+- **Events:** None. Exploration only.
 
 ---
 
@@ -344,6 +459,18 @@ Monty's corner of campus: a glass greenhouse, winding garden paths, and a small 
 - **Description:** A small pond by the garden. Quack has opinions about the real ducks.
 - **Special chapters:** Monty Ch4 (Duck typing: Quack's starring role)
 
+### Compost corner (flavor)
+- **id:** `compost_corner` (new)
+- **Open:** Day
+- **Description:** A row of compost bins behind the greenhouse. A hand-painted sign on them says "Garbage collection".
+- **Events:** None. Exploration only.
+
+### Gazebo (flavor)
+- **id:** `gazebo` (new)
+- **Open:** Day and Night
+- **Description:** A white gazebo in the middle of the garden paths, with a bench and climbing roses. Quiet, except for the bees.
+- **Events:** None. Exploration only.
+
 ---
 
 ## D3. Athletic Complex
@@ -360,6 +487,24 @@ The gym and the running track around the athletic field.
 - **Open:** Day and Night
 - **Description:** A loop around the athletic field. Everyone is counting laps.
 - **Lessons:** Generic 11 (While loops: running laps until you're tired), Generic 24 (Linked lists: a relay race, where each runner only knows who to hand the baton to next)
+
+### Swimming pool (flavor)
+- **id:** `pool` (new)
+- **Open:** Day
+- **Description:** An indoor pool that smells like chlorine. A sign at the deep end says "No diving into anything you can't get out of."
+- **Events:** None. Exploration only.
+
+### Climbing wall (flavor)
+- **id:** `climbing_wall` (new)
+- **Open:** Day
+- **Description:** A tall wall of colorful holds. Every route has a name, like "Stack Overflow" and "Infinite Loop".
+- **Events:** None. Exploration only.
+
+### Bleachers (flavor)
+- **id:** `bleachers` (new)
+- **Open:** Day and Night
+- **Description:** Metal bleachers beside the running track. A good spot to sit and watch everyone else run.
+- **Events:** None. Exploration only.
 
 ---
 
@@ -515,6 +660,7 @@ Each route ending plays in one room. Confessions come right before the good endi
 - "Food court" is now **The Commons**.
 - The exam hall and tutoring center are now clearly inside **Turing Hall** (they were placed there in `locations.json` but not in this doc).
 - Outdoor spots are grouped into three areas: **Main Quad** (with the picnic hill moved onto it from "behind the library"), **Greenhouse and Gardens**, and **Athletic Complex** (gym and track).
+- Added 24 flavor rooms (Gee, 2026-11-03), 2 or 3 per building, for exploration only.
 - Rooms split out so specialty spots have their own entry: Locker hallway, The stacks, Common room, Laundry room, Running track.
 - **The carnival is gone** (Gee, 2026-11-03), including Fright Night, because generic lessons shouldn't be tied to time-limited events. Generic 10 moved to the gym, Generic 24 to the running track, Generic 26 to the laundry room, and Jay Ch3 to the new union Arcade.
 - Orientation tour stops (Gee, 2026-11-03): Monty in the greenhouse, Jay in the TA office, Julian in the council room, Ciel in Hopper Lab.
