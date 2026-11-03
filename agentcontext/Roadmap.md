@@ -20,13 +20,15 @@ The UI follows style 02, "Modern Anime", from the Art Styles design canvas: glas
 
 1. **Opening, new look and cleanup.** A new game opens with the orientation scene (Quack, "Why did you pick CS?"). The dialogue screen, campus map and title screen use the new style. The map's location panel lists every lesson and scene there, plus locked chapters. Remove the old hub-era dates and challenges.
 2. **Hook up portraits.** Quack's portrait when Quack speaks, and Jay's day/night swap (placeholders until the art lands).
-3. **Campus tour.** Meet all four at their tour stops on orientation day, doing Generic 1 with each, with Quack explaining lessons, affection, hints and unlocks.
-4. **Club fair and Generic 2.** Each character introduces their recurring events, and Quack explains Day and Night slots.
-5. **Generic 3 to 5** in all 5 versions, with solutions and dialogue.
-6. **Generic 6 to 8** in all 5 versions, with solutions and dialogue.
-7. **Monty Ch1, Julian Ch1, Ciel Ch1 and Julian Ch2.**
-8. **Jay's arc.** The Day 256 Hackathon (Jay Ch1, night), Day Jay's Monday-after scene, and Jay Ch2 with the sunset reveal. Best done once Jay's art exists.
-9. **Playtest.** A script that plays weeks 1 to 3 on pace and reports affection and unlocks, then play it and tune.
+3.**Redo the campus map.** Recreate the campus map so that it is interactable. The map should show the large buildings, with bubbles to indicate if a love interest is located there. When the player clicks the building, a list of the rooms appear for the user to select. The rooms are annotated with whether a love interest is there. When the user clicks a room without a love interest, we navigate to that room. There is some generic dialog that describes the room (i.e if at the cafe it says something like "You see a bunch of students. Some are studying, some gossiping, a few napping on their laptops.") and the player is given the option to return to the map. If the player selects a location with a love interest, we start some dialog where they interact which eventually cummulates to the player given a list of unlocked lessons to select from. 
+4. **Campus tour.** The campus tour goes through the main buildings. 
+Meet all four love interests at their tour stops on orientation day, Ciel is in the Hopper Computer lab. Julian is in the Student Council Room. Jay is in Cafe Cache. Monty is in the tutoring center. doing Generic 1 with each, with Quack explaining lessons, affection, hints and unlocks.
+5. **Club fair and Generic 2.** Each character introduces their recurring events, and Quack explains Day and Night slots.
+6. **Generic 3 to 5** in all 5 versions, with solutions and dialogue.
+7. **Generic 6 to 8** in all 5 versions, with solutions and dialogue.
+8. **Monty Ch1, Julian Ch1, Ciel Ch1 and Julian Ch2.**
+9. **Jay's arc.** The Day 256 Hackathon (Jay Ch1, night), Day Jay's Monday-after scene, and Jay Ch2 with the sunset reveal. Best done once Jay's art exists.
+10. **Playtest.** A script that plays weeks 1 to 3 on pace and reports affection and unlocks, then play it and tune.
 
 ## Phase 3: Content (parallel)
 The biggest phase, and the easiest to split up.
