@@ -54,4 +54,3 @@ Ciel:
 ## Route timing notes
 - With the suggested pacing, the special finals unlock in this order: Jay's at subject 27 (week 11), Monty's at 29 (week 12), Julian's at 32 (week 13), and Ciel's at 33 (week 14).
 - Every confession lands in week 14. Julian's is after the winter gala (Thu). Jay's and Monty's are at the end-of-term festival (Fri). Ciel's is on the Knuth Hall rooftop at dawn after the final all-nighter.
-- Generic 24 (Linked lists) and 26 (Recursion) are set at the carnival, so they line up with Fright Night in weeks 9 and 10.

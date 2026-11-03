@@ -50,9 +50,9 @@ Why things sit where they do:
 | A3 | The Commons | `commons` | The Stack (dining hall), Café Cache, Campus bookstore | Julian (weekday mornings) |
 | B3 | Babbage Hall | `babbage` | Your room, Common room, Laundry room | Quack (always) |
 | C3 | Greenhouse and Gardens | `gardens` | Greenhouse, Hedge maze garden, Duck pond | Monty (weekend days) |
-| D3 | Athletic Complex | `athletics` | Gym, Running track, Carnival midway, Carnival ride, Hall of mirrors (carnival weeks only) | Nobody regularly |
+| D3 | Athletic Complex | `athletics` | Gym, Running track, Carnival midway (carnival weeks only) | Nobody regularly |
 
-Totals: 11 buildings, 37 rooms (30 existing ids, 7 new).
+Totals: 11 buildings, 35 rooms (30 existing ids, 5 new).
 
 ---
 
@@ -301,7 +301,7 @@ The heroine's dorm. Quack talks to her here every night.
 - **id:** `laundry_room` (new)
 - **Open:** Day and Night
 - **Description:** Four washers and a schedule on the wall that Monty scripted. It actually works.
-- **Events:** None yet (walk-in only)
+- **Lessons:** Generic 26 (Recursion: folding a fitted sheet. Fold it in half, then fold that in half, until it's small enough)
 
 ---
 
@@ -333,39 +333,26 @@ Monty's corner of campus: a glass greenhouse, winding garden paths, and a small 
 ---
 
 ## D3. Athletic Complex
-The gym, the running track, and the athletic field. The traveling carnival sets up on the field twice a semester, and its three rooms only show up on the map in those weeks.
+The gym, the running track, and the athletic field. The traveling carnival sets up on the field twice a semester, and the midway only shows up on the map in those weeks. No generic lesson is set there, so nothing is missed when it's gone.
 
 ### Gym
 - **id:** `fitness_center` (kept, now just the gym)
 - **Open:** Day and Night
 - **Description:** Weights, mirrors, and a lot of people counting reps.
-- **Lessons:** Generic 13 (Nested loops and break/continue: sets and reps, and stopping early)
+- **Lessons:** Generic 10 (Logical operators: the front desk lets you in with a student ID AND a signed waiver), Generic 13 (Nested loops and break/continue: sets and reps, and stopping early)
 
 ### Running track (new)
 - **id:** `running_track` (new)
 - **Open:** Day and Night
 - **Description:** A loop around the athletic field. Everyone is counting laps.
-- **Lessons:** Generic 11 (While loops: running laps until you're tired)
+- **Lessons:** Generic 11 (While loops: running laps until you're tired), Generic 24 (Linked lists: a relay race, where each runner only knows who to hand the baton to next)
 
 ### Carnival midway (carnival weeks only)
 - **id:** `fall_carnival` (kept, now the midway)
 - **Open:** Night, weeks 5–6 and 9–10
-- **Description:** Rigged games, prize booths, and a "must be this tall" sign.
+- **Description:** Rigged games, prize booths, a rickety ride, and a hall of mirrors.
 - **Story events:** Fall carnival (weeks 5–6, Fri and Sat, Night), Fright Night carnival (weeks 9–10, Fri and Sat, Night)
 - **Special chapters:** Jay Ch3 (Equality and coercion, night: a carnival date full of weird games)
-- **Lessons:** Generic 10 (Logical operators: "must be this tall AND have a ticket")
-
-### Carnival ride (new, carnival weeks only)
-- **id:** `carnival_ride` (new)
-- **Open:** Night, weeks 5–6 and 9–10
-- **Description:** A rickety ride with cars hooked one to the next.
-- **Lessons:** Generic 24 (Linked lists: each ride car hooked to the next)
-
-### Hall of mirrors (new, carnival weeks only)
-- **id:** `hall_of_mirrors` (new)
-- **Open:** Night, weeks 5–6 and 9–10
-- **Description:** Mirrors reflecting mirrors reflecting mirrors.
-- **Lessons:** Generic 26 (Recursion: the hall of mirrors)
 
 ---
 
@@ -463,7 +450,7 @@ The same information as above, looked up by event. Use this to check `calendar.j
 | 7 | User input | Babbage Hall | Common room (new) |
 | 8 | Debugging | Knuth Hall | Hopper Computer Lab |
 | 9 | If/else | Turing Hall | Lecture hall |
-| 10 | Logical operators | Athletic Complex | Carnival midway |
+| 10 | Logical operators | Athletic Complex | Gym |
 | 11 | While loops | Athletic Complex | Running track (new) |
 | 12 | For loops | Turing Hall | Tutoring center |
 | 13 | Nested loops and break/continue | Athletic Complex | Gym |
@@ -477,9 +464,9 @@ The same information as above, looked up by event. Use this to check `calendar.j
 | 21 | Inheritance and polymorphism | Lovelace Library | University Archive |
 | 22 | Error handling | Student Union | Hackathon hall |
 | 23 | File reading and writing | Lovelace Library | University Archive |
-| 24 | Linked lists | Athletic Complex | Carnival ride (new) |
+| 24 | Linked lists | Athletic Complex | Running track (new) |
 | 25 | Stacks and queues | The Commons | The Stack |
-| 26 | Recursion | Athletic Complex | Hall of mirrors (new) |
+| 26 | Recursion | Babbage Hall | Laundry room (new) |
 | 27 | Trees | Greenhouse and Gardens | Hedge maze garden |
 | 28 | Graphs | Observatory | Observatory dome |
 | 29 | Graph traversal (BFS, DFS) | Greenhouse and Gardens | Hedge maze garden |
@@ -497,10 +484,10 @@ The same information as above, looked up by event. Use this to check `calendar.j
 - "Food court" is now **The Commons**.
 - The exam hall and tutoring center are now clearly inside **Turing Hall** (they were placed there in `locations.json` but not in this doc).
 - Outdoor spots are grouped into three areas: **Main Quad** (with the picnic hill moved onto it from "behind the library"), **Greenhouse and Gardens**, and **Athletic Complex** (gym, track and carnival).
-- Seven rooms are split out so specialty spots have their own entry: Locker hallway, The stacks, Common room, Laundry room, Running track, Carnival ride, Hall of mirrors.
+- Five rooms are split out so specialty spots have their own entry: Locker hallway, The stacks, Common room, Laundry room, Running track.
+- No generic lesson is set at a time-limited place (Gee, 2026-11-03). Generic 10 moved from the carnival to the gym, Generic 24 to the running track, and Generic 26 to the laundry room.
 - Orientation tour stops (Gee, 2026-11-03): Monty in the greenhouse, Jay in the TA office, Julian in the council room, Ciel in Hopper Lab.
 
 ## Open questions
-- **Carnival weeks:** Generic 10, 24 and 26 are set at the carnival, which only exists in weeks 5–6 and 9–10. That's fine as flavor, but the map needs to know whether those rooms show up outside carnival weeks. This doc says no.
+- **Jay Ch3:** it's still set at the carnival, so it can only be played on Fri or Sat nights in weeks 5–6 and 9–10. That's the only special chapter tied to a time-limited place.
 - **Endings with no place yet:** the good, normal and bad endings for Monty, Julian and Jay (except the ones listed above), and all bad endings, don't have a room yet.
-- **Rooms with nothing in them yet:** Laundry room (walk-in only). Fine for the "nobody's here" walk-in text, or it could get an event later.

@@ -65,7 +65,6 @@ Quack explains how lessons work and how more lessons get unlocks. Quack also exp
 ### 7. The fall carnival
 - Weeks 5 and 6, weekend nights on the athletic field.
 - Jay Ch3 (Equality and coercion, night): a carnival date full of rigged games. Teaches == vs === and why '5' + 3 is '53'.
-- Generic 10 (Logical operators) can be played here: "must be this tall AND have a ticket".
 - Hacktoberfest starts in week 6, which gives Jay and Ciel something to argue about.
 - Also in week 6: Monty Ch2 (Slicing and unpacking, Café Cache), Monty Ch3 (Comprehensions, picnic lawn), Ciel Ch2 (Pointers and references, Hopper Lab), and Julian Ch3 (Primitives and wrappers, Café Cache).
 
@@ -83,7 +82,6 @@ Quack explains how lessons work and how more lessons get unlocks. Quack also exp
 
 ### 10. Halloween and Fright Night
 - Week 9. Halloween (Saturday, October 31) costume party at the student union, and the carnival returns as Fright Night (Friday and Saturday nights in weeks 9 and 10).
-- Generic 24 (Linked lists: ride cars hooked together) and 26 (Recursion: the hall of mirrors) are played at Fright Night.
 - Week 9 specials: Jay Ch6 (Async and promises, dusk, student union rooftop), Monty Ch5 (Context managers, greenhouse), Ciel Ch3 (Memory management, Hopper Lab), Ciel Ch4 (RAII and smart pointers, game dev club room), and Julian Ch5 (Checked exceptions, council room).
 - Week 10: spring course registration opens, and everyone asks the heroine which classes she'll take next semester. Ciel Ch5 (Classes and the STL, Hopper Lab).
 
