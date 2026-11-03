@@ -17,7 +17,7 @@ The map is a 4 by 3 grid, north at the top. The main quad sits in the middle and
 ```
             A                   B                  C                   D
       +-----------------+-----------------+-----------------+-----------------+
-  1   |  Turing Hall    |  Oracle Hall    | Lovelace Library|  CS Building    |
+  1   |  Turing Hall    |  Oracle Hall    | Lovelace Library|  Knuth Hall     |
       |  (lectures)     |  (admin, gala)  |                 |  (Hopper Lab)   |
       +-----------------+-----------------+-----------------+-----------------+
   2   |  Student Union  |            Main Quad              |  Observatory    |
@@ -30,7 +30,7 @@ The map is a 4 by 3 grid, north at the top. The main quad sits in the middle and
 
 Why things sit where they do:
 - The **Student Union** is on the west edge, so its rooftop has the best sunset on campus (Jay's switch happens at sunset).
-- The **CS Building** is on the east edge, so its rooftop faces the sunrise (Ciel's dawn confession).
+- **Knuth Hall** (the CS building) is on the east edge, so its rooftop faces the sunrise (Ciel's dawn confession).
 - **Oracle Hall** is right above the quad, so the council balcony looks over it.
 - The **picnic hill** is the corner of the quad nearest the library.
 - The **greenhouse** is just south of the quad, so its lights show during the end-of-term festival.
@@ -43,7 +43,7 @@ Why things sit where they do:
 | A1 | Turing Hall | `turing` | Lecture hall, Locker hallway, TA office, Tutoring center, Exam hall | Day Jay (days), Monty (weeknights) |
 | B1 | Oracle Hall | `oracle_hall` | Student council room, Council balcony, Server room, Oracle Great Hall | Julian (weekend nights) |
 | C1 | Lovelace Library | `library` | Reading room, The stacks, University Archive (Sun Wing) | Nobody regularly |
-| D1 | CS Building | `cs_building` | Hopper Computer Lab, Capstone team room, CS rooftop | Ciel (weeknights) |
+| D1 | Knuth Hall | `knuth_hall` | Hopper Computer Lab, Capstone team room, Knuth Hall rooftop | Ciel (weeknights) |
 | A2 | Student Union | `student_union` | Hackathon hall, Game dev club room, Union rooftop | Night Jay (weekend nights), Ciel (weekend days) |
 | B2–C2 | Main Quad | `main_quad_area` | Quad lawn, Fountain bench, Picnic hill, Festival stage (week 14 only) | Nobody regularly |
 | D2 | Observatory | `observatory_bld` | Observatory dome | Nobody regularly |
@@ -156,8 +156,8 @@ Tall shelves, reading lamps, and big west windows. Open in the Day slot, plus la
 
 ---
 
-## D1. CS Building
-Home of the computer science department. The lab is in the basement, the project rooms are upstairs, and a fire door at the top of the stairwell opens onto the roof.
+## D1. Knuth Hall
+Home of the computer science department, named after Donald Knuth. The lab is in the basement, the project rooms are upstairs, and a fire door at the top of the stairwell opens onto the roof.
 
 ### Hopper Computer Lab
 - **id:** `hopper_lab`
@@ -175,7 +175,7 @@ Home of the computer science department. The lab is in the basement, the project
 - **Description:** Third floor. A glass-walled project room with a big screen for code review.
 - **Story events:** Polyglot: the capstone project (week 9), Polyglot: the merge conflict (week 12), Polyglot: the integration test (week 14)
 
-### CS rooftop
+### Knuth Hall rooftop
 - **id:** `cs_rooftop`
 - **Open:** Story only
 - **Description:** Through the fire door at the top of the lab stairwell. Quiet, cold, and facing the sunrise.
@@ -383,7 +383,7 @@ The same information as above, looked up by event. Use this to check `calendar.j
 | Gardening club (`gardening_club`) | Monty | Sat–Sun, Day | Greenhouse and Gardens | Greenhouse |
 | Tutoring center shift (`tutoring_shift`) | Monty | Mon–Fri, Night | Turing Hall | Tutoring center |
 | Game dev club (`game_dev_club`) | Ciel | Fri–Sun, Day | Student Union | Game dev club room |
-| Midnight lab session (`midnight_lab`) | Ciel | Mon–Thu, Night | CS Building | Hopper Computer Lab |
+| Midnight lab session (`midnight_lab`) | Ciel | Mon–Thu, Night | Knuth Hall | Hopper Computer Lab |
 
 ### Story and info events
 | Week | Event (calendar id) | Building | Room |
@@ -397,23 +397,23 @@ The same information as above, looked up by event. Use this to check `calendar.j
 | 5–6 | Fall carnival (`fall_carnival`) | Athletic Complex | Carnival midway |
 | 6 | Ada Lovelace Day talk (`ada_lovelace_day`) | Lovelace Library | Reading room |
 | 7 | Midterms week (`midterms`) | Turing Hall | Exam hall |
-| 7 | Ciel's birthday (`ciel_birthday`) | CS Building | Hopper Computer Lab |
+| 7 | Ciel's birthday (`ciel_birthday`) | Knuth Hall | Hopper Computer Lab |
 | 9 | Halloween costume party (`halloween_party`) | Student Union | Hackathon hall |
-| 9 | Polyglot: the capstone project (`polyglot_capstone`) | CS Building | Capstone team room |
+| 9 | Polyglot: the capstone project (`polyglot_capstone`) | Knuth Hall | Capstone team room |
 | 9–10 | Fright Night carnival (`fright_night`) | Athletic Complex | Carnival midway |
 | 10 | Spring course registration opens (`spring_registration`) | Turing Hall | Lecture hall |
 | 12 | Julian's half-birthday (`julian_half_birthday`) | Oracle Hall | Student council room |
-| 12 | Polyglot: the merge conflict (`polyglot_merge_conflict`) | CS Building | Capstone team room |
+| 12 | Polyglot: the merge conflict (`polyglot_merge_conflict`) | Knuth Hall | Capstone team room |
 | 13 | Thanksgiving break (`thanksgiving_break`) | Babbage Hall | Your room |
 | 13 | Polyglot: talk to Monty (`polyglot_resolve_python`) | Greenhouse and Gardens | Greenhouse |
 | 13 | Polyglot: talk to Julian (`polyglot_resolve_java`) | Oracle Hall | Student council room |
-| 13 | Polyglot: talk to Ciel (`polyglot_resolve_cpp`) | CS Building | Hopper Computer Lab |
+| 13 | Polyglot: talk to Ciel (`polyglot_resolve_cpp`) | Knuth Hall | Hopper Computer Lab |
 | 13 | Polyglot: talk to Jay (`polyglot_resolve_javascript`) | Student Union | Union rooftop |
 | 14 | Finals week (`finals`) | Turing Hall | Exam hall |
 | 14 | Winter gala (`winter_gala`) | Oracle Hall | Oracle Great Hall |
 | 14 | End-of-term festival and Jay's birthday (`jay_birthday_festival`) | Main Quad | Festival stage |
 | 14 | End-of-term festival, night (`festival_night`) | Main Quad | Festival stage |
-| 14 | Polyglot: the integration test (`polyglot_integration_test`) | CS Building | Capstone team room |
+| 14 | Polyglot: the integration test (`polyglot_integration_test`) | Knuth Hall | Capstone team room |
 
 ### Orientation tour stops
 | Order | Love interest | Building | Room |
@@ -421,7 +421,7 @@ The same information as above, looked up by event. Use this to check `calendar.j
 | 1 | Monty | Turing Hall | Tutoring center |
 | 2 | Jay | The Commons | Café Cache |
 | 3 | Julian | Oracle Hall | Student council room |
-| 4 (after dark) | Ciel | CS Building | Hopper Computer Lab |
+| 4 (after dark) | Ciel | Knuth Hall | Hopper Computer Lab |
 
 ### Special chapters
 | Character | Ch | Title | Building | Room |
@@ -445,12 +445,12 @@ The same information as above, looked up by event. Use this to check `calendar.j
 | Julian | 4 | Null and Optional | Lovelace Library | University Archive |
 | Julian | 5 | Checked exceptions | Oracle Hall | Student council room |
 | Julian | 6 | Generics and streams (final) | Oracle Hall | Oracle Great Hall |
-| Ciel | 1 | Compiling and types | CS Building | Hopper Computer Lab |
-| Ciel | 2 | Pointers and references | CS Building | Hopper Computer Lab |
-| Ciel | 3 | Memory management | CS Building | Hopper Computer Lab |
+| Ciel | 1 | Compiling and types | Knuth Hall | Hopper Computer Lab |
+| Ciel | 2 | Pointers and references | Knuth Hall | Hopper Computer Lab |
+| Ciel | 3 | Memory management | Knuth Hall | Hopper Computer Lab |
 | Ciel | 4 | RAII and smart pointers | Student Union | Game dev club room |
-| Ciel | 5 | Classes and the STL | CS Building | Hopper Computer Lab |
-| Ciel | 6 | Templates (final) | CS Building | Hopper Computer Lab |
+| Ciel | 5 | Classes and the STL | Knuth Hall | Hopper Computer Lab |
+| Ciel | 6 | Templates (final) | Knuth Hall | Hopper Computer Lab |
 
 ### Generic subjects
 | # | Subject | Building | Room |
@@ -462,7 +462,7 @@ The same information as above, looked up by event. Use this to check `calendar.j
 | 5 | Strings | The Commons | Café Cache |
 | 6 | Booleans and comparisons | The Commons | The Stack |
 | 7 | User input | Babbage Hall | Common room (new) |
-| 8 | Debugging | CS Building | Hopper Computer Lab |
+| 8 | Debugging | Knuth Hall | Hopper Computer Lab |
 | 9 | If/else | Turing Hall | Lecture hall |
 | 10 | Logical operators | Athletic Complex | Carnival midway |
 | 11 | While loops | Athletic Complex | Running track (new) |
@@ -493,6 +493,7 @@ The same information as above, looked up by event. Use this to check `calendar.j
 
 ## What changed from the old Setting.md
 - Locations are grouped by **building** instead of by theme ("Academic buildings", "Outdoors"), so each map shape has a clear room list.
+- The CS building is now **Knuth Hall** (Gee, 2026-11-03).
 - The made-up "Council hall" is now **Oracle Hall**, the administration building. It holds the council room, balcony, server room and Oracle Great Hall.
 - "Food court" is now **The Commons**.
 - The exam hall and tutoring center are now clearly inside **Turing Hall** (they were placed there in `locations.json` but not in this doc).
