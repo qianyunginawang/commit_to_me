@@ -13,12 +13,12 @@ The fall semester at Runtime University runs 14 weeks, from Sunday, September 1 
 | 2 | Sep 8 – Sep 14 | **Day 256 Hackathon** (Fri–Sat night), starting on Programmers' Day (Fri, Sep 13, the 256th day of the year). Night Jay's first scene (Jay Ch1). | 3–5 |
 | 3 | Sep 15 – Sep 21 | First problem set due. Tutoring center opens its evening hours. | 6–8 |
 | 4 | Sep 22 – Sep 28 | **Quack's check-in** (Sat night): a full affection report. On a replay, if all four are at 20+, the hidden Polyglot choice appears ("Why choose just one language?"). | 9–11 |
-| 5 | Sep 29 – Oct 5 | **Fall carnival opens** on the athletic field (Fri–Sat nights). Jay Ch3 (Equality and coercion). Polyglot: the rivalry starts. | 12–14 |
-| 6 | Oct 6 – Oct 12 | Carnival's last weekend. **Ada Lovelace Day** (Tue, Oct 8, the second Tuesday of October): a campus talk in Lovelace Library. Hacktoberfest starts on campus (open-source contribution month, all of October). | 15–17 |
+| 5 | Sep 29 – Oct 5 | Jay Ch3 (Equality and coercion) at the union arcade. Polyglot: the rivalry starts. | 12–14 |
+| 6 | Oct 6 – Oct 12 | **Ada Lovelace Day** (Tue, Oct 8, the second Tuesday of October): a campus talk in Lovelace Library. Hacktoberfest starts on campus (open-source contribution month, all of October). | 15–17 |
 | 7 | Oct 13 – Oct 19 | **Midterms week.** **Ciel's birthday** (Mon, Oct 14). | 18–19 |
 | 8 | Oct 20 – Oct 26 | Post-midterm recovery. Grades come back. Polyglot: the rivalry peaks, and the jealousy scenes play. | 20–21 |
-| 9 | Oct 27 – Nov 2 | **Halloween** (Thu, Oct 31): costume party at the student union, and the carnival returns as **Fright Night** (Fri–Sat). Polyglot: the capstone project is assigned. | 22–24 |
-| 10 | Nov 3 – Nov 9 | Fright Night's last weekend. Course registration for spring opens. Polyglot: capstone work continues. | 25–26 |
+| 9 | Oct 27 – Nov 2 | **Halloween** (Thu, Oct 31): costume party at the student union. Polyglot: the capstone project is assigned. | 22–24 |
+| 10 | Nov 3 – Nov 9 | Course registration for spring opens. Polyglot: capstone work continues. | 25–26 |
 | 11 | Nov 10 – Nov 16 | Festival planning begins: Jay starts the festival site, and the council starts the winter gala guest list. Polyglot: capstone work continues. | 27–28 |
 | 12 | Nov 17 – Nov 23 | Capstone and final project crunch. Julian's "half-birthday" (Sat, Nov 23). Polyglot: **the merge conflict**, when everyone pushes at once and the group splits up. | 29–30 |
 | 13 | Nov 24 – Nov 30 | **Thanksgiving break** (Thu–Sat, Thanksgiving is Nov 28): campus goes quiet, and the dining hall runs short hours. Polyglot: the heroine visits each love interest alone to resolve the conflict. | 31–32 |

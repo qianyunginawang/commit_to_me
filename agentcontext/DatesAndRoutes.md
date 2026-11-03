@@ -58,7 +58,7 @@ Night chapters teach a JavaScript feature, and day chapters add TypeScript on to
 |---|---|---|---|---|
 | 1 | Variables (night) | 3 | Variables and assignment | The heroine meets a wild hacker at a night hackathon, not realizing it's the strict TA from office hours. Over pizza, Jay admits a messy past with var. Teaches let, const, and why var is trouble. |
 | 2 | Type annotations (day) | 4, 5, 6 | Numbers and math; Strings; Booleans and comparisons | The TA adds types to the same code. Teaches string, number, and boolean. Ends with the sunset switch: the reveal. |
-| 3 | Equality and coercion (night) | 6, 9 | Booleans and comparisons; If/else | A carnival date full of weird games. Teaches == vs === and why '5' + 3 is '53'. |
+| 3 | Equality and coercion (night) | 6, 9 | Booleans and comparisons; If/else | An arcade date full of weird games. Teaches == vs === and why '5' + 3 is '53'. |
 | 4 | Interfaces (day) | 14, 20 | Functions; Classes and objects | A flustered Day Jay writes an interface for "the ideal partner" and it describes the heroine. Teaches interfaces and typed parameters. |
 | 5 | Closures and the DOM (night) | 15 | Scope | Building the campus festival site. Night Jay remembers every detail from the night they met. Teaches arrow functions, closures, and event listeners. |
 | 6 | Async and promises (dusk) | 22, 23 | Error handling; File reading and writing | The heroine gets both sides to await each other instead of fighting. Teaches promises and async/await. |

@@ -35,7 +35,7 @@ The biggest phase, and the easiest to split up.
 - **Generic lessons:** 33 subjects × 5 versions (Python, Java, C++, TypeScript for Day Jay, JavaScript for Night Jay) = 165 challenges. The TypeScript and JavaScript versions can share most of their content. Each one needs the challenge, 2 hints, a test solution in `tests/solutions/`, and short dialogue in that character's voice. Write them one subject at a time (all 5 versions together), in curriculum order, so the vertical slice and early weeks are finished first. Splitting by language also works, with one person on Python and Java and another on C++ and JS/TS.
 - **Special chapters:** 25 total (6 each for Monty, Ciel and Julian, 7 for Jay), including the four final challenges.
 - **Story beat scenes:** the 15 beats in StoryBeats.md, plus Quack's lines (hints, affection reports, tutorials).
-- **Event scenes:** birthdays, Halloween, the carnival, midterms, the gala, and the festival.
+- **Event scenes:** birthdays, Halloween, midterms, the gala, and the festival.
 - **Confessions and endings:** 4 confessions, 13 route endings (Jay has two normal endings), and the Polyglot and merge conflict endings.
 
 ## Phase 4: Art and audio (parallel, can start during Phase 2)

@@ -44,15 +44,15 @@ Why things sit where they do:
 | B1 | Oracle Hall | `oracle_hall` | Student council room, Council balcony, Server room, Oracle Great Hall | Julian (weekend nights) |
 | C1 | Lovelace Library | `library` | Reading room, The stacks, University Archive (Sun Wing) | Nobody regularly |
 | D1 | Knuth Hall | `knuth_hall` | Hopper Computer Lab, Capstone team room, Knuth Hall rooftop | Ciel (weeknights) |
-| A2 | Student Union | `student_union` | Hackathon hall, Game dev club room, Union rooftop | Night Jay (weekend nights), Ciel (weekend days) |
+| A2 | Student Union | `student_union` | Hackathon hall, Game dev club room, Arcade, Union rooftop | Night Jay (weekend nights), Ciel (weekend days) |
 | B2–C2 | Main Quad | `main_quad_area` | Quad lawn, Fountain bench, Picnic hill, Festival stage (week 14 only) | Nobody regularly |
 | D2 | Observatory | `observatory_bld` | Observatory dome | Nobody regularly |
 | A3 | The Commons | `commons` | The Stack (dining hall), Café Cache, Campus bookstore | Julian (weekday mornings) |
 | B3 | Babbage Hall | `babbage` | Your room, Common room, Laundry room | Quack (always) |
 | C3 | Greenhouse and Gardens | `gardens` | Greenhouse, Hedge maze garden, Duck pond | Monty (weekend days) |
-| D3 | Athletic Complex | `athletics` | Gym, Running track, Carnival midway (carnival weeks only) | Nobody regularly |
+| D3 | Athletic Complex | `athletics` | Gym, Running track | Nobody regularly |
 
-Totals: 11 buildings, 35 rooms (30 existing ids, 5 new).
+Totals: 11 buildings, 35 rooms. Rooms marked (new) aren't in `data/locations.json` yet.
 
 ---
 
@@ -203,6 +203,12 @@ The loud, busy building on the west edge of campus. Clubs, events, and the best 
 - **Recurring:** Game dev club (Ciel, Fri to Sun, Day)
 - **Special chapters:** Ciel Ch4 (RAII and smart pointers: Ciel admits he doesn't have to manage everything alone)
 
+### Arcade
+- **id:** `union_arcade`
+- **Open:** Night
+- **Description:** The union basement. Old arcade machines with strange rules and a scoreboard that adds wrong.
+- **Special chapters:** Jay Ch3 (Equality and coercion, night: an arcade date full of weird games, where the scoreboard says '5' + 3 is '53')
+
 ### Union rooftop
 - **id:** `union_rooftop`
 - **Open:** Dusk and Night
@@ -297,8 +303,8 @@ The heroine's dorm. Quack talks to her here every night.
 - **Description:** A shared lounge with a lumpy couch, a TV, and a bulletin board.
 - **Lessons:** Generic 7 (User input: a dorm survey)
 
-### Laundry room (new)
-- **id:** `laundry_room` (new)
+### Laundry room
+- **id:** `laundry_room`
 - **Open:** Day and Night
 - **Description:** Four washers and a schedule on the wall that Monty scripted. It actually works.
 - **Lessons:** Generic 26 (Recursion: folding a fitted sheet. Fold it in half, then fold that in half, until it's small enough)
@@ -333,7 +339,7 @@ Monty's corner of campus: a glass greenhouse, winding garden paths, and a small 
 ---
 
 ## D3. Athletic Complex
-The gym, the running track, and the athletic field. The traveling carnival sets up on the field twice a semester, and the midway only shows up on the map in those weeks. No generic lesson is set there, so nothing is missed when it's gone.
+The gym and the running track around the athletic field.
 
 ### Gym
 - **id:** `fitness_center` (kept, now just the gym)
@@ -341,18 +347,11 @@ The gym, the running track, and the athletic field. The traveling carnival sets 
 - **Description:** Weights, mirrors, and a lot of people counting reps.
 - **Lessons:** Generic 10 (Logical operators: the front desk lets you in with a student ID AND a signed waiver), Generic 13 (Nested loops and break/continue: sets and reps, and stopping early)
 
-### Running track (new)
-- **id:** `running_track` (new)
+### Running track
+- **id:** `running_track`
 - **Open:** Day and Night
 - **Description:** A loop around the athletic field. Everyone is counting laps.
 - **Lessons:** Generic 11 (While loops: running laps until you're tired), Generic 24 (Linked lists: a relay race, where each runner only knows who to hand the baton to next)
-
-### Carnival midway (carnival weeks only)
-- **id:** `fall_carnival` (kept, now the midway)
-- **Open:** Night, weeks 5–6 and 9–10
-- **Description:** Rigged games, prize booths, a rickety ride, and a hall of mirrors.
-- **Story events:** Fall carnival (weeks 5–6, Fri and Sat, Night), Fright Night carnival (weeks 9–10, Fri and Sat, Night)
-- **Special chapters:** Jay Ch3 (Equality and coercion, night: a carnival date full of weird games)
 
 ---
 
@@ -380,13 +379,11 @@ The same information as above, looked up by event. Use this to check `calendar.j
 | 3 | First problem set due (`problem_set_1`) | Turing Hall | Lecture hall |
 | 4 | Quack's check-in (`quack_check_in`) | Babbage Hall | Your room |
 | 5 | Polyglot: the rivalry (`polyglot_rivalry`) | Main Quad | Quad lawn |
-| 5–6 | Fall carnival (`fall_carnival`) | Athletic Complex | Carnival midway |
 | 6 | Ada Lovelace Day talk (`ada_lovelace_day`) | Lovelace Library | Reading room |
 | 7 | Midterms week (`midterms`) | Turing Hall | Exam hall |
 | 7 | Ciel's birthday (`ciel_birthday`) | Knuth Hall | Hopper Computer Lab |
 | 9 | Halloween costume party (`halloween_party`) | Student Union | Hackathon hall |
 | 9 | Polyglot: the capstone project (`polyglot_capstone`) | Knuth Hall | Capstone team room |
-| 9–10 | Fright Night carnival (`fright_night`) | Athletic Complex | Carnival midway |
 | 10 | Spring course registration opens (`spring_registration`) | Turing Hall | Lecture hall |
 | 12 | Julian's half-birthday (`julian_half_birthday`) | Oracle Hall | Student council room |
 | 12 | Polyglot: the merge conflict (`polyglot_merge_conflict`) | Knuth Hall | Capstone team room |
@@ -414,7 +411,7 @@ The same information as above, looked up by event. Use this to check `calendar.j
 |---|---|---|---|---|
 | Jay | 1 | Variables (night) | Student Union | Hackathon hall |
 | Jay | 2 | Type annotations (day, reveal at sunset) | Turing Hall, then Student Union | TA office, then Union rooftop |
-| Jay | 3 | Equality and coercion (night) | Athletic Complex | Carnival midway |
+| Jay | 3 | Equality and coercion (night) | Student Union | Arcade |
 | Jay | 4 | Interfaces (day) | Turing Hall | TA office |
 | Jay | 5 | Closures and the DOM (night) | Student Union | Hackathon hall |
 | Jay | 6 | Async and promises (dusk) | Student Union | Union rooftop |
@@ -451,7 +448,7 @@ The same information as above, looked up by event. Use this to check `calendar.j
 | 8 | Debugging | Knuth Hall | Hopper Computer Lab |
 | 9 | If/else | Turing Hall | Lecture hall |
 | 10 | Logical operators | Athletic Complex | Gym |
-| 11 | While loops | Athletic Complex | Running track (new) |
+| 11 | While loops | Athletic Complex | Running track |
 | 12 | For loops | Turing Hall | Tutoring center |
 | 13 | Nested loops and break/continue | Athletic Complex | Gym |
 | 14 | Functions | The Commons | Café Cache |
@@ -464,9 +461,9 @@ The same information as above, looked up by event. Use this to check `calendar.j
 | 21 | Inheritance and polymorphism | Lovelace Library | University Archive |
 | 22 | Error handling | Student Union | Hackathon hall |
 | 23 | File reading and writing | Lovelace Library | University Archive |
-| 24 | Linked lists | Athletic Complex | Running track (new) |
+| 24 | Linked lists | Athletic Complex | Running track |
 | 25 | Stacks and queues | The Commons | The Stack |
-| 26 | Recursion | Babbage Hall | Laundry room (new) |
+| 26 | Recursion | Babbage Hall | Laundry room |
 | 27 | Trees | Greenhouse and Gardens | Hedge maze garden |
 | 28 | Graphs | Observatory | Observatory dome |
 | 29 | Graph traversal (BFS, DFS) | Greenhouse and Gardens | Hedge maze garden |
@@ -483,11 +480,10 @@ The same information as above, looked up by event. Use this to check `calendar.j
 - The made-up "Council hall" is now **Oracle Hall**, the administration building. It holds the council room, balcony, server room and Oracle Great Hall.
 - "Food court" is now **The Commons**.
 - The exam hall and tutoring center are now clearly inside **Turing Hall** (they were placed there in `locations.json` but not in this doc).
-- Outdoor spots are grouped into three areas: **Main Quad** (with the picnic hill moved onto it from "behind the library"), **Greenhouse and Gardens**, and **Athletic Complex** (gym, track and carnival).
-- Five rooms are split out so specialty spots have their own entry: Locker hallway, The stacks, Common room, Laundry room, Running track.
-- No generic lesson is set at a time-limited place (Gee, 2026-11-03). Generic 10 moved from the carnival to the gym, Generic 24 to the running track, and Generic 26 to the laundry room.
+- Outdoor spots are grouped into three areas: **Main Quad** (with the picnic hill moved onto it from "behind the library"), **Greenhouse and Gardens**, and **Athletic Complex** (gym and track).
+- Rooms split out so specialty spots have their own entry: Locker hallway, The stacks, Common room, Laundry room, Running track.
+- **The carnival is gone** (Gee, 2026-11-03), including Fright Night, because generic lessons shouldn't be tied to time-limited events. Generic 10 moved to the gym, Generic 24 to the running track, Generic 26 to the laundry room, and Jay Ch3 to the new union Arcade.
 - Orientation tour stops (Gee, 2026-11-03): Monty in the greenhouse, Jay in the TA office, Julian in the council room, Ciel in Hopper Lab.
 
 ## Open questions
-- **Jay Ch3:** it's still set at the carnival, so it can only be played on Fri or Sat nights in weeks 5–6 and 9–10. That's the only special chapter tied to a time-limited place.
 - **Endings with no place yet:** the good, normal and bad endings for Monty, Julian and Jay (except the ones listed above), and all bad endings, don't have a room yet.
