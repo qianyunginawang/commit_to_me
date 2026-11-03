@@ -100,7 +100,7 @@ func _data() -> Node:
 	var gd: Node = GameDataScript.new()
 	for key in ["characters", "dates", "challenges", "curriculum", "lessons", "routes"]:
 		gd.set(key, GameData.get(key).duplicate(true))
-	for key in ["languages", "locations", "calendar", "endings"]:
+	for key in ["languages", "locations", "buildings", "calendar", "endings"]:
 		gd.set(key, GameData.get(key))
 	for character_id in gd.routes:
 		for chapter in gd.routes[character_id]["chapters"]:

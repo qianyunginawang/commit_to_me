@@ -23,6 +23,7 @@ func _data() -> Node:
 	gd.lessons = GameData.lessons.duplicate(true)
 	gd.routes = GameData.routes.duplicate(true)
 	gd.locations = GameData.locations
+	gd.buildings = GameData.buildings
 	gd.calendar = GameData.calendar
 	gd.endings = GameData.endings
 	_nodes.append(gd)

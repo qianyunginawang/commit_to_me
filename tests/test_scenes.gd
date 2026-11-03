@@ -121,7 +121,7 @@ func test_history_auto_skip_and_menu() -> void:
 	GameState.new_game("Gee")
 	Router.params = {"date_id": "orientation", "event_id": "orientation"}
 	var scene := add_node(load(Router.DATE).instantiate())
-	check_eq(scene.get_node("%Hud")._place_label.text, "MAIN QUAD", "the place is on the info card:")
+	check_eq(scene.get_node("%Hud")._place_label.text, "QUAD LAWN, MAIN QUAD", "the place is on the info card:")
 
 	# Skip races through lines and stops at Quack's question.
 	scene.get_node("%SkipButton").button_pressed = true
@@ -250,9 +250,11 @@ func test_map_starts_at_orientation_with_everyone() -> void:
 	var scene := add_node(load(Router.MAP).instantiate())
 	check_eq(scene.selected_location, "main_quad")
 	check_eq(scene.get_node("%Hud")._time_label.text, "WEEK 1/14  ·  SUNDAY", "shows the week and day:")
-	var pin: PortraitPin = scene.get_node("%MapView").get_pin("main_quad")
-	check(pin != null and pin.looks.size() == 4, "one pin for all four at the main quad")
-	check(scene.get_node("%MapView").get_pin("hopper_lab") == null, "nothing at the lab right now")
+	var view: CampusMapView = scene.get_node("%MapView")
+	check_eq(scene.selected_building, "main_quad_area")
+	check_eq(view.get_tile("main_quad_area").people_count(), 4, "all four are on the quad")
+	check(view.get_tile("main_quad_area").selected, "the quad is picked")
+	check_eq(view.get_tile("knuth_hall").people_count(), 0, "nobody at the lab right now")
 	var body: Node = scene.get_node("%PlaceBody")
 	for id in ["python", "javascript", "java", "cpp"]:
 		check(body.has_node(id), "%s is here" % id)
@@ -273,14 +275,36 @@ func test_waiting_moves_time_and_people_move_around() -> void:
 	scene.get_node("%WaitButton").pressed.emit()   # Sunday night
 	check_eq(GameState.slot, "night")
 	var view: CampusMapView = scene.get_node("%MapView")
-	check(view.get_pin("main_quad") == null, "orientation is over")
-	check(view.get_pin("hackathon_hall") != null, "Jay's hackathon night")
-	check(view.get_pin("council_room") != null, "Julian's council office hours")
-	view.get_pin("council_room").pressed.emit()
-	check_eq(scene.selected_location, "council_room")
-	check(view.get_pin("council_room").selected, "the pin lights up")
+	check_eq(view.get_tile("main_quad_area").people_count(), 0, "orientation is over")
+	check(view.get_tile("student_union").people_count() > 0, "Jay's hackathon night")
+	check_eq(view.get_tile("oracle_hall").people_count(), 1, "Julian's council office hours")
+	view.get_tile("oracle_hall").pressed.emit()
+	check_eq(scene.selected_building, "oracle_hall")
+	check_eq(scene.selected_location, "", "the panel lists the rooms")
+	check(view.get_tile("oracle_hall").selected, "the building lights up")
 	var body: Node = scene.get_node("%PlaceBody")
+	for room in GameData.rooms_in("oracle_hall"):
+		check(body.has_node(room), "%s is listed" % room)
+	body.get_node("council_room").pressed.emit()
+	check_eq(scene.selected_location, "council_room")
+	body = scene.get_node("%PlaceBody")
 	check(body.has_node("java") and not body.has_node("javascript"), "only Julian is here")
+
+
+func test_empty_room_shows_its_description_and_goes_back() -> void:
+	GameState.new_game("Gee")
+	GameState.mark_date_complete("orientation")
+	var scene := add_node(load(Router.MAP).instantiate())
+	scene.get_node("%MapView").get_tile("athletics").pressed.emit()
+	scene.get_node("%PlaceBody").get_node("pool").pressed.emit()
+	check_eq(scene.selected_location, "pool")
+	check_eq(scene.get_node("%PlaceBlurb").text, GameData.locations["pool"]["blurb"], "the walk-in text")
+	check(scene.selected_item.is_empty(), "nothing to start in a flavor room")
+	var start: Button = scene.get_node("%StartButton")
+	check_eq(start.text, "Back to map")
+	start.pressed.emit()
+	check_eq(scene.selected_location, "", "back to the building's rooms")
+	check(scene.get_node("%PlaceBody").has_node("pool"), "the room list is back")
 
 
 func test_locked_chapter_is_listed_but_not_pickable() -> void:

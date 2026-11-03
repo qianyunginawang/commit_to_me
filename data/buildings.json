@@ -1,0 +1,13 @@
+[
+  {"id": "turing", "name": "Turing Hall", "cell": [0, 0], "span": 1, "blurb": "The main lecture building, where Intro to Programming is taught. Long hallways lined with numbered lockers. Day Jay is the TA here."},
+  {"id": "oracle_hall", "name": "Oracle Hall", "cell": [1, 0], "span": 1, "blurb": "The administration building, donated by the Oracle family. President Fortran's office is upstairs. The student council works out of the second floor, and the basement runs the campus servers."},
+  {"id": "library", "name": "Lovelace Library", "cell": [2, 0], "span": 1, "blurb": "Tall shelves, reading lamps, and big west windows. Open in the Day slot, plus late nights during finals week."},
+  {"id": "knuth_hall", "name": "Knuth Hall", "cell": [3, 0], "span": 1, "blurb": "Home of the computer science department, named after Donald Knuth. The lab is in the basement, the project rooms are upstairs, and a fire door at the top of the stairwell opens onto the roof."},
+  {"id": "student_union", "name": "Student Union", "cell": [0, 1], "span": 1, "blurb": "The loud, busy building on the west edge of campus. Clubs, events, and the best sunset on campus."},
+  {"id": "main_quad_area", "name": "Main Quad", "cell": [1, 1], "span": 2, "blurb": "The open center of campus: a big lawn, a fountain with benches, and a sunny hill up toward the library. Hosts orientation, the club fair, and the end-of-term festival."},
+  {"id": "observatory_bld", "name": "Observatory", "cell": [3, 1], "span": 1, "blurb": "A small domed building on the hill at the east edge of campus, away from the lights."},
+  {"id": "commons", "name": "The Commons", "cell": [0, 2], "span": 1, "blurb": "Food and shopping, all under one roof next to the dorms. Short hours during Thanksgiving break."},
+  {"id": "babbage", "name": "Babbage Hall", "cell": [1, 2], "span": 1, "blurb": "The heroine's dorm. Quack talks to her here every night."},
+  {"id": "gardens", "name": "Greenhouse and Gardens", "cell": [2, 2], "span": 1, "blurb": "Monty's corner of campus: a glass greenhouse, winding garden paths, and a small pond."},
+  {"id": "athletics", "name": "Athletic Complex", "cell": [3, 2], "span": 1, "blurb": "The gym and the running track around the athletic field."}
+]

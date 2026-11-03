@@ -6,7 +6,7 @@ The campus has **11 buildings**. Each building has **rooms** (or wings, floors, 
 
 - **Building** = one clickable shape on the map. Its bubble shows which love interests are in any of its rooms right now.
 - **Room** = one entry in the list that opens when you click a building. A room with a love interest starts a scene and a lesson list. A room with nobody there shows its "walk-in" line and a button back to the map.
-- Every room has an **id**. Ids that already exist in `data/locations.json` are kept, so `calendar.json`, `curriculum.json` and `routes/*.json` keep working. Rooms marked **(new)** need to be added to `locations.json`.
+- Every room has an **id**, which is its key in `data/locations.json`. Buildings, their map cells and their blurbs are in `data/buildings.json`. The game builds the map from those two files, so keep them in sync with this doc.
 - **Flavor rooms** are marked (flavor). Nothing happens in them, and no love interest is ever there. They only have a description, shown as the walk-in text, so the player has more to explore.
 - Outdoor areas (the quad, the gardens, the athletic fields) are treated as buildings too, so the map works the same way everywhere.
 
@@ -53,7 +53,7 @@ Why things sit where they do:
 | C3 | Greenhouse and Gardens | `gardens` | Greenhouse, Hedge maze garden, Duck pond. Flavor: Compost corner, Gazebo | Monty (weekend days) |
 | D3 | Athletic Complex | `athletics` | Gym, Running track. Flavor: Swimming pool, Climbing wall, Bleachers | Nobody regularly |
 
-Totals: 11 buildings, 59 rooms (24 of them flavor rooms). Rooms marked (new) aren't in `data/locations.json` yet.
+Totals: 11 buildings, 59 rooms (24 of them flavor rooms).
 
 ---
 
@@ -68,8 +68,8 @@ The main lecture building, where Intro to Programming is taught. Long hallways l
 - **Lessons:** Generic 3 (Variables and assignment), Generic 9 (If/else)
 - **Endings:** Jay bad ending, undefined (Day Jay calls roll and reads her name as "undefined")
 
-### Locker hallway (new)
-- **id:** `locker_hallway` (new)
+### Locker hallway
+- **id:** `locker_hallway`
 - **Open:** Day
 - **Description:** A long hallway of numbered lockers, starting at 0.
 - **Lessons:** Generic 16 (Arrays and lists: a row of numbered lockers)
@@ -100,13 +100,13 @@ The main lecture building, where Intro to Programming is taught. Long hallways l
 - **Lessons:** Generic 33 (Dynamic programming: a finals-week cram session)
 
 ### Vending alcove (flavor)
-- **id:** `turing_vending` (new)
+- **id:** `turing_vending`
 - **Open:** Day and Night
 - **Description:** A vending machine that eats every third dollar. Someone taped a sign to it that says "Known issue. Won't fix."
 - **Events:** None. Exploration only.
 
 ### Faculty hallway (flavor)
-- **id:** `faculty_hallway` (new)
+- **id:** `faculty_hallway`
 - **Open:** Day
 - **Description:** Office doors covered in old comics, and a "Back in 5 minutes" sign that has been up since 2019.
 - **Events:** None. Exploration only.
@@ -146,13 +146,13 @@ The administration building, donated by the Oracle family. President Fortran's o
 - **Endings:** Julian normal ending, Next release (at the end of the gala, Julian raises a toast to his most trusted council member)
 
 ### Registrar's office (flavor)
-- **id:** `registrar` (new)
+- **id:** `registrar`
 - **Open:** Day
 - **Description:** A long line, a take-a-number machine, and a screen that says "Now serving: 404."
 - **Events:** None. Exploration only.
 
 ### President Fortran's waiting room (flavor)
-- **id:** `fortran_waiting_room` (new)
+- **id:** `fortran_waiting_room`
 - **Open:** Day
 - **Description:** Leather chairs, a ticking grandfather clock, and a framed punch card on the wall. The door to the president's office is always closed.
 - **Events:** None. Exploration only.
@@ -171,8 +171,8 @@ Tall shelves, reading lamps, and big west windows. Open in the Day slot, plus la
 - **Lessons:** Generic 17 (Maps and dictionaries: the catalog maps call numbers to books)
 - **Endings:** Monty normal ending, In the next version (studying side by side at the same table every night)
 
-### The stacks (new)
-- **id:** `library_stacks` (new)
+### The stacks
+- **id:** `library_stacks`
 - **Open:** Day
 - **Description:** Narrow aisles of shelves and a cart of returns that never gets shorter.
 - **Lessons:** Generic 31 (Searching), Generic 32 (Sorting: reshelving returns)
@@ -186,13 +186,13 @@ Tall shelves, reading lamps, and big west windows. Open in the Day slot, plus la
 - **Endings:** Julian bad ending, NullPointerException (she reaches for Julian's hand among the old portraits and finds nothing there)
 
 ### Quiet study carrels (flavor)
-- **id:** `study_carrels` (new)
+- **id:** `study_carrels`
 - **Open:** Day (and Night in week 14)
 - **Description:** Rows of tiny desks with walls. It's so quiet you can hear someone's laptop fan spinning up.
 - **Events:** None. Exploration only.
 
 ### Microfilm room (flavor)
-- **id:** `microfilm_room` (new)
+- **id:** `microfilm_room`
 - **Open:** Day
 - **Description:** A windowless room with two microfilm readers. One of them hums. Nobody has asked for microfilm in years.
 - **Events:** None. Exploration only.
@@ -225,19 +225,19 @@ Home of the computer science department, named after Donald Knuth. The lab is in
 - **Endings:** Ciel confession (at dawn after the Templates all-nighter, coat around her shoulders)
 
 ### Department lounge (flavor)
-- **id:** `cs_lounge` (new)
+- **id:** `cs_lounge`
 - **Open:** Day and Night
 - **Description:** A worn couch, an espresso machine with a handwritten user manual, and a whiteboard asking "Free pizza Friday???"
 - **Events:** None. Exploration only.
 
 ### Computer museum hallway (flavor)
-- **id:** `computer_museum` (new)
+- **id:** `computer_museum`
 - **Open:** Day
 - **Description:** Glass cases of old machines: a punch card reader, a beige desktop with a floppy drive, and a modem that still makes the noise when you press the button.
 - **Events:** None. Exploration only.
 
 ### Lab stairwell (flavor)
-- **id:** `lab_stairwell` (new)
+- **id:** `lab_stairwell`
 - **Open:** Day and Night
 - **Description:** Concrete stairs from the basement lab to the roof. Someone has been keeping a tally of all-nighters on the wall. It's a lot.
 - **Events:** None. Exploration only.
@@ -281,13 +281,13 @@ The loud, busy building on the west edge of campus. Clubs, events, and the best 
 - **Endings:** Polyglot confession (at dusk, so both sides of Jay are there), Polyglot ending epilogue CG (all five at sunset, Quack on her shoulder)
 
 ### Campus radio booth (flavor)
-- **id:** `campus_radio` (new)
+- **id:** `campus_radio`
 - **Open:** Day and Night
 - **Description:** WRUN, the student radio station. A tiny booth with a red ON AIR light and lo-fi beats playing around the clock.
 - **Events:** None. Exploration only.
 
 ### TV lounge (flavor)
-- **id:** `union_lounge` (new)
+- **id:** `union_lounge`
 - **Open:** Day and Night
 - **Description:** Big couches, a TV stuck on the weather channel, and a ping pong table with one paddle.
 - **Events:** None. Exploration only.
@@ -324,13 +324,13 @@ The open center of campus: a big lawn, a fountain with benches, and a sunny hill
 - **Endings:** Jay confession (at sunset, glasses pushed up into his hair, both sides at once), Merge conflict ending, first scene (everyone walks away at the festival)
 
 ### Clock tower (flavor)
-- **id:** `clock_tower` (new)
+- **id:** `clock_tower`
 - **Open:** Day and Night
 - **Description:** The old clock tower at the edge of the quad. It's been exactly one hour off since daylight saving time ended. Students call it the off-by-one clock.
 - **Events:** None. Exploration only.
 
 ### Founders' statue (flavor)
-- **id:** `founders_statue` (new)
+- **id:** `founders_statue`
 - **Open:** Day and Night
 - **Description:** A bronze statue of the university's founders with a small bronze rubber duck at its base. Its beak is shiny from students rubbing it for luck before exams.
 - **Events:** None. Exploration only.
@@ -347,13 +347,13 @@ A small domed building on the hill at the east edge of campus, away from the lig
 - **Lessons:** Generic 28 (Graphs: constellations as nodes and edges)
 
 ### Observatory lobby (flavor)
-- **id:** `observatory_lobby` (new)
+- **id:** `observatory_lobby`
 - **Open:** Night
 - **Description:** A model of the solar system hangs from the ceiling. Pluto is attached with tape and a sticky note that says "still counts".
 - **Events:** None. Exploration only.
 
 ### Viewing deck (flavor)
-- **id:** `observatory_deck` (new)
+- **id:** `observatory_deck`
 - **Open:** Night
 - **Description:** A narrow deck around the dome. On a clear night you can see the whole campus lit up below.
 - **Events:** None. Exploration only.
@@ -384,13 +384,13 @@ Food and shopping, all under one roof next to the dorms. Short hours during Than
 - **Lessons:** Generic 2 (Comments: sticky notes in used textbooks), Generic 18 (Sets: a sticker collection with no duplicates), Generic 19 (Iterating over collections: browsing the shelves)
 
 ### The Heap (convenience store) (flavor)
-- **id:** `the_heap` (new)
+- **id:** `the_heap`
 - **Open:** Day and Night
 - **Description:** A tiny corner store where everything is piled in no particular order. You can always find what you need, eventually.
 - **Events:** None. Exploration only.
 
 ### Mail room (flavor)
-- **id:** `mail_room` (new)
+- **id:** `mail_room`
 - **Open:** Day
 - **Description:** A wall of package lockers and a bin of packages nobody has picked up. One of them has been here since last spring.
 - **Events:** None. Exploration only.
@@ -408,8 +408,8 @@ The heroine's dorm. Quack talks to her here every night.
 - **Special chapters:** Polyglot week 4 choice (the heroine admits to Quack she can't pick: "You absolute multithreader.")
 - **Lessons:** Generic 15 (Scope: what's in your own room versus the common room)
 
-### Common room (new)
-- **id:** `dorm_common_room` (new)
+### Common room
+- **id:** `dorm_common_room`
 - **Open:** Day and Night
 - **Description:** A shared lounge with a lumpy couch, a TV, and a bulletin board.
 - **Lessons:** Generic 7 (User input: a dorm survey)
@@ -421,13 +421,13 @@ The heroine's dorm. Quack talks to her here every night.
 - **Lessons:** Generic 26 (Recursion: folding a fitted sheet. Fold it in half, then fold that in half, until it's small enough)
 
 ### Front desk (flavor)
-- **id:** `babbage_lobby` (new)
+- **id:** `babbage_lobby`
 - **Open:** Day and Night
 - **Description:** A sleepy RA, a bowl of free mints, and a bulletin board full of flyers for clubs that meet at 8 a.m.
 - **Events:** None. Exploration only.
 
 ### Kitchenette (flavor)
-- **id:** `kitchenette` (new)
+- **id:** `kitchenette`
 - **Open:** Day and Night
 - **Description:** A shared kitchen with one working burner, a fridge full of labeled leftovers, and a note on the microwave: "PLEASE cover your food. You know who you are."
 - **Events:** None. Exploration only.
@@ -460,13 +460,13 @@ Monty's corner of campus: a glass greenhouse, winding garden paths, and a small 
 - **Special chapters:** Monty Ch4 (Duck typing: Quack's starring role)
 
 ### Compost corner (flavor)
-- **id:** `compost_corner` (new)
+- **id:** `compost_corner`
 - **Open:** Day
 - **Description:** A row of compost bins behind the greenhouse. A hand-painted sign on them says "Garbage collection".
 - **Events:** None. Exploration only.
 
 ### Gazebo (flavor)
-- **id:** `gazebo` (new)
+- **id:** `gazebo`
 - **Open:** Day and Night
 - **Description:** A white gazebo in the middle of the garden paths, with a bench and climbing roses. Quiet, except for the bees.
 - **Events:** None. Exploration only.
@@ -489,19 +489,19 @@ The gym and the running track around the athletic field.
 - **Lessons:** Generic 11 (While loops: running laps until you're tired), Generic 24 (Linked lists: a relay race, where each runner only knows who to hand the baton to next)
 
 ### Swimming pool (flavor)
-- **id:** `pool` (new)
+- **id:** `pool`
 - **Open:** Day
 - **Description:** An indoor pool that smells like chlorine. A sign at the deep end says "No diving into anything you can't get out of."
 - **Events:** None. Exploration only.
 
 ### Climbing wall (flavor)
-- **id:** `climbing_wall` (new)
+- **id:** `climbing_wall`
 - **Open:** Day
 - **Description:** A tall wall of colorful holds. Every route has a name, like "Stack Overflow" and "Infinite Loop".
 - **Events:** None. Exploration only.
 
 ### Bleachers (flavor)
-- **id:** `bleachers` (new)
+- **id:** `bleachers`
 - **Open:** Day and Night
 - **Description:** Metal bleachers beside the running track. A good spot to sit and watch everyone else run.
 - **Events:** None. Exploration only.
@@ -623,7 +623,7 @@ Each route ending plays in one room. Confessions come right before the good endi
 | 4 | Numbers and math | The Commons | The Stack |
 | 5 | Strings | The Commons | Café Cache |
 | 6 | Booleans and comparisons | The Commons | The Stack |
-| 7 | User input | Babbage Hall | Common room (new) |
+| 7 | User input | Babbage Hall | Common room |
 | 8 | Debugging | Knuth Hall | Hopper Computer Lab |
 | 9 | If/else | Turing Hall | Lecture hall |
 | 10 | Logical operators | Athletic Complex | Gym |
@@ -632,7 +632,7 @@ Each route ending plays in one room. Confessions come right before the good endi
 | 13 | Nested loops and break/continue | Athletic Complex | Gym |
 | 14 | Functions | The Commons | Café Cache |
 | 15 | Scope | Babbage Hall | Your room |
-| 16 | Arrays and lists | Turing Hall | Locker hallway (new) |
+| 16 | Arrays and lists | Turing Hall | Locker hallway |
 | 17 | Maps and dictionaries | Lovelace Library | Reading room |
 | 18 | Sets | The Commons | Campus bookstore |
 | 19 | Iterating over collections | The Commons | Campus bookstore |
@@ -647,8 +647,8 @@ Each route ending plays in one room. Confessions come right before the good endi
 | 28 | Graphs | Observatory | Observatory dome |
 | 29 | Graph traversal (BFS, DFS) | Greenhouse and Gardens | Hedge maze garden |
 | 30 | Big-O basics | Student Union | Hackathon hall |
-| 31 | Searching | Lovelace Library | The stacks (new) |
-| 32 | Sorting | Lovelace Library | The stacks (new) |
+| 31 | Searching | Lovelace Library | The stacks |
+| 32 | Sorting | Lovelace Library | The stacks |
 | 33 | Dynamic programming | Turing Hall | Exam hall |
 
 ---
