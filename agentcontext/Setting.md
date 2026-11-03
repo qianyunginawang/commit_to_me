@@ -77,6 +77,7 @@ The main lecture building, where Intro to Programming is taught. Long hallways l
 - **Open:** Day only
 - **Description:** A small, very tidy room with a whiteboard and a sign-up sheet.
 - **Recurring:** Office hours (Day Jay, Mon to Fri, Day)
+- **Story events:** Orientation campus tour, Jay's stop
 - **Special chapters:** Jay Ch2 (Type annotations, Day), Jay Ch4 (Interfaces, Day)
 
 ### Tutoring center
@@ -84,7 +85,6 @@ The main lecture building, where Intro to Programming is taught. Long hallways l
 - **Open:** Day and Night
 - **Description:** Couches, snacks, and a whiteboard covered in other people's handwriting. Monty volunteers here.
 - **Recurring:** Tutoring center shift (Monty, Mon to Fri, Night)
-- **Story events:** Orientation campus tour, Monty's stop (see Open questions)
 - **Special chapters:** Monty Ch1 (The Zen of Python: Monty types `import this` into the REPL)
 - **Lessons:** Generic 12 (For loops)
 
@@ -269,7 +269,6 @@ Food and shopping, all under one roof next to the dorms. Short hours during Than
 - **Open:** Day
 - **Description:** The campus coffee shop, with a bubble tea counter in the back for Jay. Home of the coffee appreciation society.
 - **Recurring:** Coffee appreciation society (Julian, Mon to Thu, Day)
-- **Story events:** Orientation campus tour, Jay's stop (see Open questions)
 - **Special chapters:** Julian Ch3 (Primitives and wrappers: Julian's formal café mug versus his private thermos), Monty Ch2 (Slicing and unpacking: sharing a playlist with one earbud each)
 - **Lessons:** Generic 5 (Strings: names misspelled on cups), Generic 14 (Functions: a drink order goes in, a drink comes out)
 
@@ -314,7 +313,7 @@ Monty's corner of campus: a glass greenhouse, winding garden paths, and a small 
 - **Open:** Day (lights stay on during the festival)
 - **Description:** Warm, humid, and full of labeled plant pots. The gardening club's home.
 - **Recurring:** Gardening club (Monty, Sat and Sun, Day)
-- **Story events:** Polyglot: talk to Monty (week 13)
+- **Story events:** Orientation campus tour, Monty's stop. Polyglot: talk to Monty (week 13)
 - **Special chapters:** Monty Ch5 (Context managers: cleaning up the potting bench, "it's okay to fail")
 - **Endings:** Monty confession (under the greenhouse lights at the end-of-term festival), Monty good ending CG (a plant labeled with her name)
 
@@ -418,8 +417,8 @@ The same information as above, looked up by event. Use this to check `calendar.j
 ### Orientation tour stops
 | Order | Love interest | Building | Room |
 |---|---|---|---|
-| 1 | Monty | Turing Hall | Tutoring center |
-| 2 | Jay | The Commons | Café Cache |
+| 1 | Monty | Greenhouse and Gardens | Greenhouse |
+| 2 | Jay | Turing Hall | TA office |
 | 3 | Julian | Oracle Hall | Student council room |
 | 4 (after dark) | Ciel | Knuth Hall | Hopper Computer Lab |
 
@@ -499,10 +498,9 @@ The same information as above, looked up by event. Use this to check `calendar.j
 - The exam hall and tutoring center are now clearly inside **Turing Hall** (they were placed there in `locations.json` but not in this doc).
 - Outdoor spots are grouped into three areas: **Main Quad** (with the picnic hill moved onto it from "behind the library"), **Greenhouse and Gardens**, and **Athletic Complex** (gym, track and carnival).
 - Seven rooms are split out so specialty spots have their own entry: Locker hallway, The stacks, Common room, Laundry room, Running track, Carnival ride, Hall of mirrors.
-- The orientation tour follows the Roadmap: Monty at the tutoring center and Jay at Café Cache.
+- Orientation tour stops (Gee, 2026-11-03): Monty in the greenhouse, Jay in the TA office, Julian in the council room, Ciel in Hopper Lab.
 
 ## Open questions
-- **Tour stops:** StoryBeats.md still has Monty at the quad help desk and Jay in the TA office. This doc follows the Roadmap (tutoring center and Café Cache). StoryBeats.md should be updated to match, or this doc changed back.
 - **Carnival weeks:** Generic 10, 24 and 26 are set at the carnival, which only exists in weeks 5–6 and 9–10. That's fine as flavor, but the map needs to know whether those rooms show up outside carnival weeks. This doc says no.
 - **Endings with no place yet:** the good, normal and bad endings for Monty, Julian and Jay (except the ones listed above), and all bad endings, don't have a room yet.
 - **Rooms with nothing in them yet:** Laundry room (walk-in only). Fine for the "nobody's here" walk-in text, or it could get an event later.

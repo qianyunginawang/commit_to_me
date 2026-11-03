@@ -36,7 +36,7 @@ Go on a tour of campus (Led by Quack Overflow) and "coincidentally" meet each of
 The meet involves completing lesson one (Printing to the console) with each of them. 
 Quack explains how lessons work and how more lessons get unlocks. Quack also explains how lessons add affection (Quack explains affection too), and can unlocking special lessons too. 
 - Week 1. Tour stops, in order:
-    - **Main quad help desk:** Monty walks her through print("Hello, world!").
+    - **Greenhouse:** Monty walks her through print("Hello, world!") between the plant pots.
     - **Turing Hall, TA office hours:** Day Jay corrects her console.log before she finishes typing it.
     - **Student council room:** Julian "drafts" her into paperwork and explains every word of public static void main.
     - **Hopper Computer Lab (last stop, after dark):** Ciel insults her Hello World, then quietly fixes the #include.
@@ -102,7 +102,7 @@ Quack explains how lessons work and how more lessons get unlocks. Quack also exp
 
 ### 14. Finals week and confessions
 - Week 14. Generic 33 (Dynamic programming) is the final exam, in the exam hall.
-- **Ciel Ch6 (final challenge, Hopper Lab):** an all-night Templates duet, the hardest challenge in the game. Ciel confesses at dawn on the CS building rooftop, coat around her shoulders.
+- **Ciel Ch6 (final challenge, Hopper Lab):** an all-night Templates duet, the hardest challenge in the game. Ciel confesses at dawn on the Knuth Hall rooftop, coat around her shoulders.
 - **Thursday, the winter gala (Oracle Great Hall):** Julian confesses on the council room balcony afterward, tie loosened for the first time.
 - **Friday, December 4: Jay's birthday and the end-of-term festival** on the main quad, running on Jay's site. Night Jay throws a party in the group chat, and Day Jay insists it's "just a normal day". Jay confesses on the festival stage at sunset, both sides at once. Monty confesses under the greenhouse lights during the festival.
 - Only the route the player is on confesses. The ending depends on affection: Good is 80+ with the final challenge passed, Normal is 50 to 79, and Bad is under 50.
