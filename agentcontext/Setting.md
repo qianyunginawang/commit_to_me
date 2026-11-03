@@ -65,6 +65,7 @@ The main lecture building, where Intro to Programming is taught. Long hallways l
 - **Description:** A big tiered lecture hall with a projector that takes three tries to turn on.
 - **Story events:** First problem set due (week 3), Spring course registration opens (week 10)
 - **Lessons:** Generic 3 (Variables and assignment), Generic 9 (If/else)
+- **Endings:** Jay bad ending, undefined (Day Jay calls roll and reads her name as "undefined")
 
 ### Locker hallway (new)
 - **id:** `locker_hallway` (new)
@@ -79,6 +80,7 @@ The main lecture building, where Intro to Programming is taught. Long hallways l
 - **Recurring:** Office hours (Day Jay, Mon to Fri, Day)
 - **Story events:** Orientation campus tour, Jay's stop
 - **Special chapters:** Jay Ch2 (Type annotations, Day), Jay Ch4 (Interfaces, Day)
+- **Endings:** Jay normal day ending, Strict mode (Day Jay keeps holding office hours, polite, proper, and a little hollow)
 
 ### Tutoring center
 - **id:** `tutoring_center`
@@ -87,6 +89,7 @@ The main lecture building, where Intro to Programming is taught. Long hallways l
 - **Recurring:** Tutoring center shift (Monty, Mon to Fri, Night)
 - **Special chapters:** Monty Ch1 (The Zen of Python: Monty types `import this` into the REPL)
 - **Lessons:** Generic 12 (For loops)
+- **Endings:** Monty bad ending, DeprecationWarning (Monty helps her the same way he helps everyone else, kind but distant)
 
 ### Exam hall
 - **id:** `exam_hall`
@@ -127,6 +130,7 @@ The administration building, donated by the Oracle family. President Fortran's o
 - **Description:** The formal ballroom. Chandeliers and a long guest list.
 - **Story events:** Winter gala (week 14, Tue, Night)
 - **Special chapters:** Julian Ch6 (Generics and streams final: planning the winter gala)
+- **Endings:** Julian normal ending, Next release (at the end of the gala, Julian raises a toast to his most trusted council member)
 
 ---
 
@@ -140,6 +144,7 @@ Tall shelves, reading lamps, and big west windows. Open in the Day slot, plus la
 - **Story events:** Ada Lovelace Day talk (week 6, Tue, Day)
 - **Special chapters:** Jay Ch7 (Convert the festival site to TypeScript, final, at dusk: working under the library lights as the sun sets)
 - **Lessons:** Generic 17 (Maps and dictionaries: the catalog maps call numbers to books)
+- **Endings:** Monty normal ending, In the next version (studying side by side at the same table every night)
 
 ### The stacks (new)
 - **id:** `library_stacks` (new)
@@ -153,6 +158,7 @@ Tall shelves, reading lamps, and big west windows. Open in the Day slot, plus la
 - **Description:** Dusty records and old portraits of the Sun household, which the Oracle family later absorbed.
 - **Special chapters:** Julian Ch4 (Null and Optional: the missing portrait in the Duke family archive)
 - **Lessons:** Generic 21 (Inheritance and polymorphism: family-tree portraits), Generic 23 (File reading and writing: digging through old records)
+- **Endings:** Julian bad ending, NullPointerException (she reaches for Julian's hand among the old portraits and finds nothing there)
 
 ---
 
@@ -202,12 +208,14 @@ The loud, busy building on the west edge of campus. Clubs, events, and the best 
 - **Description:** A cramped room off the main hall with old consoles and a whiteboard of engine diagrams. Not officially a club. Ciel runs it from the shadows.
 - **Recurring:** Game dev club (Ciel, Fri to Sun, Day)
 - **Special chapters:** Ciel Ch4 (RAII and smart pointers: Ciel admits he doesn't have to manage everything alone)
+- **Endings:** Ciel bad ending, Segmentation fault (the club room is locked and dark, with a note on the door: "Segmentation fault (core dumped)")
 
 ### Arcade
 - **id:** `union_arcade`
 - **Open:** Night
 - **Description:** The union basement. Old arcade machines with strange rules and a scoreboard that adds wrong.
 - **Special chapters:** Jay Ch3 (Equality and coercion, night: an arcade date full of weird games, where the scoreboard says '5' + 3 is '53')
+- **Endings:** Jay normal night ending, Runs everywhere (Night Jay is always at the arcade, always fun, never quite there when it matters)
 
 ### Union rooftop
 - **id:** `union_rooftop`
@@ -435,6 +443,32 @@ The same information as above, looked up by event. Use this to check `calendar.j
 | Ciel | 5 | Classes and the STL | Knuth Hall | Hopper Computer Lab |
 | Ciel | 6 | Templates (final) | Knuth Hall | Hopper Computer Lab |
 
+### Endings
+Each route ending plays in one room. Confessions come right before the good endings.
+
+| Route | Ending | Building | Room |
+|---|---|---|---|
+| Monty | Confession | Greenhouse and Gardens | Greenhouse |
+| Monty | Good: Co-authors | Greenhouse and Gardens | Greenhouse |
+| Monty | Normal: In the next version | Lovelace Library | Reading room |
+| Monty | Bad: DeprecationWarning | Turing Hall | Tutoring center |
+| Julian | Confession | Oracle Hall | Council balcony |
+| Julian | Good: Vice president | Oracle Hall | Student council room |
+| Julian | Normal: Next release | Oracle Hall | Oracle Great Hall |
+| Julian | Bad: NullPointerException | Lovelace Library | University Archive |
+| Ciel | Confession | Knuth Hall | Knuth Hall rooftop |
+| Ciel | Good: In the credits | Knuth Hall | Hopper Computer Lab |
+| Ciel | Normal: Door unlocked | Knuth Hall | Hopper Computer Lab |
+| Ciel | Bad: Segmentation fault | Student Union | Game dev club room |
+| Jay | Confession | Main Quad | Festival stage |
+| Jay | Good: Both halves | Student Union | Hackathon hall |
+| Jay | Normal (day): Strict mode | Turing Hall | TA office |
+| Jay | Normal (night): Runs everywhere | Student Union | Arcade |
+| Jay | Bad: undefined | Turing Hall | Lecture hall |
+| Polyglot | Confession | Student Union | Union rooftop |
+| Polyglot | Good: The Polyglot ending | Student Union | Union rooftop |
+| Polyglot | Bad: The merge conflict ending | Main Quad | Festival stage, then Fountain bench |
+
 ### Generic subjects
 | # | Subject | Building | Room |
 |---|---|---|---|
@@ -484,6 +518,3 @@ The same information as above, looked up by event. Use this to check `calendar.j
 - Rooms split out so specialty spots have their own entry: Locker hallway, The stacks, Common room, Laundry room, Running track.
 - **The carnival is gone** (Gee, 2026-11-03), including Fright Night, because generic lessons shouldn't be tied to time-limited events. Generic 10 moved to the gym, Generic 24 to the running track, Generic 26 to the laundry room, and Jay Ch3 to the new union Arcade.
 - Orientation tour stops (Gee, 2026-11-03): Monty in the greenhouse, Jay in the TA office, Julian in the council room, Ciel in Hopper Lab.
-
-## Open questions
-- **Endings with no place yet:** the good, normal and bad endings for Monty, Julian and Jay (except the ones listed above), and all bad endings, don't have a room yet.
