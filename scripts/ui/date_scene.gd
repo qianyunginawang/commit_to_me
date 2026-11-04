@@ -55,7 +55,7 @@ func _ready() -> void:
 
 	var location := _location()
 	backdrop.show_place(location, GameState.slot)
-	var place: String = GameData.locations.get(location, {}).get("name", "")
+	var place: String = GameData.location_label(location)
 	hud.refresh(place)
 
 	character = GameData.get_character(date.get("character", ""))

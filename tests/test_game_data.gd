@@ -60,6 +60,7 @@ func test_validate_catches_broken_lessons() -> void:
 	gd.lessons = GameData.lessons.duplicate(true)
 	gd.routes = GameData.routes.duplicate(true)
 	gd.locations = GameData.locations
+	gd.buildings = GameData.buildings
 	gd.calendar = GameData.calendar
 	gd.endings = GameData.endings
 	check(gd.validate().is_empty(), "the copy should start out valid")
@@ -74,3 +75,14 @@ func test_validate_catches_broken_lessons() -> void:
 	check("'g01_cpp' needs exactly 2 hints" in problems, "missing hint not caught:\n" + problems)
 	check("affection only comes from passing lessons" in problems, "dialogue affection not caught:\n" + problems)
 	gd.free()
+
+
+func test_every_room_is_in_a_building() -> void:
+	check_eq(GameData.buildings.size(), 11, "eleven buildings on the map")
+	var rooms := 0
+	for building in GameData.buildings:
+		var here := GameData.rooms_in(building["id"])
+		check(not here.is_empty(), "%s has rooms" % building["id"])
+		rooms += here.size()
+	check_eq(rooms, GameData.locations.size(), "every room is in a known building")
+	check_eq(GameData.location_label("ta_office"), "TA office, Turing Hall")

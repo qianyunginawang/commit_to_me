@@ -13,7 +13,8 @@ extends Node
 ##   data/lessons/*.json     - the written versions of a generic subject, one
 ##                             per language, e.g. data/lessons/g01.json
 ##   data/routes/*.json      - each character's special chapters, in order
-##   data/locations.json     - campus locations lessons can happen at
+##   data/buildings.json     - campus buildings, in map order, with grid cells
+##   data/locations.json     - rooms inside the buildings (lessons and events happen in rooms)
 ##   data/calendar.json      - the semester's events (see Calendar)
 ##   data/endings/*.json     - each character's endings (see Endings)
 ##
@@ -32,6 +33,7 @@ const CURRICULUM_PATH := "res://data/curriculum.json"
 const LESSONS_DIR := "res://data/lessons"
 const ROUTES_DIR := "res://data/routes"
 const LOCATIONS_PATH := "res://data/locations.json"
+const BUILDINGS_PATH := "res://data/buildings.json"
 const CALENDAR_PATH := "res://data/calendar.json"
 const ENDINGS_DIR := "res://data/endings"
 
@@ -49,8 +51,11 @@ var curriculum: Array = []
 var lessons: Dictionary = {}
 ## Character id -> {"character": ..., "chapters": [{id, chapter, title, ...}]}.
 var routes: Dictionary = {}
-## Location id -> {name, area}.
+## Room id -> {name, building, blurb, short?, flavor?}, in each building's room order.
+## A flavor room is for exploring only: nothing ever happens there.
 var locations: Dictionary = {}
+## Buildings in map order: [{id, name, cell: [col, row], span, blurb}].
+var buildings: Array = []
 ## {start_date, weeks, events: [...]}. See Calendar.
 var calendar: Dictionary = {}
 ## Character id -> {"character": ..., "endings": [{id, kind, title, summary, dialogue}]}.
@@ -75,6 +80,8 @@ func load_all() -> void:
 	routes = load_dir(ROUTES_DIR)
 	var locs = load_json(LOCATIONS_PATH)
 	locations = locs if locs is Dictionary else {}
+	var blds = load_json(BUILDINGS_PATH)
+	buildings = blds if blds is Array else []
 	var cal = load_json(CALENDAR_PATH)
 	calendar = cal if cal is Dictionary else {}
 	endings = load_dir(ENDINGS_DIR)
@@ -92,6 +99,31 @@ func character_ids() -> Array[String]:
 
 func get_character(id: String) -> Dictionary:
 	return characters.get(id, {})
+
+
+func get_building(id: String) -> Dictionary:
+	for building in buildings:
+		if building.get("id") == id:
+			return building
+	return {}
+
+
+## The room ids in a building, in list order.
+func rooms_in(building_id: String) -> Array[String]:
+	var rooms: Array[String] = []
+	for loc in locations:
+		if locations[loc].get("building", "") == building_id:
+			rooms.append(loc)
+	return rooms
+
+
+## "Room, Building", like "TA office, Turing Hall", for showing where you are.
+func location_label(loc: String) -> String:
+	var info: Dictionary = locations.get(loc, {})
+	if info.is_empty():
+		return ""
+	var building: String = get_building(info.get("building", "")).get("name", "")
+	return info.get("name", loc) if building == "" else "%s, %s" % [info.get("name", loc), building]
 
 
 func get_date(id: String) -> Dictionary:
@@ -215,6 +247,20 @@ func warm_up_runtimes() -> void:
 ## problems (empty means all good). The test suite fails if this isn't empty.
 func validate() -> PackedStringArray:
 	var problems: PackedStringArray = []
+	var cells := {}
+	for building in buildings:
+		var cell: Array = building.get("cell", [])
+		if cell.size() != 2:
+			problems.append("Building '%s' needs a map cell [col, row]" % building.get("id", ""))
+			continue
+		for i in int(building.get("span", 1)):
+			var key := Vector2i(int(cell[0]) + i, int(cell[1]))
+			if cells.has(key):
+				problems.append("Buildings '%s' and '%s' share a map cell" % [cells[key], building.get("id", "")])
+			cells[key] = building.get("id", "")
+	for loc in locations:
+		if get_building(locations[loc].get("building", "")).is_empty():
+			problems.append("Room '%s' has unknown building '%s'" % [loc, locations[loc].get("building", "")])
 	for id in dates:
 		var date: Dictionary = dates[id]
 		if date.get("character", "") != "" and not characters.has(date.get("character", "")):
@@ -304,6 +350,8 @@ func _validate_calendar() -> PackedStringArray:
 			problems.append("%s: slot should be day or night" % where)
 		if not locations.has(event.get("location", "")):
 			problems.append("%s has unknown location '%s'" % [where, event.get("location", "")])
+		elif locations[event.get("location", "")].get("flavor", false):
+			problems.append("%s is in a flavor room '%s', where nothing happens" % [where, event.get("location", "")])
 		for c in event.get("characters", []):
 			if not characters.has(c):
 				problems.append("%s has unknown character '%s'" % [where, c])
@@ -330,6 +378,8 @@ func _validate_lessons() -> PackedStringArray:
 			problems.append("Curriculum subject '%s' should be number %d" % [id, i + 1])
 		if not locations.has(subject.get("location", "")):
 			problems.append("Subject '%s' has unknown location '%s'" % [id, subject.get("location", "")])
+		elif locations[subject.get("location", "")].get("flavor", false):
+			problems.append("Subject '%s' is in a flavor room '%s', where nothing happens" % [id, subject.get("location", "")])
 
 	for id in characters:
 		var lesson_languages = characters[id].get("lesson_languages")
@@ -373,6 +423,8 @@ func _validate_lessons() -> PackedStringArray:
 					problems.append("%s requires unknown subject '%s'" % [where, req])
 			if not locations.has(chapter.get("location", "")):
 				problems.append("%s has unknown location '%s'" % [where, chapter.get("location", "")])
+			elif locations[chapter.get("location", "")].get("flavor", false):
+				problems.append("%s is in a flavor room '%s', where nothing happens" % [where, chapter.get("location", "")])
 			if not chapter.get("slot", "") in SLOTS:
 				problems.append("%s has unknown slot '%s'" % [where, chapter.get("slot", "")])
 			var lang: String = chapter.get("language", "")

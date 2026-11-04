@@ -1,8 +1,9 @@
 extends Control
-## The campus map: the home screen between dates. A holographic map of campus
-## with a pin wherever someone is (or a story scene is waiting). Pick a pin to
-## see who's there and what you can do with them, pick a lesson or scene in
-## the panel, then press Start.
+## The campus map: the home screen between dates. A holographic map of the
+## campus buildings, each with a bubble for whoever is inside (or a "!" when a
+## story scene is waiting). Click a building to list its rooms, then a room:
+## an empty room shows its walk-in description, and a room with someone in it
+## lists the lessons and scenes there. Pick one, then press Start.
 
 @onready var map_view: CampusMapView = %MapView
 @onready var hud: Hud = %Hud
@@ -18,12 +19,15 @@ extends Control
 
 const PANEL_WIDTH := 324.0
 
-## The location shown in the panel.
+## The building whose rooms the panel lists.
+var selected_building: String = ""
+## The room shown in the panel, or "" when the panel lists the building's rooms.
 var selected_location: String = ""
 ## What's picked in the panel: {"dialogue", "event_id", "kind"} with kind
 ## "lesson" or "scene", or {} if nothing can be picked.
 var selected_item: Dictionary = {}
 var _rows := ButtonGroup.new()
+var _places: Dictionary = {}
 
 
 func _ready() -> void:
@@ -31,7 +35,7 @@ func _ready() -> void:
 	%CalendarButton.pressed.connect(func(): add_child(CalendarView.new()))
 	wait_button.pressed.connect(_on_wait)
 	start_button.pressed.connect(_on_start)
-	map_view.location_selected.connect(_on_location_pressed)
+	map_view.building_selected.connect(_on_building_pressed)
 	var strip_box := UiStyle.glass_box(10)
 	strip_box.content_margin_left = 18
 	strip_box.content_margin_right = 18
@@ -52,15 +56,30 @@ func refresh() -> void:
 
 	if not places.has(selected_location):
 		selected_location = _first_place_with_people(places)
-	var pins := {}
-	for loc in places:
-		var looks: Array = []
-		for id in places[loc]["characters"]:
-			looks.append(Looks.speaker_look(id, GameState.slot))
-		pins[loc] = {"looks": looks, "has_scene": not places[loc]["scenes"].is_empty()}
-	map_view.show_places(pins, selected_location)
-	_show_location(selected_location, places)
+		selected_building = GameData.locations.get(selected_location, {}).get("building", "")
+	_places = places
+	map_view.show_buildings(who_is_in_buildings(places), selected_building)
+	_show_panel()
 	_build_affection_list()
+
+
+## Building id -> {"looks": [one per person], "has_scene": bool}, from
+## who_is_where().
+static func who_is_in_buildings(places: Dictionary) -> Dictionary:
+	var info := {}
+	for loc in places:
+		var building: String = GameData.locations.get(loc, {}).get("building", "")
+		if building == "":
+			continue
+		if not info.has(building):
+			info[building] = {"looks": [], "has_scene": false, "characters": []}
+		for id in places[loc]["characters"]:
+			if not id in info[building]["characters"]:
+				info[building]["characters"].append(id)
+				info[building]["looks"].append(Looks.speaker_look(id, GameState.slot))
+		if not places[loc]["scenes"].is_empty():
+			info[building]["has_scene"] = true
+	return info
 
 
 ## Location id -> {"characters": [ids], "events": [event names], "scenes":
@@ -128,18 +147,99 @@ func _first_place_with_people(places: Dictionary) -> String:
 	return ""
 
 
-func _on_location_pressed(loc: String) -> void:
+func _on_building_pressed(building: String) -> void:
+	selected_building = building
+	selected_location = ""
+	map_view.show_buildings(who_is_in_buildings(_places), selected_building)
+	_show_panel()
+
+
+func _on_room_pressed(loc: String) -> void:
 	selected_location = loc
-	refresh()
+	_show_panel()
 
 
-# --- The location panel ----------------------------------------------------------
+func _on_back() -> void:
+	if selected_location == "":
+		return
+	selected_location = ""
+	_show_panel()
 
-func _show_location(loc: String, places: Dictionary) -> void:
+
+# --- The panel ---------------------------------------------------------------------
+
+func _show_panel() -> void:
+	if selected_location == "" and selected_building != "":
+		_show_building(selected_building, _places)
+	else:
+		_show_location(selected_location, _places)
+
+
+func _clear_body() -> void:
 	for child in place_body.get_children():
 		place_body.remove_child(child)
 		child.queue_free()
 	selected_item = {}
+
+
+## A building's room list. Each room says who's there, if anyone.
+func _show_building(building: String, places: Dictionary) -> void:
+	_clear_body()
+	var info := GameData.get_building(building)
+	UiStyle.style_banner(place_name, info.get("name", building), UiStyle.CYAN, UiStyle.INK, 32, PANEL_WIDTH)
+	place_blurb.text = info.get("blurb", "")
+	place_events.visible = false
+	place_body.add_child(UiStyle.caption("Rooms"))
+	for loc in GameData.rooms_in(building):
+		place_body.add_child(_room_row(loc, places.get(loc, {})))
+	_update_start_button()
+
+
+## One room in a building's list: its name, then who's there, a scene, or
+## (for flavor rooms) "Explore".
+func _room_row(loc: String, place: Dictionary) -> Button:
+	var info: Dictionary = GameData.locations.get(loc, {})
+	var button := Button.new()
+	button.theme_type_variation = &"ListRow"
+	button.custom_minimum_size = Vector2(0, 38)
+	button.name = loc
+	var row := HBoxContainer.new()
+	row.set_anchors_preset(Control.PRESET_FULL_RECT)
+	row.offset_left = 14
+	row.offset_right = -12
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_theme_constant_override("separation", 6)
+	var busy: bool = not place.get("characters", []).is_empty() or not place.get("scenes", []).is_empty()
+	var label := Label.new()
+	label.text = info.get("name", loc)
+	label.add_theme_font_override("font", UiStyle.body_font(700 if busy else 600))
+	label.add_theme_font_size_override("font_size", 14)
+	label.add_theme_color_override("font_color", UiStyle.TEXT if busy else UiStyle.TEXT_SOFT)
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	label.size_flags_vertical = Control.SIZE_FILL
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	label.clip_text = true
+	row.add_child(label)
+	var tags: Array[Label] = []
+	for id in place.get("characters", []):
+		var look := Looks.speaker_look(id, GameState.slot)
+		tags.append(UiStyle.chip(look.get("name", id), UiStyle.PINK, UiStyle.TEXT, 10))
+	if not place.get("scenes", []).is_empty():
+		tags.append(UiStyle.chip("Scene", UiStyle.GOLD, UiStyle.INK, 10))
+	if tags.is_empty() and info.get("flavor", false):
+		tags.append(UiStyle.caption("Explore", UiStyle.TEXT_DIM, 10))
+	for tag in tags:
+		tag.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		row.add_child(tag)
+	button.add_child(row)
+	button.tooltip_text = info.get("name", loc)
+	button.pressed.connect(_on_room_pressed.bind(loc))
+	return button
+
+
+func _show_location(loc: String, places: Dictionary) -> void:
+	_clear_body()
 	if loc == "":
 		UiStyle.style_banner(place_name, "Nobody's around", UiStyle.NAVY_2, UiStyle.TEXT, 30, PANEL_WIDTH)
 		place_blurb.text = "Wait until later, or come back another day."
@@ -147,6 +247,18 @@ func _show_location(loc: String, places: Dictionary) -> void:
 		_update_start_button()
 		return
 	var info: Dictionary = GameData.locations.get(loc, {})
+	var building: Dictionary = GameData.get_building(info.get("building", ""))
+	if not building.is_empty():
+		var back := Button.new()
+		back.name = "BackButton"
+		back.flat = true
+		back.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		back.text = "‹  " + building.get("name", "").to_upper()
+		back.add_theme_font_override("font", UiStyle.label_font(2))
+		back.add_theme_font_size_override("font_size", 12)
+		back.add_theme_color_override("font_color", UiStyle.CYAN)
+		back.pressed.connect(_on_back)
+		place_body.add_child(back)
 	UiStyle.style_banner(place_name, info.get("name", loc), UiStyle.PINK, UiStyle.TEXT, 32, PANEL_WIDTH)
 	place_blurb.text = info.get("blurb", "")
 	var place: Dictionary = places.get(loc, {"characters": [], "events": [], "scenes": []})
@@ -164,6 +276,8 @@ func _show_location(loc: String, places: Dictionary) -> void:
 		place_body.add_child(UiStyle.caption("Lessons here" if place["scenes"].is_empty() else "Things to do"))
 		for item in items:
 			place_body.add_child(_item_row(item))
+	elif info.get("flavor", false):
+		place_body.add_child(UiStyle.caption("You look around for a bit"))
 	elif place["characters"].is_empty():
 		place_body.add_child(UiStyle.caption("Nobody to meet here right now"))
 	else:
@@ -171,7 +285,7 @@ func _show_location(loc: String, places: Dictionary) -> void:
 
 	# Pick the first thing that can be done.
 	for row in place_body.get_children():
-		if row is Button and not row.disabled:
+		if row is Button and row.toggle_mode and not row.disabled:
 			row.button_pressed = true
 			row.pressed.emit()
 			break
@@ -264,18 +378,21 @@ func _describe_requirement(id: String) -> String:
 
 
 func _update_start_button() -> void:
-	start_button.disabled = selected_item.is_empty()
+	start_button.disabled = selected_item.is_empty() and selected_location == ""
 	match selected_item.get("kind", ""):
 		"scene":
 			start_button.text = "Watch scene"
 		"lesson":
 			start_button.text = "Start lesson"
 		_:
-			start_button.text = "Start"
+			# An empty room: the button takes you back to the building's rooms.
+			start_button.text = "Back to map" if selected_location != "" else "Pick a room"
 
 
 func _on_start() -> void:
-	if not selected_item.is_empty():
+	if selected_item.is_empty():
+		_on_back()
+	else:
 		Router.goto(Router.DATE, {"date_id": selected_item["dialogue"], "event_id": selected_item["event_id"]})
 
 

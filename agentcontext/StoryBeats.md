@@ -11,7 +11,7 @@ Roughly what a player on pace can unlock each week. Generic subjects open in ord
 | 1 | 1 Printing to the console, 2 Comments | None (all four meetings use Generic 1) |
 | 2 | 3 Variables and assignment, 4 Numbers and math, 5 Strings | Jay Ch1 (Variables), Monty Ch1 (The Zen of Python), Julian Ch1 (The JVM) |
 | 3 | 6 Booleans and comparisons, 7 User input, 8 Debugging | Jay Ch2 (Type annotations), Ciel Ch1 (Compiling and types), Julian Ch2 (== vs .equals()) |
-| 4 | 9 If/else, 10 Logical operators, 11 While loops | Jay Ch3 (Equality and coercion), played at the carnival in weeks 5 and 6 |
+| 4 | 9 If/else, 10 Logical operators, 11 While loops | Jay Ch3 (Equality and coercion), at the union arcade |
 | 5 | 12 For loops, 13 Nested loops and break/continue, 14 Functions | None |
 | 6 | 15 Scope, 16 Arrays and lists, 17 Maps and dictionaries | Monty Ch2 (Slicing and unpacking), Monty Ch3 (Comprehensions), Ciel Ch2 (Pointers and references), Julian Ch3 (Primitives and wrappers) |
 | 7 | 18 Sets, 19 Iterating over collections | None (midterms) |
@@ -36,7 +36,7 @@ Go on a tour of campus (Led by Quack Overflow) and "coincidentally" meet each of
 The meet involves completing lesson one (Printing to the console) with each of them. 
 Quack explains how lessons work and how more lessons get unlocks. Quack also explains how lessons add affection (Quack explains affection too), and can unlocking special lessons too. 
 - Week 1. Tour stops, in order:
-    - **Main quad help desk:** Monty walks her through print("Hello, world!").
+    - **Greenhouse:** Monty walks her through print("Hello, world!") between the plant pots.
     - **Turing Hall, TA office hours:** Day Jay corrects her console.log before she finishes typing it.
     - **Student council room:** Julian "drafts" her into paperwork and explains every word of public static void main.
     - **Hopper Computer Lab (last stop, after dark):** Ciel insults her Hello World, then quietly fixes the #include.
@@ -62,10 +62,9 @@ Quack explains how lessons work and how more lessons get unlocks. Quack also exp
 - Week 4, end of the week. Quack gives a full affection report in the heroine's dorm room. No routes close: every character stays available all semester.
 - Replay only: if all four are at 20+ and the player has seen at least one good ending, a hidden choice appears: "Why choose just one language?" Picking it starts the Polyglot route (see below). Quack: "You absolute multithreader."
 
-### 7. The fall carnival
-- Weeks 5 and 6, weekend nights on the athletic field.
-- Jay Ch3 (Equality and coercion, night): a carnival date full of rigged games. Teaches == vs === and why '5' + 3 is '53'.
-- Generic 10 (Logical operators) can be played here: "must be this tall AND have a ticket".
+### 7. Arcade night and Hacktoberfest
+- Weeks 5 and 6, at night in the student union arcade.
+- Jay Ch3 (Equality and coercion, night): an arcade date full of weird games. Teaches == vs === and why '5' + 3 is '53'.
 - Hacktoberfest starts in week 6, which gives Jay and Ciel something to argue about.
 - Also in week 6: Monty Ch2 (Slicing and unpacking, Café Cache), Monty Ch3 (Comprehensions, picnic lawn), Ciel Ch2 (Pointers and references, Hopper Lab), and Julian Ch3 (Primitives and wrappers, Café Cache).
 
@@ -81,9 +80,8 @@ Quack explains how lessons work and how more lessons get unlocks. Quack also exp
 - Monty Ch4 (Duck typing, duck pond): Quack's starring role.
 - Julian Ch4 (Null and Optional, University Archive): the missing portrait in the Duke family archive.
 
-### 10. Halloween and Fright Night
-- Week 9. Halloween (Saturday, October 31) costume party at the student union, and the carnival returns as Fright Night (Friday and Saturday nights in weeks 9 and 10).
-- Generic 24 (Linked lists: ride cars hooked together) and 26 (Recursion: the hall of mirrors) are played at Fright Night.
+### 10. Halloween
+- Week 9. Halloween (Saturday, October 31) costume party in the student union hackathon hall.
 - Week 9 specials: Jay Ch6 (Async and promises, dusk, student union rooftop), Monty Ch5 (Context managers, greenhouse), Ciel Ch3 (Memory management, Hopper Lab), Ciel Ch4 (RAII and smart pointers, game dev club room), and Julian Ch5 (Checked exceptions, council room).
 - Week 10: spring course registration opens, and everyone asks the heroine which classes she'll take next semester. Ciel Ch5 (Classes and the STL, Hopper Lab).
 
@@ -102,7 +100,7 @@ Quack explains how lessons work and how more lessons get unlocks. Quack also exp
 
 ### 14. Finals week and confessions
 - Week 14. Generic 33 (Dynamic programming) is the final exam, in the exam hall.
-- **Ciel Ch6 (final challenge, Hopper Lab):** an all-night Templates duet, the hardest challenge in the game. Ciel confesses at dawn on the CS building rooftop, coat around her shoulders.
+- **Ciel Ch6 (final challenge, Hopper Lab):** an all-night Templates duet, the hardest challenge in the game. Ciel confesses at dawn on the Knuth Hall rooftop, coat around her shoulders.
 - **Thursday, the winter gala (Oracle Great Hall):** Julian confesses on the council room balcony afterward, tie loosened for the first time.
 - **Friday, December 4: Jay's birthday and the end-of-term festival** on the main quad, running on Jay's site. Night Jay throws a party in the group chat, and Day Jay insists it's "just a normal day". Jay confesses on the festival stage at sunset, both sides at once. Monty confesses under the greenhouse lights during the festival.
 - Only the route the player is on confesses. The ending depends on affection: Good is 80+ with the final challenge passed, Normal is 50 to 79, and Bad is under 50.
@@ -114,7 +112,7 @@ Quack explains how lessons work and how more lessons get unlocks. Quack also exp
 
 ## Polyglot route (replay only)
 Runs alongside the calendar above, starting from the hidden choice at the end of week 4. All four must reach 80+ by week 14, and Jay's day and night lesson counts must be within 2 of each other (see Balance.md).
-- **Weeks 5 to 8, rivalry:** all four notice they're being "juggled" and start competing. The jealousy scenes are Julian versus Ciel, Monty versus Jay, and Day Jay versus Night Jay. Carnival nights and Ciel's birthday become competitions too.
+- **Weeks 5 to 8, rivalry:** all four notice they're being "juggled" and start competing. The jealousy scenes are Julian versus Ciel, Monty versus Jay, and Day Jay versus Night Jay. The Halloween party and Ciel's birthday become competitions too.
 - **Weeks 9 to 11, the capstone:** in the capstone team room, a professor assigns the heroine a team project with all four. They build a dating sim: Python for the AI, Julian on the server, Ciel on the engine, and Jay on the front end.
 - **Week 12, the merge conflict:** everyone pushes at once and the project breaks. They argue about whose language should be "main", and the group splits up.
 - **Week 13, resolving it:** the quiet Thanksgiving campus. The heroine visits each one alone at their usual spot and resolves their part of the conflict.

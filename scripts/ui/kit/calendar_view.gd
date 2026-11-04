@@ -237,7 +237,7 @@ func _detail_row(event: Dictionary) -> Control:
 		(STORY_COLOR if event.get("kind") == "story" else INFO_COLOR) if special else UiStyle.TEXT)
 	box.add_child(name_label)
 	var bits: PackedStringArray = []
-	var place: String = GameData.locations.get(event.get("location", ""), {}).get("name", "")
+	var place: String = GameData.location_label(event.get("location", ""))
 	if place != "":
 		bits.append(place)
 	var people: PackedStringArray = []
