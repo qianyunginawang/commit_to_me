@@ -31,7 +31,7 @@ var _places: Dictionary = {}
 
 
 func _ready() -> void:
-	menu_button.pressed.connect(func(): Router.goto(Router.MAIN_MENU))
+	menu_button.pressed.connect(open_menu)
 	%CalendarButton.pressed.connect(func(): add_child(CalendarView.new()))
 	wait_button.pressed.connect(_on_wait)
 	start_button.pressed.connect(_on_start)
@@ -43,6 +43,18 @@ func _ready() -> void:
 	strip_box.content_margin_bottom = 6
 	affection_strip.add_theme_stylebox_override("panel", strip_box)
 	refresh()
+
+
+## The in-game menu (top right, or Esc).
+func open_menu() -> void:
+	if not has_node("PauseMenu") and not has_node("CalendarOverlay"):
+		add_child(PauseMenu.new())
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
+		open_menu()
 
 
 ## Rebuilds everything for the current time.

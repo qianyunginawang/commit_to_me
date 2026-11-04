@@ -112,8 +112,8 @@ func _gui_input(event: InputEvent) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
-		if has_node("HistoryPanel") or has_node("PauseMenu"):
-			_close_modal("HistoryPanel" if has_node("HistoryPanel") else "PauseMenu")
+		if has_node("HistoryPanel"):
+			_close_modal("HistoryPanel")
 		elif not _modal_open():
 			open_menu()
 	elif (event.is_action_pressed("ui_accept") or event.is_action_pressed("ui_right")) and not _modal_open():
@@ -467,39 +467,13 @@ func _history_entry(entry: Dictionary) -> Control:
 
 ## The pause menu: resume, history, settings, or go back to the title screen.
 func open_menu() -> void:
-	if _modal_open():
-		return
-	var column := _make_modal("PauseMenu", "Paused", 340)
-	var buttons := [
-		["RESUME", &"BrightButton", _close_modal.bind("PauseMenu")],
-		["HISTORY", &"", func(): _close_modal("PauseMenu"); show_history()],
-		["SETTINGS", &"", _open_settings],
-		["QUIT TO TITLE", &"PinkButton", _quit_to_title],
-	]
-	for b in buttons:
-		var button := Button.new()
-		button.text = b[0]
-		button.theme_type_variation = b[1]
-		button.custom_minimum_size = Vector2(0, 46)
-		button.pressed.connect(b[2])
-		column.add_child(button)
-	column.get_child(0).grab_focus()
+	if not _modal_open():
+		add_child(PauseMenu.new(show_history))
 
 
 func open_calendar() -> void:
 	if not _modal_open():
 		add_child(CalendarView.new())
-
-
-func _open_settings() -> void:
-	var settings: Control = load(Router.SETTINGS).instantiate()
-	settings.name = "SettingsOverlay"
-	add_child(settings)
-
-
-func _quit_to_title() -> void:
-	GameState.save_game()
-	Router.goto(Router.MAIN_MENU)
 
 
 # --- Pop-ups -------------------------------------------------------------------
@@ -539,7 +513,7 @@ func _close_modal(modal_name: String) -> void:
 
 
 func _modal_open() -> bool:
-	for modal_name in ["NameModal", "HistoryPanel", "PauseMenu", "SettingsOverlay", "CalendarOverlay"]:
+	for modal_name in ["NameModal", "HistoryPanel", "PauseMenu", "CalendarOverlay"]:
 		if has_node(modal_name):
 			return true
 	return false

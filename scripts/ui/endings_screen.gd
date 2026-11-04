@@ -11,13 +11,25 @@ extends Control
 
 
 func _ready() -> void:
-	menu_button.pressed.connect(func(): Router.goto(Router.MAIN_MENU))
+	menu_button.pressed.connect(open_menu)
 	if GameState.ending_id != "":
 		_show_result(Endings.find(GameState.ending_id))
 	elif GameState.has_flag("polyglot"):
 		_show_polyglot()
 	else:
 		_show_route(Endings.route_characters())
+
+
+## The in-game menu (the menu button, or Esc).
+func open_menu() -> void:
+	if not has_node("PauseMenu"):
+		add_child(PauseMenu.new())
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
+		open_menu()
 
 
 func _show_route(top: Array[String]) -> void:

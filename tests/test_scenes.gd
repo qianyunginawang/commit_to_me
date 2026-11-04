@@ -150,10 +150,21 @@ func test_history_auto_skip_and_menu() -> void:
 	var labels: Array = scene.get_node("PauseMenu").find_children("*", "Button", true, false).map(func(b): return b.text)
 	check_eq(labels, ["RESUME", "HISTORY", "SETTINGS", "QUIT TO TITLE"])
 	check(scene._modal_open(), "clicks don't reach the scene")
-	scene._open_settings()
-	scene.get_node("SettingsOverlay").go_back()
-	check(not scene.has_node("SettingsOverlay"), "settings closes back to the menu")
+	check(scene.get_tree().paused, "the scene freezes while the menu is up")
+	var menu: PauseMenu = scene.get_node("PauseMenu")
+	menu.open_settings()
+	menu.get_node("SettingsOverlay").go_back()
+	check(not menu.has_node("SettingsOverlay"), "settings closes back to the menu")
 	check(scene.has_node("PauseMenu"))
+	menu.ask_quit()
+	check(menu.is_asking_quit(), "quitting asks first")
+	var quit_labels: Array = menu.find_children("*", "Button", true, false).map(func(b): return b.text)
+	check_eq(quit_labels, ["CANCEL", "QUIT"])
+	menu.show_buttons()
+	check(not menu.is_asking_quit(), "cancel goes back to the menu")
+	menu.close()
+	check(not scene._modal_open(), "resume closes the menu")
+	check(not scene.get_tree().paused, "and everything carries on")
 
 
 func test_calendar_marks_special_events() -> void:
@@ -242,6 +253,32 @@ func test_new_game_opens_with_orientation() -> void:
 	check_eq(scene.selected_item.get("dialogue"), "orientation",
 		"if the player leaves it early, the map offers it first")
 	check_eq(scene.get_node("%StartButton").text, "Watch scene")
+
+
+func test_menu_freezes_the_scene() -> void:
+	GameState.new_game("Gee")
+	Router.params = {"date_id": "orientation", "event_id": "orientation"}
+	var scene := add_node(load(Router.DATE).instantiate())
+	var text: RichTextLabel = scene.text_label
+	scene.open_menu()
+	var typed := text.visible_ratio
+	await scene.get_tree().create_timer(0.3, true).timeout
+	check_eq(text.visible_ratio, typed, "the text stops typing")
+	scene.get_node("PauseMenu").close()
+	await scene.get_tree().create_timer(0.3).timeout
+	check(text.visible_ratio > typed, "and carries on after Resume")
+
+
+func test_map_menu_is_the_pause_menu() -> void:
+	GameState.new_game("Gee")
+	var scene := add_node(load(Router.MAP).instantiate())
+	scene.get_node("%MenuButton").pressed.emit()
+	var menu: PauseMenu = scene.get_node_or_null("PauseMenu")
+	check(menu != null, "the menu opens over the map")
+	var labels: Array = menu.find_children("*", "Button", true, false).map(func(b): return b.text)
+	check_eq(labels, ["RESUME", "SETTINGS", "QUIT TO TITLE"])
+	menu.close()
+	check(not scene.has_node("PauseMenu"))
 
 
 func test_map_starts_at_orientation_with_everyone() -> void:
