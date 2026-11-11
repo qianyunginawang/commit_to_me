@@ -6,7 +6,7 @@
   "nodes": {
     "intro": {
       "speaker": "narrator",
-      "text": "Orientation day. A help desk on the main quad, piled with maps and tea. The person behind it waves you over.",
+      "text": "The greenhouse. Warm, humid, and full of labeled plant pots. Someone with soil on their sleeves is pouring tea, and waves you over.",
       "next": "hello"
     },
     "hello": {
@@ -47,7 +47,7 @@
     },
     "bye": {
       "speaker": "python",
-      "text": "No rush. The help desk is open all day.",
+      "text": "No rush. The greenhouse is open all day.",
       "next": "end"
     }
   }

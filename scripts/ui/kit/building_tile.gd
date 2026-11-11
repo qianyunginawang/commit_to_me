@@ -11,6 +11,15 @@ var selected := false:
 	set(value):
 		selected = value
 		queue_redraw()
+## Locked buildings are dimmed and can't be picked (the campus tour only
+## lets you pick the building Quack is showing).
+var locked := false:
+	set(value):
+		locked = value
+		disabled = value
+		mouse_default_cursor_shape = Control.CURSOR_ARROW if value else Control.CURSOR_POINTING_HAND
+		focus_mode = Control.FOCUS_NONE if value else Control.FOCUS_ALL
+		modulate.a = 0.35 if value else 1.0
 
 var _looks: Array = []
 var _has_scene := false

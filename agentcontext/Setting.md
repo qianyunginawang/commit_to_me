@@ -302,7 +302,7 @@ The open center of campus: a big lawn, a fountain with benches, and a sunny hill
 - **Open:** Day and Night
 - **Description:** The center of campus. Students everywhere, a frisbee always in the air.
 - **Story events:** Orientation day and campus tour (week 1, Sun: President Fortran's welcome speech, the heroine gets Quack), Club fair (week 1, Fri), Polyglot: the rivalry (week 5)
-- **Lessons:** Generic 1 (Printing to the console: the orientation-day help desk), Generic 20 (Classes and objects: the club fair, where every club is an object)
+- **Lessons:** Generic 1 (Printing to the console: Monty, Jay, Julian and Ciel each teach it at their tour stop), Generic 20 (Classes and objects: the club fair, where every club is an object)
 
 ### Fountain bench
 - **id:** `fountain_bench`
@@ -552,12 +552,21 @@ The same information as above, looked up by event. Use this to check `calendar.j
 | 14 | Polyglot: the integration test (`polyglot_integration_test`) | Knuth Hall | Capstone team room |
 
 ### Orientation tour stops
-| Order | Love interest | Building | Room |
+The tour is a loop that starts on the quad and ends at Knuth Hall after dark (Gee, 2026-11-04). Buildings without a love interest get a line or two from Quack. Quack points out the Observatory and Athletic Complex from a distance, without stopping.
+
+In the game (`data/tour.json`, `scripts/progress/tour.gd`): Quack's building is picked for you and the other buildings are locked. At a stop with a love interest, Quack points at the room and waits until you've done Generic 1 with them. At other stops, you press Next stop. Time moves to night when the tour reaches Knuth Hall.
+
+| Order | Building | Room | Love interest |
 |---|---|---|---|
-| 1 | Monty | Greenhouse and Gardens | Greenhouse |
-| 2 | Jay | Turing Hall | TA office |
-| 3 | Julian | Oracle Hall | Student council room |
-| 4 (after dark) | Ciel | Knuth Hall | Hopper Computer Lab |
+| 1 | Main Quad | Quad lawn (opening scene, you get Quack) | |
+| 2 | Greenhouse and Gardens | Greenhouse | Monty |
+| 3 | Babbage Hall | Your room | |
+| 4 | The Commons | The Stack | |
+| 5 | Student Union | Hackathon hall | |
+| 6 | Turing Hall | TA office | Jay |
+| 7 | Oracle Hall | Student council room | Julian |
+| 8 | Lovelace Library | Reading room | |
+| 9 (after dark) | Knuth Hall | Hopper Computer Lab | Ciel |
 
 ### Special chapters
 | Character | Ch | Title | Building | Room |

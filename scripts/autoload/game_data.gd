@@ -35,6 +35,7 @@ const ROUTES_DIR := "res://data/routes"
 const LOCATIONS_PATH := "res://data/locations.json"
 const BUILDINGS_PATH := "res://data/buildings.json"
 const CALENDAR_PATH := "res://data/calendar.json"
+const TOUR_PATH := "res://data/tour.json"
 const ENDINGS_DIR := "res://data/endings"
 
 ## Time slots a lesson can happen in. "dusk" is Jay's in-between time and
@@ -58,6 +59,8 @@ var locations: Dictionary = {}
 var buildings: Array = []
 ## {start_date, weeks, events: [...]}. See Calendar.
 var calendar: Dictionary = {}
+## The orientation-day campus tour: {subject, stops, outro} (see Tour).
+var tour: Dictionary = {}
 ## Character id -> {"character": ..., "endings": [{id, kind, title, summary, dialogue}]}.
 var endings: Dictionary = {}
 
@@ -84,6 +87,8 @@ func load_all() -> void:
 	buildings = blds if blds is Array else []
 	var cal = load_json(CALENDAR_PATH)
 	calendar = cal if cal is Dictionary else {}
+	var t = load_json(TOUR_PATH)
+	tour = t if t is Dictionary else {}
 	endings = load_dir(ENDINGS_DIR)
 	for problem in validate():
 		push_warning("[GameData] " + problem)
@@ -295,6 +300,38 @@ func validate() -> PackedStringArray:
 	problems.append_array(_validate_lessons())
 	problems.append_array(_validate_calendar())
 	problems.append_array(_validate_endings())
+	problems.append_array(_validate_tour())
+	return problems
+
+
+## Every tour stop is a real building, and a stop with a love interest
+## matches where the calendar puts them on orientation day.
+func _validate_tour() -> PackedStringArray:
+	var problems: PackedStringArray = []
+	if get_subject(tour.get("subject", "")).is_empty():
+		problems.append("Tour has unknown subject '%s'" % tour.get("subject", ""))
+	for stop in tour.get("stops", []):
+		var building: String = stop.get("building", "")
+		var where := "Tour stop '%s'" % building
+		if get_building(building).is_empty():
+			problems.append("%s isn't a building" % where)
+		if (stop.get("lines", []) as Array).is_empty():
+			problems.append("%s has no lines for Quack" % where)
+		var character: String = stop.get("character", "")
+		if character == "":
+			continue
+		var room: String = stop.get("room", "")
+		if locations.get(room, {}).get("building", "") != building:
+			problems.append("%s: room '%s' isn't in that building" % [where, room])
+		if stop.get("room_line", "") == "":
+			problems.append("%s has no room_line" % where)
+		var found := false
+		for event in calendar.get("events", []):
+			if event.get("characters", []).has(character) and Calendar.location_for(event, character) == room \
+					and Calendar.is_event_on(event, 1, 0, stop.get("slot", "day")):
+				found = true
+		if not found:
+			problems.append("%s: no orientation-day event puts '%s' in '%s'" % [where, character, room])
 	return problems
 
 
@@ -355,6 +392,14 @@ func _validate_calendar() -> PackedStringArray:
 		for c in event.get("characters", []):
 			if not characters.has(c):
 				problems.append("%s has unknown character '%s'" % [where, c])
+		var stops: Dictionary = event.get("stops", {})
+		for c in stops:
+			if not event.get("characters", []).has(c):
+				problems.append("%s has a stop for '%s', who isn't at the event" % [where, c])
+			if not locations.has(stops[c]):
+				problems.append("%s has unknown stop '%s'" % [where, stops[c]])
+			elif locations[stops[c]].get("flavor", false):
+				problems.append("%s has a stop in a flavor room '%s'" % [where, stops[c]])
 		if not event.get("requires", "") in Story.CONDITIONS:
 			problems.append("%s requires unknown condition '%s'" % [where, event.get("requires", "")])
 		for scene in event.get("scenes", []):

@@ -6,20 +6,47 @@
   "nodes": {
     "intro": {
       "speaker": "narrator",
-      "text": "Hopper Computer Lab, long after dark. One machine is still on. Someone in a long coat is typing very, very fast.",
+      "text": "Hopper Computer Lab, long after dark. Rows of humming machines, and one screen still on. Someone in a long coat is typing very, very fast.",
       "next": "hello"
     },
     "hello": {
       "speaker": "cpp",
-      "text": "You. Line 1. 'cout' is not a member of 'std'. How did you even get in here?",
-      "next": "teach",
-      "mood": "glare"
+      "mood": "glare",
+      "text": "You. The door was closed. How did you even get in here?",
+      "choices": [
+        {
+          "text": "A rubber duck told me to come in.",
+          "next": "duck"
+        },
+        {
+          "text": "I'm on the campus tour!",
+          "next": "tour"
+        }
+      ]
+    },
+    "duck": {
+      "speaker": "cpp",
+      "mood": "bored",
+      "text": "Of course it did. Ducks. ...Fine. You're a CS freshman? Then prove it.",
+      "next": "teach"
+    },
+    "tour": {
+      "speaker": "cpp",
+      "mood": "glare",
+      "text": "This lab is not a tour stop. ...Fine. You're a CS freshman? Then prove it.",
+      "next": "teach"
     },
     "teach": {
       "speaker": "cpp",
-      "text": "...Sit down. The compiler is telling you exactly what's wrong. Read it, then fix it.",
-      "next": "challenge",
-      "mood": "bored"
+      "mood": "bored",
+      "text": "std::cout is the console. Character output. You don't ask it to print. You push text into it with <<.",
+      "next": "teach_2"
+    },
+    "teach_2": {
+      "speaker": "cpp",
+      "mood": "smirk",
+      "text": "I already wrote the include and main for you. One line. Print Hello, world! And don't make me wait.",
+      "next": "challenge"
     },
     "challenge": {
       "challenge": "g01_cpp",
@@ -28,13 +55,20 @@
     },
     "passed": {
       "speaker": "cpp",
-      "text": "It compiles. Don't look so proud, it's one line. ...I'm Ciel. Close the door on your way out.",
-      "next": "end",
-      "mood": "smirk"
+      "mood": "smirk",
+      "text": "It compiles. It runs. Don't look so proud, it's one line. ...I'm Ciel. Ciel Vector. The C is pronounced like the letter.",
+      "next": "passed_2"
+    },
+    "passed_2": {
+      "speaker": "cpp",
+      "mood": "bored",
+      "text": "Close the door on your way out. ...Or don't. The lab's open late.",
+      "next": "end"
     },
     "failed": {
       "speaker": "cpp",
-      "text": "Still broken. Read the error again.",
+      "mood": "glare",
+      "text": "Wrong. Read the output. Then read your line. Then read it again.",
       "choices": [
         {
           "text": "Fine, again.",
@@ -48,9 +82,9 @@
     },
     "bye": {
       "speaker": "cpp",
+      "mood": "bored",
       "text": "Good. Fewer people to debug.",
-      "next": "end",
-      "mood": "bored"
+      "next": "end"
     }
   }
 }

@@ -69,11 +69,31 @@ func test_recurring_and_story_events() -> void:
 
 
 func test_everyone_is_at_orientation() -> void:
-	var gs := _state(1, 0, "day")
-	for id in ["python", "javascript", "java", "cpp"]:
-		var here := Calendar.opportunity_for(id, gs)
-		check_eq(here.get("event", {}).get("id"), "orientation", "%s at orientation:" % id)
-		check(not here.get("lessons", []).is_empty(), "%s has a lesson at orientation" % id)
+	for who in [["python", "day", "orientation"], ["javascript", "day", "orientation"], ["java", "day", "orientation"],
+			["cpp", "night", "orientation_night"]]:
+		var here := Calendar.opportunity_for(who[0], _state(1, 0, who[1]))
+		check_eq(here.get("event", {}).get("id"), who[2], "%s on the tour:" % who[0])
+		check(not here.get("lessons", []).is_empty(), "%s has a lesson on the tour" % who[0])
+	check(Calendar.opportunity_for("cpp", _state(1, 0, "day")).is_empty(), "Ciel only shows up after dark")
+
+
+func test_tour_stops_are_in_their_own_rooms() -> void:
+	var tour: Dictionary = Calendar.events_now(_state(1, 0, "day"))[0]
+	check_eq(tour["id"], "orientation")
+	check_eq(Calendar.location_for(tour, "python"), "greenhouse", "Monty in the greenhouse:")
+	check_eq(Calendar.location_for(tour, "javascript"), "ta_office", "Jay in the TA office:")
+	check_eq(Calendar.location_for(tour, "java"), "council_room", "Julian in the council room:")
+	check_eq(Calendar.location_for(tour, "quack"), "main_quad", "anyone else is at the event's location:")
+	var night: Dictionary = Calendar.events_now(_state(1, 0, "night"))[0]
+	check_eq(Calendar.location_for(night, "cpp"), "hopper_lab", "Ciel in Hopper Lab:")
+
+
+func test_no_weekly_events_on_orientation_day() -> void:
+	check_eq(_event_ids(_state(1, 0, "day")), ["orientation"], "only orientation by day:")
+	check_eq(_event_ids(_state(1, 0, "night")), ["orientation_night"], "only Ciel's tour stop that night:")
+	check(_event_ids(_state(2, 0, "day")).has("gardening_club"), "the next Sunday is back to normal")
+	check(_event_ids(_state(2, 0, "night")).has("hackathon_night"), "and so is its night")
+	check(not Calendar.is_recurring_cancelled(1, 1), "Monday of week 1 is a normal day")
 
 
 func test_characters_are_only_around_at_their_events() -> void:

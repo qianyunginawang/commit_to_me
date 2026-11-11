@@ -54,7 +54,10 @@ static func _events_on(offset: int) -> Array[Dictionary]:
 	var found: Array[Dictionary] = []
 	var week := offset / 7 + 1
 	var day := offset % 7
+	var cancelled := Calendar.is_recurring_cancelled(week, day)
 	for event in GameData.calendar.get("events", []):
+		if cancelled and event.get("kind", "") == "recurring":
+			continue
 		var flag: String = event.get("requires", "")
 		if flag != "" and not GameState.has_flag(flag):
 			continue

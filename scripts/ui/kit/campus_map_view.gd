@@ -8,8 +8,11 @@ extends Control
 signal building_selected(building_id: String)
 
 ## Where the grid goes, in this control's coordinates (left of the panel,
-## under the HUD card, above the affection strip).
+## under the HUD card).
 const AREA := Rect2(16, 108, 868, 512)
+## How much shorter the grid gets in compact mode, to make room for Quack's
+## speech box during the campus tour.
+const COMPACT_CUT := 54.0
 const COLUMNS := 4
 const ROWS := 3
 const GAP := 14.0
@@ -19,6 +22,8 @@ const BUBBLE_RADIUS := 19.0
 ## something is happening.
 var buildings_info: Dictionary = {}
 var selected := ""
+## The grid's current rectangle: AREA, or shorter in compact mode.
+var area := AREA
 var _tiles: Dictionary = {}
 
 
@@ -40,11 +45,34 @@ func get_tile(building_id: String) -> BuildingTile:
 	return _tiles.get(building_id)
 
 
+## Locks every building except [param open] (the campus tour), or unlocks
+## them all when [param open] is null.
+func lock_all_but(open: Variant) -> void:
+	for id in _tiles:
+		_tiles[id].locked = open != null and id != open
+
+
+## A shorter map, leaving room for Quack's speech box underneath.
+func set_compact(on: bool) -> void:
+	var new_area := Rect2(AREA.position, AREA.size - Vector2(0, COMPACT_CUT if on else 0.0))
+	if new_area == area:
+		return
+	area = new_area
+	for building in GameData.buildings:
+		var tile: BuildingTile = _tiles.get(building["id"])
+		if tile:
+			var rect := cell_rect(building.get("cell", [0, 0]), int(building.get("span", 1)), area)
+			tile.position = rect.position
+			tile.size = rect.size
+			tile.show_people(tile._looks, tile._has_scene)
+	queue_redraw()
+
+
 ## The rectangle a building covers on the map.
-static func cell_rect(cell: Array, span: int) -> Rect2:
-	var w := (AREA.size.x - GAP * (COLUMNS - 1)) / COLUMNS
-	var h := (AREA.size.y - GAP * (ROWS - 1)) / ROWS
-	var pos := AREA.position + Vector2(int(cell[0]) * (w + GAP), int(cell[1]) * (h + GAP))
+static func cell_rect(cell: Array, span: int, grid: Rect2 = AREA) -> Rect2:
+	var w := (grid.size.x - GAP * (COLUMNS - 1)) / COLUMNS
+	var h := (grid.size.y - GAP * (ROWS - 1)) / ROWS
+	var pos := grid.position + Vector2(int(cell[0]) * (w + GAP), int(cell[1]) * (h + GAP))
 	return Rect2(pos, Vector2(w * span + GAP * (span - 1), h))
 
 
@@ -55,7 +83,7 @@ func _build_tiles() -> void:
 		tile.building_id = building["id"]
 		tile.title = building.get("name", building["id"])
 		tile.room_count = GameData.rooms_in(building["id"]).size()
-		var rect := cell_rect(building.get("cell", [0, 0]), int(building.get("span", 1)))
+		var rect := cell_rect(building.get("cell", [0, 0]), int(building.get("span", 1)), area)
 		tile.position = rect.position
 		tile.size = rect.size
 		tile.pressed.connect(func(): building_selected.emit(tile.building_id))
@@ -65,7 +93,7 @@ func _build_tiles() -> void:
 
 func _draw() -> void:
 	# A soft glow in the middle of campus, then a faint grid.
-	var middle := AREA.get_center()
+	var middle := area.get_center()
 	for i in 6:
 		draw_circle(middle, 460 - i * 70, Color(0.11, 0.24, 0.4, 0.12))
 	var grid := Color(UiStyle.CYAN, 0.07)
@@ -75,19 +103,19 @@ func _draw() -> void:
 		draw_line(Vector2(0, y), Vector2(size.x, y), grid, 1)
 	# Paths in the gaps between buildings.
 	var path := Color(UiStyle.CYAN_PALE, 0.3)
-	var w := (AREA.size.x - GAP * (COLUMNS - 1)) / COLUMNS
-	var h := (AREA.size.y - GAP * (ROWS - 1)) / ROWS
+	var w := (area.size.x - GAP * (COLUMNS - 1)) / COLUMNS
+	var h := (area.size.y - GAP * (ROWS - 1)) / ROWS
 	var owner := _cell_owners()
 	for r in ROWS:
 		for c in range(1, COLUMNS):
 			if owner.get(Vector2i(c - 1, r), "") == owner.get(Vector2i(c, r), "") and owner.has(Vector2i(c, r)):
 				continue
-			var x := AREA.position.x + c * (w + GAP) - GAP / 2.0
-			var y := AREA.position.y + r * (h + GAP)
+			var x := area.position.x + c * (w + GAP) - GAP / 2.0
+			var y := area.position.y + r * (h + GAP)
 			draw_line(Vector2(x, y - GAP / 2.0), Vector2(x, y + h + GAP / 2.0), path, 2)
 	for r in range(1, ROWS):
-		var y := AREA.position.y + r * (h + GAP) - GAP / 2.0
-		draw_line(Vector2(AREA.position.x - 6, y), Vector2(AREA.end.x + 6, y), path, 2)
+		var y := area.position.y + r * (h + GAP) - GAP / 2.0
+		draw_line(Vector2(area.position.x - 6, y), Vector2(area.end.x + 6, y), path, 2)
 
 
 ## Grid cell -> building id.

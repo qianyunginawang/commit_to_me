@@ -11,16 +11,11 @@ const CodeChallengeScene := preload("res://scenes/code_challenge.tscn")
 @onready var portrait: Portrait = %Portrait
 @onready var backdrop: Backdrop = %Backdrop
 @onready var hud: Hud = %Hud
-@onready var affection_panel: GlassPanel = %AffectionPanel
-@onready var affection_bar: ProgressBar = %AffectionBar
-@onready var affection_label: Label = %AffectionLabel
-@onready var balance_label: Label = %BalanceLabel
 @onready var name_row: HBoxContainer = %NameRow
 @onready var text_label: RichTextLabel = %TextLabel
 @onready var choices_box: VBoxContainer = %Choices
 @onready var dialogue_box: Control = %DialogueBox
 @onready var next_button: Button = %NextButton
-@onready var heart_popup: Label = %HeartPopup
 @onready var history_button: Button = %HistoryButton
 @onready var auto_button: Button = %AutoButton
 @onready var skip_button: Button = %SkipButton
@@ -61,12 +56,9 @@ func _ready() -> void:
 	character = GameData.get_character(date.get("character", ""))
 	# Story scenes (Quack, the whole cast) have no one character: the
 	# portrait follows whoever is speaking instead.
-	affection_panel.visible = not character.is_empty()
 	portrait.visible = false
 	if not character.is_empty():
 		_show_speaker_portrait(character["id"])
-		affection_panel.tab_text = "%s · Affection" % character.get("name", "")
-	heart_popup.modulate.a = 0.0
 	_next_timer = Timer.new()
 	_next_timer.one_shot = true
 	_next_timer.timeout.connect(_on_next_timer)
@@ -80,8 +72,6 @@ func _ready() -> void:
 	# The name banner sits on the dialogue box's top edge, which moves up
 	# when answers make the box taller.
 	dialogue_box.resized.connect(_place_name_row)
-	GameState.affection_changed.connect(_on_affection_changed)
-	_update_affection()
 
 	player = DialoguePlayer.new(date, GameState.player_name)
 	player.line_started.connect(_show_line)
@@ -91,12 +81,14 @@ func _ready() -> void:
 	player.start()
 
 
-## Where this date happens: the location of the calendar event it's part of.
+## Where this date happens: the location of the calendar event it's part
+## of, or the character's own stop during the campus tour.
 func _location() -> String:
 	var event_id: String = Router.params.get("event_id", "")
+	var who: String = GameData.get_date(_date_id).get("character", "")
 	for event in GameData.calendar.get("events", []):
 		if event.get("id") == event_id:
-			return event.get("location", "")
+			return Calendar.location_for(event, who)
 	return ""
 
 
@@ -320,29 +312,6 @@ func _open_challenge(challenge_id: String) -> void:
 	if passed:
 		GameState.complete_lesson(_date_id, character.get("id", ""), overlay.hints_used)
 	player.complete_challenge(passed)
-
-
-# --- Affection -----------------------------------------------------------------
-
-func _on_affection_changed(character_id: String, _value: int, delta: int) -> void:
-	if character_id != character.get("id"):
-		return
-	_update_affection()
-	heart_popup.text = ("+%d" % delta) if delta > 0 else ("%d" % delta)
-	heart_popup.modulate = Color.WHITE if delta > 0 else Color(0.6, 0.6, 0.8, 1)
-	var tween := create_tween()
-	tween.tween_interval(0.8)
-	tween.tween_property(heart_popup, "modulate:a", 0.0, 0.6)
-
-
-func _update_affection() -> void:
-	var id: String = character.get("id", "")
-	var value := GameState.get_affection(id)
-	affection_bar.value = value
-	affection_label.text = "%s · %d" % [GameState.get_level(id)["title"].to_upper(), value]
-	balance_label.visible = id == JayBalance.CHARACTER
-	if balance_label.visible:
-		balance_label.text = JayBalance.describe().to_upper()
 
 
 func _on_finished() -> void:

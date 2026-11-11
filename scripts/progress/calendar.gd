@@ -13,6 +13,11 @@ extends RefCounted
 ##                 at an event right now.
 ##   takes_no_time (optional) - doing lessons here doesn't move time forward
 ##                 (the orientation-day campus tour, where you meet all four).
+##   stops (optional) - character id -> room, for an event spread over several
+##                 rooms (the campus tour). Characters not listed are at
+##                 "location". Scenes always play at "location".
+##   cancels_recurring (optional) - nobody's weekly events happen on this
+##                 day, day or night (orientation day).
 ##   requires, scenes (optional) - story conditions and scenes (see Story).
 ##
 ## Functions take an optional state and data so tests can pass their own.
@@ -40,6 +45,22 @@ static func describe_now(state: Node = null, data: Node = null) -> String:
 	return "Week %d · %s · %s" % [state.week, date_for(state.week, state.day, data), String(state.slot).capitalize()]
 
 
+## Where a character is during an event: their tour stop if the event has
+## one for them, otherwise the event's location.
+static func location_for(event: Dictionary, character_id: String) -> String:
+	return event.get("stops", {}).get(character_id, event.get("location", ""))
+
+
+## Whether an event on this day (either slot) cancels the weekly events.
+static func is_recurring_cancelled(week: int, day: int, data: Node = null) -> bool:
+	for event in _data(data).calendar.get("events", []):
+		if event.get("cancels_recurring", false):
+			for slot in ["day", "night"]:
+				if is_event_on(event, week, day, slot):
+					return true
+	return false
+
+
 static func is_event_on(event: Dictionary, week: int, day: int, slot: String) -> bool:
 	if event.get("slot", "") != slot or not event.get("days", []).has(DAY_KEYS[day]):
 		return false
@@ -60,13 +81,17 @@ static func is_event_on(event: Dictionary, week: int, day: int, slot: String) ->
 
 ## Every event happening at the player's current week, day and slot. Story
 ## events come first, so a character at both a story event and their usual
-## recurring one shows up at the story event.
+## recurring one shows up at the story event. On a day with a
+## cancels_recurring event (orientation), the weekly events are skipped.
 static func events_now(state: Node = null, data: Node = null) -> Array[Dictionary]:
 	state = _state(state)
 	var out: Array[Dictionary] = []
 	if state.is_semester_over():
 		return out
+	var cancelled := is_recurring_cancelled(state.week, state.day, data)
 	for kind in ["story", "recurring", "info"]:
+		if kind == "recurring" and cancelled:
+			continue
 		for event in _data(data).calendar.get("events", []):
 			if event.get("kind", "") == kind and is_event_on(event, state.week, state.day, state.slot) \
 					and Story.check(event.get("requires", ""), state, data):

@@ -33,6 +33,8 @@ The fall semester at Runtime University runs 14 weeks, from Sunday, September 1 
 - **The heroine:** the player could set it at the start. A default of December 9 (Grace Hopper's birthday) lands just after the semester, which works for an epilogue.
 
 ## Recurring events
+No recurring events happen on orientation day (week 1, Sunday), day or night. That day the love interests are at their campus tour stops instead (see Setting.md, "Orientation tour stops"). In `data/calendar.json` the orientation event has `stops` (who is in which room) and `cancels_recurring`. Ciel's stop is after dark, so he's in a separate night event, `orientation_night`. The tour itself (Quack's lines, stop order) is in `data/tour.json`, and you can't wait until it's over.
+
 Jay: 
 - **Office hours:** Day Jay, Monday, Wednesday, Friday afternoons in Turing Hall (Day slot).
 - **Hackathon nights:** Night Jay, Saturday and Sunday in the student union (Night slot), starting with the Day 256 Hackathon in week 2.

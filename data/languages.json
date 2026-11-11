@@ -206,6 +206,16 @@
         "{exe}",
         "{file}"
       ],
+      "bundled_args_macos": [
+        "c++",
+        "-target",
+        "{macos_target}",
+        "-std=c++17",
+        "-Wall",
+        "-o",
+        "{exe}",
+        "{file}"
+      ],
       "system": "g++",
       "args": [
         "-std=c++17",

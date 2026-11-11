@@ -63,6 +63,7 @@ func test_validate_catches_broken_lessons() -> void:
 	gd.buildings = GameData.buildings
 	gd.calendar = GameData.calendar
 	gd.endings = GameData.endings
+	gd.tour = GameData.tour
 	check(gd.validate().is_empty(), "the copy should start out valid")
 
 	gd.lessons["g01"]["versions"]["python"]["dialogue"] = "g01_java"   # wrong character

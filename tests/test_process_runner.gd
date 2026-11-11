@@ -57,6 +57,32 @@ func test_compile_error() -> void:
 	check(result.stderr.contains("oops"), "compiler message should be shown")
 
 
+func test_noisy_compiler_is_not_stopped() -> void:
+	# The bundled zig prints ~37,000 warning lines the first time it builds
+	# the C++ library. A compile step has to run to the end anyway.
+	var runner := GameData.make_runner("python") as ProcessCodeRunner
+	if not runner.is_available():
+		skip("no python")
+		return
+	var python: String = runner._resolve_program(runner.config["run"])
+	var noisy := ["-c", "import sys\nfor i in range(20000): sys.stderr.write('warning: noise\\n')\nprint('done')"]
+	var result: RunResult = await runner._exec(python, PackedStringArray(noisy), "", 10000, false)
+	check_eq(result.status_name(), "OK", "a compile step runs to the end:")
+	check_eq(result.exit_code, 0)
+	check(result.stderr.length() < runner.max_output_bytes + 16 * 1024 and result.stderr.ends_with("(output cut short)"),
+		"its output is cut short")
+	result = await runner._exec(python, PackedStringArray(noisy), "", 10000)
+	check_eq(result.status_name(), "OUTPUT_LIMIT", "a player's program is still stopped:")
+
+
+func test_zig_gets_a_target_on_macs() -> void:
+	var compile: Dictionary = GameData.languages["cpp"]["compile"]
+	var args: Array = compile.get("bundled_args_macos", [])
+	check(args.has("-target") and args.has("{macos_target}"), "a Mac names its target")
+	check(not compile["bundled_args"].has("-target"), "other systems build for themselves")
+	check(ProcessCodeRunner.macos_target() in ["aarch64-macos", "x86_64-macos"], ProcessCodeRunner.macos_target())
+
+
 func test_missing_runtime_is_reported() -> void:
 	var runner := ProcessCodeRunner.new("klingon", {
 		"source_file": "main.kl",

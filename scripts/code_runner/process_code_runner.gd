@@ -99,12 +99,16 @@ func run(source: String, stdin_text: String = "") -> RunResult:
 		"file": source_path,
 		"dir": sandbox,
 		"exe": sandbox.path_join("main.exe" if OS.get_name() == "Windows" else "main"),
+		"macos_target": macos_target(),
 	}
 	var started := Time.get_ticks_msec()
 	var result: RunResult
 
 	if config.has("compile"):
-		var compile: RunResult = await _run_step(config["compile"], vars, "", compile_timeout_ms)
+		# A compiler can print a lot the first time (zig builds the C++ standard
+		# library once, with tens of thousands of warning lines), so the output
+		# limit doesn't stop it. Its output is just cut short.
+		var compile: RunResult = await _run_step(config["compile"], vars, "", compile_timeout_ms, false)
 		if not compile.is_success():
 			if compile.status in [RunResult.Status.OK, RunResult.Status.RUNTIME_ERROR]:
 				compile.status = RunResult.Status.COMPILE_ERROR
@@ -137,6 +141,13 @@ static func os_key() -> String:
 			return "macos"
 		_:
 			return "linux"
+
+
+## The Zig target for this Mac, like "aarch64-macos" (Apple silicon) or
+## "x86_64-macos" (Intel).
+static func macos_target() -> String:
+	var arch := Engine.get_architecture_name()
+	return ("aarch64" if arch in ["arm64", "aarch64"] else "x86_64") + "-macos"
 
 
 ## Name of the runtimes subfolder for this computer, e.g. "macos-arm64" or
@@ -210,22 +221,32 @@ static func find_on_path(command: String) -> String:
 
 # --- Running a single process ------------------------------------------------
 
-func _run_step(step: Dictionary, vars: Dictionary, stdin_text: String, limit_ms: int) -> RunResult:
+## [param stop_on_output_limit]: stop the program when its output gets too
+## big (for player programs stuck printing forever). When false, it runs to
+## the end and only the first max_output_bytes of output are kept.
+func _run_step(step: Dictionary, vars: Dictionary, stdin_text: String, limit_ms: int,
+		stop_on_output_limit := true) -> RunResult:
 	var program := _resolve_program(step)
 	if program == "{exe}":
 		program = vars["exe"]
 	# A bundled tool can need different arguments than the usual system one
 	# (e.g. "zig c++ ..." instead of "g++ ...").
+	# A bundled tool can also need different arguments on one OS
+	# ("bundled_args_macos"). On a Mac, zig c++ mixes the Mac's own system
+	# headers into its C++ library and fails ("use of undeclared identifier
+	# 'INFINITY'"). Naming the target, like "-target aarch64-macos", makes it
+	# use only its own headers.
 	var arg_list: Array = step.get("args", [])
-	if step.has("bundled_args") and program == _bundled_path(step):
-		arg_list = step["bundled_args"]
+	if program == _bundled_path(step):
+		arg_list = step.get("bundled_args_" + os_key(), step.get("bundled_args", arg_list))
 	var args: PackedStringArray = []
 	for a in arg_list:
 		args.append(String(a).format(vars))
-	return await _exec(program, args, stdin_text, limit_ms)
+	return await _exec(program, args, stdin_text, limit_ms, stop_on_output_limit)
 
 
-func _exec(program: String, args: PackedStringArray, stdin_text: String, limit_ms: int) -> RunResult:
+func _exec(program: String, args: PackedStringArray, stdin_text: String, limit_ms: int,
+		stop_on_output_limit := true) -> RunResult:
 	var proc := OS.execute_with_pipe(program, args, false)
 	if proc.is_empty():
 		return RunResult.make(RunResult.Status.INTERNAL_ERROR, "", "Couldn't start %s" % program)
@@ -243,11 +264,22 @@ func _exec(program: String, args: PackedStringArray, stdin_text: String, limit_m
 	var started := Time.get_ticks_msec()
 	var tree := Engine.get_main_loop() as SceneTree
 
+	var dropped := PackedByteArray()
+	var truncated := false
 	while true:
-		var got := _drain(stdio, out) + _drain(stderr_pipe, err)
-		if out.size() + err.size() > max_output_bytes:
-			status = RunResult.Status.OUTPUT_LIMIT
-			break
+		var got := 0
+		if truncated:
+			# Keep reading so the program doesn't block on a full pipe, but
+			# throw the extra output away.
+			got = _drain(stdio, dropped) + _drain(stderr_pipe, dropped)
+			dropped.clear()
+		else:
+			got = _drain(stdio, out) + _drain(stderr_pipe, err)
+		if not truncated and out.size() + err.size() > max_output_bytes:
+			if stop_on_output_limit:
+				status = RunResult.Status.OUTPUT_LIMIT
+				break
+			truncated = true
 		if not OS.is_process_running(pid):
 			if got == 0:
 				break  # Exited and nothing left to read.
@@ -271,7 +303,10 @@ func _exec(program: String, args: PackedStringArray, stdin_text: String, limit_m
 	if stderr_pipe:
 		stderr_pipe.close()
 
-	return RunResult.make(status, out.get_string_from_utf8(), err.get_string_from_utf8(), exit_code)
+	var err_text := err.get_string_from_utf8()
+	if truncated:
+		err_text += "\n... (output cut short)"
+	return RunResult.make(status, out.get_string_from_utf8(), err_text, exit_code)
 
 
 static func _drain(pipe: FileAccess, into: PackedByteArray) -> int:

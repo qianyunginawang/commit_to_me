@@ -1,0 +1,87 @@
+{
+  "subject": "g01",
+  "stops": [
+    {
+      "building": "main_quad_area",
+      "lines": [
+        "Okay, map time! Every glowing block is a building. We're standing in the big one in the middle: the Main Quad.",
+        "Every building has rooms. When you pick a building, its rooms show up in the list on the right. Go ahead, peek at a few!",
+        "The quad's just lawn and fountain, though. Let's go find some actual people."
+      ]
+    },
+    {
+      "building": "gardens",
+      "room": "greenhouse",
+      "character": "python",
+      "lines": [
+        "First stop: the Greenhouse and Gardens. Plants, a duck pond, and a hedge maze. The duck pond is my favorite. Family reunion.",
+        "Way over in the corner is the Athletic Complex. We're skipping it. I don't have legs."
+      ],
+      "room_line": "Someone's in the Greenhouse, and they've made tea. Go on in and say hi! I'll wait right here."
+    },
+    {
+      "building": "babbage",
+      "lines": [
+        "This is Babbage Hall, your dorm! Your room's on the second floor. It's also where I live now.",
+        "Come back here whenever you want to talk. I'm a very good listener. It's literally my whole job."
+      ]
+    },
+    {
+      "building": "commons",
+      "lines": [
+        "The Commons: food, coffee, and the bookstore. The dining hall is called The Stack. Last in, first out.",
+        "Café Cache is upstairs. Fast, but it forgets your order if you leave for too long."
+      ]
+    },
+    {
+      "building": "student_union",
+      "lines": [
+        "The Student Union! Clubs, the arcade, and the hackathon hall. It gets loud here at night.",
+        "The rooftop has the best sunset on campus. Remember that. Trust me."
+      ]
+    },
+    {
+      "building": "turing",
+      "room": "ta_office",
+      "character": "javascript",
+      "lines": [
+        "Turing Hall, where most of your lectures happen. Lecture hall, tutoring center, the exam hall. Spooky.",
+        "The TAs have their offices here too. They run office hours for anyone who's stuck."
+      ],
+      "room_line": "The TA office light is on. Go on in! And maybe don't touch anything on the desk. It looks very organized."
+    },
+    {
+      "building": "oracle_hall",
+      "room": "council_room",
+      "character": "java",
+      "lines": [
+        "Oracle Hall. The admin building. The registrar, President Fortran's office, and the Great Hall for the winter gala.",
+        "The student council meets here too. Their balcony looks out over the whole quad."
+      ],
+      "room_line": "Someone's in the student council room. Go introduce yourself! Use your full name. They'll like that."
+    },
+    {
+      "building": "library",
+      "lines": [
+        "Lovelace Library. Quiet study, the stacks, and the University Archive in the Sun Wing.",
+        "Whoa, look at the time. The sun's going down. One more stop!",
+        "That dome on the hill is the Observatory. Best stars on campus. We'll skip it tonight."
+      ]
+    },
+    {
+      "building": "knuth_hall",
+      "room": "hopper_lab",
+      "character": "cpp",
+      "slot": "night",
+      "lines": [
+        "Last stop: Knuth Hall, the CS building. Your home away from home for the next four years.",
+        "The Hopper Computer Lab is in the basement. Most people go home at night. Most people."
+      ],
+      "room_line": "One machine in the Hopper Computer Lab is still on. Go on in. Quietly."
+    }
+  ],
+  "outro": [
+    "And that's the tour! You met four people today. Not bad for day one.",
+    "From now on you pick where to go. Check the calendar to see who's around, and use Wait to move on to the next slot. Good night, {player}!"
+  ]
+}

@@ -60,64 +60,6 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("4_hud")
 
-[node name="AffectionPanel" type="PanelContainer" parent="."]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -266.0
-offset_top = 80.0
-offset_right = -16.0
-offset_bottom = 160.0
-grow_horizontal = 0
-mouse_filter = 2
-script = ExtResource("5_glass")
-tab_text = "Affection"
-
-[node name="VBox" type="VBoxContainer" parent="AffectionPanel"]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/separation = 6
-
-[node name="AffectionLabel" type="Label" parent="AffectionPanel/VBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"Caption"
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "STRANGER · 0"
-
-[node name="AffectionBar" type="ProgressBar" parent="AffectionPanel/VBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 8)
-layout_mode = 2
-mouse_filter = 2
-show_percentage = false
-
-[node name="BalanceLabel" type="Label" parent="AffectionPanel/VBox"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_type_variation = &"Caption"
-text = "DAY 0 · NIGHT 0"
-
-[node name="HeartPopup" type="Label" parent="."]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -266.0
-offset_top = 170.0
-offset_right = -16.0
-offset_bottom = 220.0
-grow_horizontal = 0
-theme_type_variation = &"Title"
-theme_override_colors/font_color = Color(1, 0.239, 0.498, 1)
-theme_override_font_sizes/font_size = 34
-text = "+6"
-horizontal_alignment = 2
-
 [node name="DialogueBox" type="PanelContainer" parent="."]
 unique_name_in_owner = true
 layout_mode = 1

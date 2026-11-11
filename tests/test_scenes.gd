@@ -87,8 +87,8 @@ func test_date_scene_starts_dialogue() -> void:
 	Router.params = {"date_id": "g01_python", "event_id": "orientation"}
 	var scene := add_node(load(Router.DATE).instantiate())
 	check_eq(scene.player.current_id, "intro")
-	check(scene.get_node("%TextLabel").text.contains("help desk"), "first line should be shown")
-	check(scene.get_node("%AffectionPanel").visible, "a lesson shows affection")
+	check(scene.get_node("%TextLabel").text.contains("greenhouse"), "first line should be shown")
+	check(not scene.has_node("%AffectionPanel"), "affection is only on the map's Affection button")
 	check_eq(scene.get_node("%NameRow").get_child_count(), 0, "the narrator has no name banner")
 	scene.player.advance()
 	check_eq(scene.get_node("%NameRow").get_child(0).text, "MONTY", "Monty's name banner")
@@ -99,11 +99,10 @@ func test_story_scene_shows_whoever_speaks() -> void:
 	GameState.new_game("Gee")
 	Router.params = {"date_id": "orientation", "event_id": "orientation"}
 	var scene := add_node(load(Router.DATE).instantiate())
-	check(not scene.get_node("%AffectionPanel").visible, "no one to show affection for")
-	for i in 2:
+	for i in 4:  # four narrator lines, then Quack
 		scene.player.advance()
 	check_eq(scene.get_node("%NameRow").get_child(0).text, "QUACK")
-	for i in 5:  # the name question, then three more lines
+	for i in 6:  # the name question, then four more lines
 		scene.player.advance()
 	check_eq(scene.get_node("%Choices").get_child_count(), 0, "choices wait for the line to finish typing")
 	scene._finish_typing()
@@ -129,10 +128,10 @@ func test_history_auto_skip_and_menu() -> void:
 		scene._on_next_timer()
 	scene._schedule_next()
 	check(not scene.get_node("%SkipButton").button_pressed, "skip stops at the question")
-	check_eq(scene.history.size(), 4)
-	check_eq(scene.history[2]["speaker"], "Quack")
+	check_eq(scene.history.size(), 6, "four narrator lines, Quack's hello, then the question:")
+	check_eq(scene.history[4]["speaker"], "Quack")
 	scene._on_name_entered("Ada")
-	check_eq(scene.history[4], {"speaker": "Ada", "text": "Ada", "choice": true})
+	check_eq(scene.history[6], {"speaker": "Ada", "text": "Ada", "choice": true})
 
 	# Auto waits for the line to finish typing, then moves on.
 	scene.get_node("%AutoButton").button_pressed = true
@@ -172,6 +171,10 @@ func test_calendar_marks_special_events() -> void:
 	var club_fair := CalendarView.special_events(5)   # week 1, Friday
 	check_eq(club_fair.map(func(e): return e["id"]), ["club_fair"])
 	check(CalendarView.special_events(1).is_empty(), "an ordinary Tuesday")
+	check_eq(CalendarView._events_on(0).map(func(e): return e["id"]), ["orientation", "orientation_night"],
+		"orientation day lists no weekly events:")
+	check(CalendarView._events_on(7).any(func(e): return e["id"] == "gardening_club"),
+		"the next Sunday does")
 	check(not CalendarView.special_events(28).any(func(e): return e["id"] == "polyglot_rivalry"),
 		"hidden route events stay hidden")
 	Router.params = {"date_id": "orientation", "event_id": "orientation"}
@@ -281,38 +284,103 @@ func test_map_menu_is_the_pause_menu() -> void:
 	check(not scene.has_node("PauseMenu"))
 
 
-func test_map_starts_at_orientation_with_everyone() -> void:
+func test_campus_tour_on_the_map() -> void:
 	GameState.new_game("Gee")
 	GameState.mark_date_complete("orientation")
 	var scene := add_node(load(Router.MAP).instantiate())
-	check_eq(scene.selected_location, "main_quad")
-	check_eq(scene.get_node("%Hud")._time_label.text, "WEEK 1/14  ·  SUNDAY", "shows the week and day:")
 	var view: CampusMapView = scene.get_node("%MapView")
+	var quack: Control = scene.get_node("QuackBox")
+	var next: Button = quack.find_child("QuackNext", true, false)
+	check_eq(scene.get_node("%Hud")._time_label.text, "WEEK 1/14  ·  SUNDAY", "shows the week and day:")
+	check(quack.visible, "Quack talks during the tour")
+	check(not scene.get_node("%WaitButton").visible, "no waiting during the tour")
+	check(not scene.has_node("AffectionStrip"), "no affection bars on the map")
+	# Stop 1: the quad. Its rooms are listed, every other building is locked.
 	check_eq(scene.selected_building, "main_quad_area")
-	check_eq(view.get_tile("main_quad_area").people_count(), 4, "all four are on the quad")
-	check(view.get_tile("main_quad_area").selected, "the quad is picked")
-	check_eq(view.get_tile("knuth_hall").people_count(), 0, "nobody at the lab right now")
-	var body: Node = scene.get_node("%PlaceBody")
+	check_eq(scene.selected_location, "", "the room list is showing")
+	check(not view.get_tile("main_quad_area").locked, "the quad can be picked")
+	check(view.get_tile("gardens").locked and view.get_tile("turing").locked, "the others are locked")
+	view.building_selected.emit("turing")
+	check_eq(scene.selected_building, "main_quad_area", "a locked building can't be picked")
+	check_eq(view.get_tile("knuth_hall").people_count(), 0, "Ciel isn't in yet")
+	while next.text != "NEXT STOP":
+		next.pressed.emit()
+	next.pressed.emit()
+	# Stop 2: the gardens, with Monty in the greenhouse.
+	check_eq(scene.selected_building, "gardens", "Quack moves on")
+	check(view.get_tile("main_quad_area").locked, "the quad is locked now")
+	for i in GameData.tour["stops"][1]["lines"].size():
+		next.pressed.emit()
+	check(not next.visible, "Quack waits for you to go in")
+	check(quack.find_child("QuackText", true, false).text.contains("Greenhouse"), "and points at the room")
+	check(_texts(scene.get_node("%PlaceBody").get_node("greenhouse")).has("GO IN"), "the room is marked")
+	scene.get_node("%PlaceBody").get_node("greenhouse").pressed.emit()
+	check_eq(scene.selected_item.get("dialogue"), "g01_python", "Monty's lesson is ready")
+	# The lesson is done: back on the map, Quack is at the next stop.
+	GameState.complete_lesson("g01_python", "python", 0)
+	scene = add_node(load(Router.MAP).instantiate())
+	check_eq(scene.selected_building, "babbage", "on to the dorm")
+
+
+func test_whole_tour_ends_with_ciel_after_dark() -> void:
+	GameState.new_game("Gee")
+	GameState.mark_date_complete("orientation")
+	var lessons := {"python": "g01_python", "javascript": "g01_typescript", "java": "g01_java", "cpp": "g01_cpp"}
+	var visited: Array[String] = []
+	for i in 30:
+		if not Tour.is_on():
+			break
+		var stop := Tour.current_stop()
+		if stop.has("character"):
+			Tour.catch_up_time()
+			check(not Calendar.opportunity_for(stop["character"]).is_empty(), "%s is there" % stop["character"])
+			GameState.complete_lesson(lessons[stop["character"]], stop["character"], 0)
+		else:
+			Tour.next()
+		if not stop.is_empty():
+			visited.append(stop["building"])
+		Tour.catch_up_time()
+	check_eq(visited, ["main_quad_area", "gardens", "babbage", "commons", "student_union", "turing", "oracle_hall",
+		"library", "knuth_hall"], "the stops in order:")
+	check(not Tour.is_on(), "the tour is over")
+	check_eq([GameState.week, GameState.day, GameState.slot], [1, 0, "night"], "it's Sunday night:")
+	check(Tour.can_pick("athletics"), "every building is open again")
+
+
+func test_affection_summary_opens_from_the_map() -> void:
+	GameState.new_game("Gee")
+	GameState.mark_date_complete("orientation")
+	GameState.complete_lesson("g01_python", "python", 0)
+	var scene := add_node(load(Router.MAP).instantiate())
+	scene.get_node("%AffectionButton").pressed.emit()
+	var view: AffectionView = scene.get_node("AffectionOverlay")
+	check(view != null, "the summary opens")
 	for id in ["python", "javascript", "java", "cpp"]:
-		check(body.has_node(id), "%s is here" % id)
-	check(body.has_node("g01_python"), "Monty's lesson is listed")
-	check(body.has_node("g01_typescript"), "Day Jay teaches TypeScript")
-	check(scene.get_node("%PlaceEvents").text.contains("ORIENTATION"), "the event is shown")
-	check_eq(scene.selected_item, {"kind": "lesson", "dialogue": "g01_python", "event_id": "orientation"},
-		"the first lesson is picked")
-	body.get_node("g01_java").pressed.emit()
-	check_eq(scene.selected_item.get("dialogue"), "g01_java", "picking another row")
-	check_eq(scene.get_node("%StartButton").text, "Start lesson")
-	check(scene.get_node("%AffectionList").get_child(1).get_child(0).text.contains("DAY 0 · NIGHT 0"), "Jay's balance is shown")
+		check(view.find_child(id, true, false) != null, "%s has a row" % id)
+	check(view.find_child("python", true, false).find_child("Score", true, false).text.contains("6 / 100"),
+		"Monty's lesson counts")
+	check(view.find_child("Balance", true, false).text.contains("DAY 0 · NIGHT 0"), "Jay's balance is shown")
+	scene.open_menu()
+	check(not scene.has_node("PauseMenu"), "the menu waits until the summary closes")
+	view.find_child("CloseButton", true, false).pressed.emit()
+	check(not scene.has_node("AffectionOverlay"), "it closes")
 
 
 func test_waiting_moves_time_and_people_move_around() -> void:
 	GameState.new_game("Gee")
 	var scene := add_node(load(Router.MAP).instantiate())
+	check(not scene.get_node("%WaitButton").visible, "the tour comes first")
+	GameState.set_flag(Tour.DONE_FLAG)
+	scene.refresh()
+	check(scene.get_node("%WaitButton").visible, "after the tour, time can move on")
 	scene.get_node("%WaitButton").pressed.emit()   # Sunday night
 	check_eq(GameState.slot, "night")
 	var view: CampusMapView = scene.get_node("%MapView")
-	check_eq(view.get_tile("main_quad_area").people_count(), 0, "orientation is over")
+	for building in GameData.buildings:
+		check_eq(view.get_tile(building["id"]).people_count(), 1 if building["id"] == "knuth_hall" else 0,
+			"orientation night: only Ciel, at %s:" % building["id"])
+	GameState.day = 6   # skip ahead to Saturday night
+	scene.refresh()
 	check(view.get_tile("student_union").people_count() > 0, "Jay's hackathon night")
 	check_eq(view.get_tile("oracle_hall").people_count(), 1, "Julian's council office hours")
 	view.get_tile("oracle_hall").pressed.emit()
@@ -331,6 +399,7 @@ func test_waiting_moves_time_and_people_move_around() -> void:
 func test_empty_room_shows_its_description_and_goes_back() -> void:
 	GameState.new_game("Gee")
 	GameState.mark_date_complete("orientation")
+	GameState.set_flag(Tour.DONE_FLAG)
 	var scene := add_node(load(Router.MAP).instantiate())
 	scene.get_node("%MapView").get_tile("athletics").pressed.emit()
 	scene.get_node("%PlaceBody").get_node("pool").pressed.emit()
@@ -344,13 +413,9 @@ func test_empty_room_shows_its_description_and_goes_back() -> void:
 	check(scene.get_node("%PlaceBody").has_node("pool"), "the room list is back")
 
 
-func test_locked_chapter_is_listed_but_not_pickable() -> void:
+func test_locked_chapters_are_not_listed() -> void:
 	GameState.new_game("Gee")
 	GameState.mark_date_complete("orientation")
-	GameState.slot = "night"
 	var items := CampusMap.place_items({"characters": ["python"], "scenes": []})
-	var locked := items.filter(func(i): return i["kind"] == "locked")
-	check_eq(locked.size(), 1, "Monty's chapter 1 is shown as locked")
-	if locked.size() == 1:
-		check_eq(locked[0]["missing"], ["g02", "g03"], "it needs subjects 2 and 3")
+	check_eq(items.map(func(i): return i["dialogue"]), ["g01_python"], "only the open lesson, no locked chapter 1:")
 	GameState.new_game("Gee")

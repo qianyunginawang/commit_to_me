@@ -4,6 +4,10 @@ extends Control
 ## story scene is waiting). Click a building to list its rooms, then a room:
 ## an empty room shows its walk-in description, and a room with someone in it
 ## lists the lessons and scenes there. Pick one, then press Start.
+##
+## On orientation day the campus tour runs here (see Tour): Quack talks in a
+## speech box under the map, the building he's showing is picked for you,
+## the other buildings are locked, and there's no waiting until the tour ends.
 
 @onready var map_view: CampusMapView = %MapView
 @onready var hud: Hud = %Hud
@@ -12,8 +16,6 @@ extends Control
 @onready var place_events: Label = %PlaceEvents
 @onready var place_body: VBoxContainer = %PlaceBody
 @onready var start_button: Button = %StartButton
-@onready var affection_strip: GlassPanel = %AffectionStrip
-@onready var affection_list: HBoxContainer = %AffectionList
 @onready var wait_button: Button = %WaitButton
 @onready var menu_button: Button = %MenuButton
 
@@ -29,26 +31,36 @@ var selected_item: Dictionary = {}
 var _rows := ButtonGroup.new()
 var _places: Dictionary = {}
 
+## The campus tour: the stop Quack is showing ("" before the first refresh,
+## "outro" for the goodbye), and which of his lines is on screen.
+var _tour_stop: String = ""
+var _tour_line := 0
+var _quack_box: GlassPanel
+var _quack_text: Label
+var _quack_next: Button
+
 
 func _ready() -> void:
 	menu_button.pressed.connect(open_menu)
 	%CalendarButton.pressed.connect(func(): add_child(CalendarView.new()))
+	%AffectionButton.pressed.connect(open_affection)
 	wait_button.pressed.connect(_on_wait)
 	start_button.pressed.connect(_on_start)
 	map_view.building_selected.connect(_on_building_pressed)
-	var strip_box := UiStyle.glass_box(10)
-	strip_box.content_margin_left = 18
-	strip_box.content_margin_right = 18
-	strip_box.content_margin_top = 16
-	strip_box.content_margin_bottom = 6
-	affection_strip.add_theme_stylebox_override("panel", strip_box)
+	_build_quack_box()
 	refresh()
 
 
 ## The in-game menu (top right, or Esc).
 func open_menu() -> void:
-	if not has_node("PauseMenu") and not has_node("CalendarOverlay"):
+	if not has_node("PauseMenu") and not has_node("CalendarOverlay") and not has_node("AffectionOverlay"):
 		add_child(PauseMenu.new())
+
+
+## The affection summary pop-up (the AFFECTION button next to CALENDAR).
+func open_affection() -> void:
+	if not has_node("AffectionOverlay"):
+		add_child(AffectionView.new())
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -64,15 +76,27 @@ func refresh() -> void:
 		wait_button.text = "See how it ends"
 	else:
 		wait_button.text = "Wait until tonight" if GameState.slot == "day" else "Wait until tomorrow"
-	hud.refresh("Where to today?" if GameState.slot == "day" else "Where to tonight?")
+	var touring := Tour.is_on()
+	# No skipping time on the campus tour: meet everyone first.
+	wait_button.visible = not Tour.blocks_waiting()
+	if touring:
+		hud.refresh("Campus tour")
+	else:
+		hud.refresh("Where to today?" if GameState.slot == "day" else "Where to tonight?")
 
-	if not places.has(selected_location):
+	if touring:
+		_sync_tour()
+	elif not places.has(selected_location):
 		selected_location = _first_place_with_people(places)
 		selected_building = GameData.locations.get(selected_location, {}).get("building", "")
 	_places = places
+	map_view.set_compact(touring)
 	map_view.show_buildings(who_is_in_buildings(places), selected_building)
+	map_view.lock_all_but(selected_building if touring else null)
+	_quack_box.visible = touring
+	if touring:
+		_show_quack_line()
 	_show_panel()
-	_build_affection_list()
 
 
 ## Building id -> {"looks": [one per person], "has_scene": bool}, from
@@ -111,22 +135,34 @@ static func who_is_where(state: Node = null, data: Node = null) -> Dictionary:
 		var who: Array = event.get("characters", []).filter(func(c): return placed.get(c) == event["id"])
 		if who.is_empty() and not event.get("characters", []).is_empty():
 			continue
-		var loc: String = event.get("location", "")
-		if not places.has(loc):
-			places[loc] = {"characters": [], "events": [], "scenes": []}
-		places[loc]["events"].append(event.get("name", ""))
-		places[loc]["characters"].append_array(who)
 		var scene := Story.scene_for(event, state, data)
+		# Scenes play at the event's location; each person stands at their
+		# own stop (the campus tour), which is usually the same room.
+		var loc: String = event.get("location", "")
 		if scene != "":
+			_add_place(places, loc, event.get("name", ""))
 			places[loc]["scenes"].append({"event": event, "dialogue": scene})
+		for id in who:
+			var stop := Calendar.location_for(event, id)
+			_add_place(places, stop, event.get("name", ""))
+			places[stop]["characters"].append(id)
+		if who.is_empty() and scene == "":
+			_add_place(places, loc, event.get("name", ""))
 	return places
 
 
+static func _add_place(places: Dictionary, loc: String, event_name: String) -> void:
+	if not places.has(loc):
+		places[loc] = {"characters": [], "events": [], "scenes": []}
+	if not event_name in places[loc]["events"]:
+		places[loc]["events"].append(event_name)
+
+
 ## Everything the player can pick at a place, in panel order: story scenes
-## first, then each person's lessons (special chapter first), then each
-## person's next special chapter if it's still locked.
-## Each item: {kind: "scene" | "lesson" | "locked", text, tag, dialogue,
-## event_id, character, missing}.
+## first, then each person's lessons (special chapter first). Locked
+## chapters aren't shown.
+## Each item: {kind: "scene" | "lesson", text, tag, dialogue, event_id,
+## character}.
 static func place_items(place: Dictionary, state: Node = null, data: Node = null) -> Array[Dictionary]:
 	var gd: Node = data if data != null else GameData
 	var items: Array[Dictionary] = []
@@ -142,14 +178,14 @@ static func place_items(place: Dictionary, state: Node = null, data: Node = null
 				else "%s · %s" % [who, lesson.get("title", "")]
 			items.append({"kind": "lesson", "text": text, "tag": "NEW" if special else "OPEN",
 				"dialogue": lesson["dialogue"], "event_id": here["event"]["id"], "character": id})
-		var next := Unlocks.next_special_chapter(id, state, data)
-		if next.has("dialogue") and not Unlocks.is_chapter_unlocked(next["id"], state, data):
-			items.append({"kind": "locked", "text": "%s · Ch. %d: %s" % [who, int(next["chapter"]), next.get("title", "")],
-				"tag": "LOCKED", "character": id, "missing": Unlocks.missing_for_chapter(next["id"], state, data)})
 	return items
 
 
+## The room the panel opens on: a story scene first, then someone to meet.
 func _first_place_with_people(places: Dictionary) -> String:
+	for loc in GameData.locations:
+		if places.has(loc) and not places[loc]["scenes"].is_empty():
+			return loc
 	for loc in GameData.locations:
 		if places.has(loc) and not places[loc]["characters"].is_empty():
 			return loc
@@ -160,6 +196,8 @@ func _first_place_with_people(places: Dictionary) -> String:
 
 
 func _on_building_pressed(building: String) -> void:
+	if not Tour.can_pick(building):
+		return
 	selected_building = building
 	selected_location = ""
 	map_view.show_buildings(who_is_in_buildings(_places), selected_building)
@@ -241,6 +279,11 @@ func _room_row(loc: String, place: Dictionary) -> Button:
 		tags.append(UiStyle.chip("Scene", UiStyle.GOLD, UiStyle.INK, 10))
 	if tags.is_empty() and info.get("flavor", false):
 		tags.append(UiStyle.caption("Explore", UiStyle.TEXT_DIM, 10))
+	if loc == _tour_room():
+		# Quack points at this room.
+		tags.append(UiStyle.chip("Go in", UiStyle.GOLD, UiStyle.INK, 10))
+		button.name = loc
+		button.add_theme_stylebox_override("normal", UiStyle.glass_box(6, UiStyle.GOLD))
 	for tag in tags:
 		tag.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		row.add_child(tag)
@@ -335,14 +378,14 @@ func _person_row(id: String, compact: bool) -> Control:
 	return row
 
 
-## One thing to do (or a locked chapter) as a row you can pick.
+## One thing to do, as a row you can pick.
 func _item_row(item: Dictionary) -> Button:
 	var button := Button.new()
 	button.theme_type_variation = &"ListRow"
 	button.toggle_mode = true
 	button.button_group = _rows
 	button.custom_minimum_size = Vector2(0, 38)
-	button.name = item.get("dialogue", "locked_" + item.get("character", ""))
+	button.name = item["dialogue"]
 	var row := HBoxContainer.new()
 	row.set_anchors_preset(Control.PRESET_FULL_RECT)
 	row.offset_left = 14
@@ -350,9 +393,9 @@ func _item_row(item: Dictionary) -> Button:
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var label := Label.new()
 	label.text = item["text"]
-	label.add_theme_font_override("font", UiStyle.body_font(700 if item["kind"] != "locked" else 600))
+	label.add_theme_font_override("font", UiStyle.body_font(700))
 	label.add_theme_font_size_override("font_size", 14)
-	label.add_theme_color_override("font_color", UiStyle.TEXT_DIM if item["kind"] == "locked" else UiStyle.TEXT)
+	label.add_theme_color_override("font_color", UiStyle.TEXT)
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	label.size_flags_vertical = Control.SIZE_FILL
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -363,8 +406,6 @@ func _item_row(item: Dictionary) -> Button:
 	match item["kind"]:
 		"scene":
 			tag = UiStyle.chip("Scene", UiStyle.GOLD, UiStyle.INK, 10)
-		"locked":
-			tag = UiStyle.caption("Locked", UiStyle.TEXT_DIM, 10)
 		_:
 			tag = UiStyle.chip("New", UiStyle.PINK, UiStyle.TEXT, 10) if item["tag"] == "NEW" \
 				else UiStyle.caption("Open", UiStyle.CYAN, 10)
@@ -372,21 +413,10 @@ func _item_row(item: Dictionary) -> Button:
 	row.add_child(tag)
 	button.add_child(row)
 	button.tooltip_text = item["text"]
-	if item["kind"] == "locked":
-		button.disabled = true
-		button.tooltip_text += "\nStill needed: " + ", ".join(PackedStringArray(item["missing"].map(_describe_requirement)))
-	else:
-		button.pressed.connect(func():
-			selected_item = {"kind": item["kind"], "dialogue": item["dialogue"], "event_id": item["event_id"]}
-			_update_start_button())
+	button.pressed.connect(func():
+		selected_item = {"kind": item["kind"], "dialogue": item["dialogue"], "event_id": item["event_id"]}
+		_update_start_button())
 	return button
-
-
-func _describe_requirement(id: String) -> String:
-	var subject: Dictionary = GameData.get_subject(id)
-	if not subject.is_empty():
-		return subject.get("title", id)
-	return GameData.get_special_chapter(id).get("title", id)
 
 
 func _update_start_button() -> void:
@@ -408,35 +438,117 @@ func _on_start() -> void:
 		Router.goto(Router.DATE, {"date_id": selected_item["dialogue"], "event_id": selected_item["event_id"]})
 
 
-# --- Affection strip ----------------------------------------------------------------
+# --- Campus tour ---------------------------------------------------------------------
 
-func _build_affection_list() -> void:
-	for child in affection_list.get_children():
-		affection_list.remove_child(child)
-		child.queue_free()
-	for id in GameData.character_ids():
-		var entry := VBoxContainer.new()
-		entry.name = id
-		entry.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		entry.add_theme_constant_override("separation", 3)
-		var value := GameState.get_affection(id)
-		var text := "%s · %d" % [GameData.get_character(id).get("name", id), value]
-		var label := UiStyle.caption(text, UiStyle.TEXT, 11)
-		if id == JayBalance.CHARACTER:
-			label.text += "  ·  " + JayBalance.describe().to_upper()
-			if not JayBalance.is_balanced():
-				label.add_theme_color_override("font_color", UiStyle.DUSK)
-				label.tooltip_text = "Jay's sides are out of balance. Spend time with the other side."
-				label.mouse_filter = Control.MOUSE_FILTER_PASS
-		entry.add_child(label)
-		var bar := ProgressBar.new()
-		bar.show_percentage = false
-		bar.custom_minimum_size = Vector2(0, 6)
-		bar.max_value = GameState.MAX_AFFECTION
-		bar.value = value
-		bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		entry.add_child(bar)
-		affection_list.add_child(entry)
+## Follows the tour: when Quack moves on to a new stop, his building is
+## picked, its room list is shown, and he starts from his first line.
+func _sync_tour() -> void:
+	Tour.catch_up_time()
+	var stop := Tour.current_stop()
+	var key: String = stop.get("building", "outro")
+	if key == _tour_stop:
+		return
+	_tour_stop = key
+	_tour_line = 0
+	if not stop.is_empty():
+		selected_building = stop["building"]
+		selected_location = ""
+
+
+## Quack's lines for the current stop, or his goodbye.
+func _tour_lines() -> Array:
+	if _tour_stop == "outro":
+		return GameData.tour.get("outro", [])
+	return Tour.current_stop().get("lines", [])
+
+
+## The room Quack is pointing at, once he's done introducing the building.
+func _tour_room() -> String:
+	if not Tour.is_on() or _tour_line < _tour_lines().size():
+		return ""
+	return Tour.current_stop().get("room", "")
+
+
+func _show_quack_line() -> void:
+	var lines := _tour_lines()
+	var stop := Tour.current_stop()
+	var text := ""
+	if _tour_line < lines.size():
+		text = lines[_tour_line]
+	else:
+		text = stop.get("room_line", "")
+	_quack_text.text = text.replace("{player}", GameState.player_name)
+	var last := _tour_line >= lines.size() - 1
+	var waiting_for_date: bool = stop.get("character", "") != "" and _tour_line >= lines.size()
+	_quack_next.visible = not waiting_for_date
+	if not last:
+		_quack_next.text = "NEXT"
+	elif _tour_stop == "outro":
+		_quack_next.text = "LET'S GO"
+	elif stop.get("character", "") != "":
+		_quack_next.text = "NEXT"
+	else:
+		_quack_next.text = "NEXT STOP"
+
+
+## Quack's button: his next line, or on to the next stop.
+func _on_quack_next() -> void:
+	var lines := _tour_lines()
+	var stop := Tour.current_stop()
+	if _tour_line < lines.size() - 1:
+		_tour_line += 1
+		_show_quack_line()
+		return
+	if stop.get("character", "") != "" and _tour_line < lines.size():
+		# Point at the room, and wait for the player to go in.
+		_tour_line = lines.size()
+		_show_quack_line()
+		if selected_location == "":
+			_show_panel()
+		return
+	Tour.next()
+	GameState.save_game()
+	refresh()
+
+
+func _build_quack_box() -> void:
+	_quack_box = GlassPanel.new()
+	_quack_box.name = "QuackBox"
+	_quack_box.tab_text = "Quack"
+	add_child(_quack_box)
+	# Under the compact map, the same width as the map.
+	var top := map_view.offset_top + CampusMapView.AREA.end.y - CampusMapView.COMPACT_CUT + 16
+	_quack_box.position = Vector2(CampusMapView.AREA.position.x, top)
+	_quack_box.size = Vector2(CampusMapView.AREA.size.x, 706 - top)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 14)
+	_quack_box.add_child(row)
+	var thumb: Portrait = preload("res://scenes/portrait.tscn").instantiate()
+	thumb.custom_minimum_size = Vector2(52, 52)
+	row.add_child(thumb)
+	thumb.show_look(Looks.speaker_look("quack"))
+	thumb.get_node("%Initial").add_theme_font_size_override("font_size", 28)
+	var frame := Panel.new()
+	frame.theme_type_variation = &"PortraitFrame"
+	frame.set_anchors_preset(Control.PRESET_FULL_RECT)
+	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	thumb.add_child(frame)
+	_quack_text = Label.new()
+	_quack_text.name = "QuackText"
+	_quack_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_quack_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_quack_text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_quack_text.add_theme_font_size_override("font_size", 15)
+	_quack_text.add_theme_color_override("font_color", UiStyle.TEXT_SOFT)
+	row.add_child(_quack_text)
+	_quack_next = Button.new()
+	_quack_next.name = "QuackNext"
+	_quack_next.theme_type_variation = &"BrightButton"
+	_quack_next.custom_minimum_size = Vector2(130, 40)
+	_quack_next.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_quack_next.pressed.connect(_on_quack_next)
+	row.add_child(_quack_next)
+	_quack_box.visible = false
 
 
 func _on_wait() -> void:
