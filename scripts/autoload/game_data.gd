@@ -215,6 +215,22 @@ func get_special_chapter(chapter_id: String) -> Dictionary:
 	return {}
 
 
+## The small line shown above a lesson's challenge title, like
+## "Lesson 1 · Printing to the console" or "Chapter 2 · Pointers and
+## references". "" if the dialogue isn't a lesson.
+func lesson_caption(dialogue_id: String) -> String:
+	for subject_id in lessons:
+		for version in lessons[subject_id].get("versions", {}).values():
+			if version.get("dialogue") == dialogue_id:
+				var subject := get_subject(subject_id)
+				return "Lesson %d · %s" % [subject.get("number", 0), subject.get("title", subject_id)]
+	for character_id in routes:
+		for chapter in special_chapters(character_id):
+			if chapter.get("dialogue") == dialogue_id:
+				return "Chapter %d · %s" % [chapter.get("chapter", 0), chapter.get("title", "")]
+	return ""
+
+
 ## The id of the first challenge node in a dialogue, or "" if it has none.
 func dialogue_challenge(dialogue_id: String) -> String:
 	for node in get_date(dialogue_id).get("nodes", {}).values():

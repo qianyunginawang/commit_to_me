@@ -35,6 +35,7 @@ const SLOT_COLORS := {"day": GOLD, "dusk": DUSK, "night": LILAC}
 const ANTON := preload("res://assets/fonts/Anton-Regular.ttf")
 const CHAKRA_BOLD := preload("res://assets/fonts/ChakraPetch-Bold.ttf")
 const NUNITO := preload("res://assets/fonts/Nunito-Variable.ttf")
+const JETBRAINS_MONO := preload("res://assets/fonts/JetBrainsMono-Regular.ttf")
 
 static var _fonts: Dictionary = {}
 
@@ -52,6 +53,11 @@ static func label_font(spacing: int = 2) -> Font:
 ## Nunito, for dialogue and body text. weight is 200 to 1000.
 static func body_font(weight: int = 500) -> Font:
 	return _variation("body_%d" % weight, NUNITO, weight, 0)
+
+
+## JetBrains Mono, for code and program output.
+static func mono_font() -> Font:
+	return JETBRAINS_MONO
 
 
 static func _variation(key: String, base: Font, weight: int, spacing: int) -> Font:

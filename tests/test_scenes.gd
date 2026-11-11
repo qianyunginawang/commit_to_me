@@ -222,18 +222,14 @@ func test_hints_are_revealed_one_at_a_time() -> void:
 	add_node(overlay)
 	var button: Button = overlay.get_node("%HintButton")
 	var label: Label = overlay.get_node("%HintLabel")
-	var reward: Label = overlay.get_node("%RewardLabel")
-	check(not label.visible, "no hints shown at first")
-	check(reward.text.contains("+6"), "reward starts at +6: " + reward.text)
+	check(not label.visible and not overlay.get_node("%HintCard").visible, "no hints shown at first")
 	button.pressed.emit()
 	check_eq(overlay.hints_used, 1)
-	check(label.visible and label.text.contains("hint 1") and not label.text.contains("hint 2"), "only hint 1 shown: " + label.text)
-	check(reward.text.contains("+4"), "reward drops to +4: " + reward.text)
+	check(label.visible and label.text.contains("Hint 1") and not label.text.contains("Hint 2"), "only hint 1 shown: " + label.text)
 	button.pressed.emit()
 	check_eq(overlay.hints_used, 2)
-	check(label.text.contains("hint 2"), "hint 2 shown")
+	check(label.text.contains("Hint 2"), "hint 2 shown")
 	check(button.disabled, "no third hint")
-	check(reward.text.contains("+2"), "reward drops to +2: " + reward.text)
 	button.pressed.emit()
 	check_eq(overlay.hints_used, 2)
 
@@ -242,8 +238,48 @@ func test_hints_carry_over_to_a_retry() -> void:
 	var overlay = load("res://scenes/code_challenge.tscn").instantiate()
 	overlay.setup(GameData.get_challenge("g01_python"), {}, FakeCodeRunner.new(), 1)
 	add_node(overlay)
-	check(overlay.get_node("%HintLabel").text.contains("hint 1"), "hint 1 stays revealed")
-	check(overlay.get_node("%RewardLabel").text.contains("+4"), "reward stays at +4")
+	check(overlay.get_node("%HintLabel").text.contains("Hint 1"), "hint 1 stays revealed")
+
+
+func test_challenge_screen_does_not_show_affection() -> void:
+	var overlay = load("res://scenes/code_challenge.tscn").instantiate()
+	overlay.setup(GameData.get_challenge("g01_typescript"), GameData.get_character("javascript"), FakeCodeRunner.new(), 0, true,
+		GameData.lesson_caption("g01_typescript"))
+	add_node(overlay)
+	check_eq(overlay.get_node("%LessonLabel").text, "LESSON 1 · PRINTING TO THE CONSOLE")
+	check_eq(overlay.get_node("%FileName").text, "main.ts")
+	overlay.get_node("%HintButton").pressed.emit()
+	for node in overlay.find_children("*", "Control", true, false):
+		var text: String = node.get("text") if node.get("text") is String else ""
+		check(not text.contains("<3") and not text.contains("affection"), "no affection on screen: " + text)
+
+
+func test_challenge_prompt_puts_expected_output_in_a_box() -> void:
+	var overlay = load("res://scenes/code_challenge.tscn").instantiate()
+	overlay.setup(GameData.get_challenge("g01_typescript"), {}, FakeCodeRunner.new())
+	add_node(overlay)
+	var parts: Array = overlay.get_node("%PromptBox").get_children()
+	check_eq(parts.size(), 3)
+	check(parts[1].text.contains("[code]"), "console.log() is shown as code: " + parts[1].text)
+	check(parts[2] is PanelContainer, "the expected output sits in its own box")
+
+
+func test_failed_run_shows_what_was_expected() -> void:
+	var overlay = load("res://scenes/code_challenge.tscn").instantiate()
+	var runner := FakeCodeRunner.new()
+	runner.responder = func(_src, _stdin): return RunResult.make(RunResult.Status.OK, "")
+	overlay.setup(GameData.get_challenge("g01_python"), {}, runner)
+	add_node(overlay)
+	await overlay._on_run()
+	check_eq(overlay.get_node("%StatusLabel").text, "Output doesn't match")
+	check(overlay.get_node("%OutputLabel").text.contains("Expected: Hello, world!"), "shows the expected output")
+	check(not overlay.get_node("%ContinueButton").visible, "no continue after a failed run")
+
+
+func test_lesson_captions() -> void:
+	check_eq(GameData.lesson_caption("g01_python"), "Lesson 1 · Printing to the console")
+	check_eq(GameData.lesson_caption("python_ch1"), "Chapter 1 · The Zen of Python")
+	check_eq(GameData.lesson_caption("orientation"), "")
 
 
 func test_new_game_opens_with_orientation() -> void:

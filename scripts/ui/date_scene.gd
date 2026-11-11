@@ -304,7 +304,7 @@ func _open_challenge(challenge_id: String) -> void:
 	skip_button.button_pressed = false
 	var overlay := CodeChallengeScene.instantiate()
 	var first_time := not GameState.is_date_complete(_date_id)
-	overlay.setup(GameData.get_challenge(challenge_id), character, null, _hints_used.get(challenge_id, 0), first_time)
+	overlay.setup(GameData.get_challenge(challenge_id), character, null, _hints_used.get(challenge_id, 0), first_time, GameData.lesson_caption(_date_id))
 	add_child(overlay)
 	var passed: bool = await overlay.finished
 	_hints_used[challenge_id] = overlay.hints_used

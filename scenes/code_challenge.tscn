@@ -18,82 +18,178 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.05, 0.03, 0.08, 0.9)
+color = Color(0.027, 0.043, 0.086, 0.96)
 
-[node name="Panel" type="PanelContainer" parent="."]
+[node name="Frame" type="PanelContainer" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 24.0
-offset_top = 24.0
-offset_right = -24.0
-offset_bottom = -24.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Split" type="HSplitContainer" parent="Panel"]
+[node name="Layout" type="VBoxContainer" parent="Frame"]
 layout_mode = 2
-split_offset = -80
+theme_override_constants/separation = 0
 
-[node name="Left" type="VBoxContainer" parent="Panel/Split"]
-custom_minimum_size = Vector2(360, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 10
-
-[node name="ChallengeTitle" type="Label" parent="Panel/Split/Left"]
+[node name="Header" type="PanelContainer" parent="Frame/Layout"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
-text = "Challenge title"
-autowrap_mode = 3
 
-[node name="LanguageLabel" type="Label" parent="Panel/Split/Left"]
+[node name="Row" type="HBoxContainer" parent="Frame/Layout/Header"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="LanguageLabel" type="Label" parent="Frame/Layout/Header/Row"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.36, 0.54, 1)
+size_flags_vertical = 4
 text = "Language"
 
-[node name="PromptLabel" type="RichTextLabel" parent="Panel/Split/Left"]
+[node name="Titles" type="VBoxContainer" parent="Frame/Layout/Header/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="LessonLabel" type="Label" parent="Frame/Layout/Header/Row/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "LESSON"
+text_overrun_behavior = 3
+
+[node name="ChallengeTitle" type="Label" parent="Frame/Layout/Header/Row/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Challenge title"
+text_overrun_behavior = 3
+
+[node name="GiveUpButton" type="Button" parent="Frame/Layout/Header/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_vertical = 4
+text = "Give up"
+
+[node name="Body" type="MarginContainer" parent="Frame/Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="Columns" type="HBoxContainer" parent="Frame/Layout/Body"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Brief" type="VBoxContainer" parent="Frame/Layout/Body/Columns"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="TaskCard" type="PanelContainer" parent="Frame/Layout/Body/Columns/Brief"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_font_sizes/normal_font_size = 18
-text = "Instructions go here."
-selection_enabled = true
 
-[node name="RewardLabel" type="Label" parent="Panel/Split/Left"]
+[node name="Scroll" type="ScrollContainer" parent="Frame/Layout/Body/Columns/Brief/TaskCard"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Task" type="VBoxContainer" parent="Frame/Layout/Body/Columns/Brief/TaskCard/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="TaskHeading" type="Label" parent="Frame/Layout/Body/Columns/Brief/TaskCard/Scroll/Task"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.6, 0.75, 1)
-text = "Pass to earn +6 <3"
-autowrap_mode = 3
+text = "YOUR TASK"
 
-[node name="HintButton" type="Button" parent="Panel/Split/Left"]
+[node name="PromptBox" type="VBoxContainer" parent="Frame/Layout/Body/Columns/Brief/TaskCard/Scroll/Task"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Ask Quack for a hint"
+theme_override_constants/separation = 12
 
-[node name="HintLabel" type="Label" parent="Panel/Split/Left"]
+[node name="HintCard" type="PanelContainer" parent="Frame/Layout/Body/Columns/Brief"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Hints" type="VBoxContainer" parent="Frame/Layout/Body/Columns/Brief/HintCard"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HintHeading" type="Label" parent="Frame/Layout/Body/Columns/Brief/HintCard/Hints"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
-theme_override_font_sizes/font_size = 16
+text = "QUACK SAYS"
+
+[node name="HintLabel" type="Label" parent="Frame/Layout/Body/Columns/Brief/HintCard/Hints"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
 text = "Hint"
 autowrap_mode = 3
 
-[node name="Right" type="VBoxContainer" parent="Panel/Split"]
+[node name="Workspace" type="VBoxContainer" parent="Frame/Layout/Body/Columns"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 1.6
-theme_override_constants/separation = 10
+theme_override_constants/separation = 14
 
-[node name="Editor" type="CodeEdit" parent="Panel/Split/Right"]
+[node name="EditorCard" type="PanelContainer" parent="Frame/Layout/Body/Columns/Workspace"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_font_sizes/font_size = 18
+
+[node name="Stack" type="VBoxContainer" parent="Frame/Layout/Body/Columns/Workspace/EditorCard"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="TabStrip" type="PanelContainer" parent="Frame/Layout/Body/Columns/Workspace/EditorCard/Stack"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Row" type="HBoxContainer" parent="Frame/Layout/Body/Columns/Workspace/EditorCard/Stack/TabStrip"]
+layout_mode = 2
+
+[node name="FileTab" type="PanelContainer" parent="Frame/Layout/Body/Columns/Workspace/EditorCard/Stack/TabStrip/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Row" type="HBoxContainer" parent="Frame/Layout/Body/Columns/Workspace/EditorCard/Stack/TabStrip/Row/FileTab"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="FileBadge" type="Label" parent="Frame/Layout/Body/Columns/Workspace/EditorCard/Stack/TabStrip/Row/FileTab/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "PY"
+
+[node name="FileName" type="Label" parent="Frame/Layout/Body/Columns/Workspace/EditorCard/Stack/TabStrip/Row/FileTab/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "main.py"
+
+[node name="Spacer" type="Control" parent="Frame/Layout/Body/Columns/Workspace/EditorCard/Stack/TabStrip/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EditorCaption" type="Label" parent="Frame/Layout/Body/Columns/Workspace/EditorCard/Stack/TabStrip/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+text = "Editor"
+
+[node name="Editor" type="CodeEdit" parent="Frame/Layout/Body/Columns/Workspace/EditorCard/Stack"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
 text = "// code"
 highlight_current_line = true
 draw_tabs = true
@@ -102,46 +198,101 @@ indent_automatic = true
 auto_brace_completion_enabled = true
 auto_brace_completion_highlight_matching = true
 
-[node name="Buttons" type="HBoxContainer" parent="Panel/Split/Right"]
+[node name="ConsoleCard" type="PanelContainer" parent="Frame/Layout/Body/Columns/Workspace"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 156)
 layout_mode = 2
-theme_override_constants/separation = 10
 
-[node name="RunButton" type="Button" parent="Panel/Split/Right/Buttons"]
+[node name="Stack" type="VBoxContainer" parent="Frame/Layout/Body/Columns/Workspace/ConsoleCard"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="ConsoleBar" type="PanelContainer" parent="Frame/Layout/Body/Columns/Workspace/ConsoleCard/Stack"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Run"
 
-[node name="ResetButton" type="Button" parent="Panel/Split/Right/Buttons"]
+[node name="Row" type="HBoxContainer" parent="Frame/Layout/Body/Columns/Workspace/ConsoleCard/Stack/ConsoleBar"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ConsoleIcon" type="TextureRect" parent="Frame/Layout/Body/Columns/Workspace/ConsoleCard/Stack/ConsoleBar/Row"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Reset code"
+size_flags_vertical = 4
+stretch_mode = 3
 
-[node name="Spacer" type="Control" parent="Panel/Split/Right/Buttons"]
+[node name="ConsoleTitle" type="Label" parent="Frame/Layout/Body/Columns/Workspace/ConsoleCard/Stack/ConsoleBar/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "CONSOLE"
+
+[node name="StatusLabel" type="Label" parent="Frame/Layout/Body/Columns/Workspace/ConsoleCard/Stack/ConsoleBar/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+text = "Not run yet"
+
+[node name="OutputLabel" type="RichTextLabel" parent="Frame/Layout/Body/Columns/Workspace/ConsoleCard/Stack"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+selection_enabled = true
+scroll_following = true
+
+[node name="Footer" type="PanelContainer" parent="Frame/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Row" type="HBoxContainer" parent="Frame/Layout/Footer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HintButton" type="Button" parent="Frame/Layout/Footer/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "Ask Quack for a hint"
+
+[node name="Spacer" type="Control" parent="Frame/Layout/Footer/Row"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="GiveUpButton" type="Button" parent="Panel/Split/Right/Buttons"]
+[node name="ResetButton" type="Button" parent="Frame/Layout/Footer/Row"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-text = "Give up"
+text = "Reset code"
 
-[node name="ContinueButton" type="Button" parent="Panel/Split/Right/Buttons"]
+[node name="RunButton" type="Button" parent="Frame/Layout/Footer/Row"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-text = "Continue date"
+text = "Run code"
 
-[node name="StatusLabel" type="Label" parent="Panel/Split/Right"]
+[node name="ShortcutChip" type="Label" parent="Frame/Layout/Footer/Row/RunButton"]
 unique_name_in_owner = true
-layout_mode = 2
-text = "Status"
-autowrap_mode = 3
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -11.0
+offset_right = -18.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+text = "Ctrl ↵"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="OutputLabel" type="RichTextLabel" parent="Panel/Split/Right"]
+[node name="ContinueButton" type="Button" parent="Frame/Layout/Footer/Row"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 150)
+visible = false
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-theme_override_colors/default_color = Color(0.85, 0.85, 0.85, 1)
-theme_override_font_sizes/normal_font_size = 16
-theme_override_font_sizes/mono_font_size = 16
-bbcode_enabled = true
-selection_enabled = true
+text = "Continue"
