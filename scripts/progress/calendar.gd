@@ -19,6 +19,9 @@ extends RefCounted
 ##   cancels_recurring (optional) - nobody's weekly events happen on this
 ##                 day, day or night (orientation day).
 ##   requires, scenes (optional) - story conditions and scenes (see Story).
+##                 While an event's scene is waiting to be watched, nobody
+##                 there teaches lessons yet (so the club fair plays before
+##                 its lessons), and watching a scene takes no time.
 ##
 ## Functions take an optional state and data so tests can pass their own.
 
@@ -114,11 +117,29 @@ static func opportunity_for(character_id: String, state: Node = null, data: Node
 	for event in events_now(state, data):
 		if event.get("characters", []).has(character_id):
 			var lessons: Array[Dictionary] = []
-			for lesson in Unlocks.lessons_available(character_id, state, data):
-				if lesson_fits_slot(lesson, state.slot):
-					lessons.append(lesson)
+			# The event's scene comes first (the club fair introductions).
+			if Story.scene_for(event, state, data) == "":
+				for lesson in Unlocks.lessons_available(character_id, state, data):
+					if lesson_fits_slot(lesson, state.slot):
+						lessons.append(lesson)
 			return {"event": event, "character": character_id, "lessons": lessons}
 	return {}
+
+
+## Whether playing this dialogue at this event uses up the time slot.
+## Lessons do, unless the event takes_no_time (the campus tour). Watching
+## one of the event's own scenes never does, so the lessons there are still
+## open afterwards (the club fair).
+static func uses_time(event_id: String, dialogue_id: String, data: Node = null) -> bool:
+	for event in _data(data).calendar.get("events", []):
+		if event.get("id") != event_id:
+			continue
+		if event.get("takes_no_time", false):
+			return false
+		for scene in event.get("scenes", []):
+			if scene.get("dialogue", "") == dialogue_id:
+				return false
+	return true
 
 
 static func _state(state: Node) -> Node:

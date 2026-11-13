@@ -35,6 +35,8 @@ The fall semester at Runtime University runs 14 weeks, from Sunday, September 1 
 ## Recurring events
 No recurring events happen on orientation day (week 1, Sunday), day or night. That day the love interests are at their campus tour stops instead (see Setting.md, "Orientation tour stops"). In `data/calendar.json` the orientation event has `stops` (who is in which room) and `cancels_recurring`. Ciel's stop is after dark, so he's in a separate night event, `orientation_night`. The tour itself (Quack's lines, stop order) is in `data/tour.json`, and you can't wait until it's over.
 
+The club fair (week 1, Friday day, `club_fair` in `data/calendar.json`) plays its scene (`data/dates/club_fair.json`) first: each love interest introduces their two recurring events, and Quack explains Day and Night slots. Nobody there teaches a lesson until the scene is watched, and watching it takes no time, so the player still gets one Generic 2 lesson that slot.
+
 Jay: 
 - **Office hours:** Day Jay, Monday, Wednesday, Friday afternoons in Turing Hall (Day slot).
 - **Hackathon nights:** Night Jay, Saturday and Sunday in the student union (Night slot), starting with the Day 256 Hackathon in week 2.

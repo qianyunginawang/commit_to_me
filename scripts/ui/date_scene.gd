@@ -322,14 +322,10 @@ func _on_finished() -> void:
 
 
 ## Going on a date uses up the current time slot, unless the event it was
-## part of takes no time (the campus tour).
+## part of takes no time (the campus tour) or it was the event's own scene
+## (see Calendar.uses_time).
 func _leave() -> void:
-	var event_id: String = Router.params.get("event_id", "")
-	var takes_no_time := false
-	for event in GameData.calendar.get("events", []):
-		if event.get("id") == event_id:
-			takes_no_time = event.get("takes_no_time", false)
-	if not takes_no_time:
+	if Calendar.uses_time(Router.params.get("event_id", ""), _date_id):
 		GameState.advance_time()
 	GameState.save_game()
 	Router.goto(Router.params.get("return_to", Router.MAP))

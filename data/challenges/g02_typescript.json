@@ -1,0 +1,17 @@
+{
+  "id": "g02_typescript",
+  "language": "typescript",
+  "title": "Office hours policy",
+  "prompt": "Day Jay wrote the office hours policy straight into the code, and TypeScript is trying to run it.\n\nIn TypeScript, // starts a comment that lasts to the end of the line, and /* ... */ makes a comment that can cover many lines.\n\n1. Turn the policy (the three lines under the room) into a comment.\n2. There's a line at the bottom that Jay doesn't remember writing. Comment it out.\n\nThe program should print exactly:\n\nOffice hours: weekdays, TA office, Turing Hall\nBring your exact error message.",
+  "hints": [
+    "Put /* on the line before the policy and */ on the line after it. Everything in between becomes one comment.",
+    "Wrap the policy like this:\n/*\nOffice hours policy:\n...\n*/\nThen put // in front of console.log(\"Walk-ins welcome anytime!!!\");"
+  ],
+  "starter_code": "const room: string = \"TA office, Turing Hall\";\n\nOffice hours policy:\n  1. Bring your code.\n  2. Bring your exact error message.\n\nconsole.log(\"Office hours: weekdays, \" + room);\nconsole.log(\"Bring your exact error message.\");\nconsole.log(\"Walk-ins welcome anytime!!!\");\n",
+  "tests": [
+    {
+      "stdin": "",
+      "expected_stdout": "Office hours: weekdays, TA office, Turing Hall\nBring your exact error message."
+    }
+  ]
+}

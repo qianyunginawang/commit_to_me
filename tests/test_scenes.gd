@@ -455,3 +455,27 @@ func test_locked_chapters_are_not_listed() -> void:
 	var items := CampusMap.place_items({"characters": ["python"], "scenes": []})
 	check_eq(items.map(func(i): return i["dialogue"]), ["g01_python"], "only the open lesson, no locked chapter 1:")
 	GameState.new_game("Gee")
+
+
+func test_club_fair_plays_first_and_takes_no_time() -> void:
+	GameState.new_game("Gee")
+	GameState.mark_date_complete("orientation")
+	GameState.set_flag(Tour.DONE_FLAG)
+	GameState.complete_lesson("g01_python", "python", 0)
+	GameState.day = 5   # week 1, Friday
+	var map := add_node(load(Router.MAP).instantiate())
+	check_eq(map.selected_location, "main_quad", "the map opens on the club fair")
+	var items := CampusMap.place_items(map._places["main_quad"])
+	check_eq(items.map(func(i): return i["dialogue"]), ["club_fair"], "only the scene until it's watched:")
+	Router.params = {"date_id": "club_fair", "event_id": "club_fair"}
+	var scene := add_node(load(Router.DATE).instantiate())
+	while scene.player.current_node().get("choices", []).is_empty() and not scene.player.is_finished:
+		scene.player.advance()
+	check_eq(scene.player.current_id, "pick", "Quack asks who to learn from")
+	scene.player.choose(0)
+	scene.player.advance()
+	check(GameState.is_date_complete("club_fair"), "the scene is watched")
+	check_eq([GameState.day, GameState.slot], [5, "day"], "and it took no time:")
+	items = CampusMap.place_items(CampusMap.who_is_where()["main_quad"])
+	for d in ["g02_python", "g02_typescript", "g02_java", "g02_cpp"]:
+		check(items.map(func(i): return i["dialogue"]).has(d), "%s at the club fair" % d)

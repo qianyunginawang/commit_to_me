@@ -1,0 +1,17 @@
+{
+  "id": "g02_python",
+  "language": "python",
+  "title": "Notes for the plants",
+  "prompt": "Monty's watering list has a note on line 3 that's meant for people, not for Python. Python tries to run it and crashes.\n\nIn Python, everything after a # on a line is a comment, and Python skips it.\n\n1. Turn the note on line 3 into a comment.\n2. The cactus didn't survive the summer. Don't delete its line: comment it out.\n\nThe program should print exactly:\n\nBasil: water daily\nTomatoes: water every other day",
+  "hints": [
+    "Put a # at the start of a line to make the whole line a comment. Python ignores it, but people can still read it.",
+    "Line 3 becomes: # Mint grows like a weed, keep it in its own pot\nAnd the cactus line becomes: # print(\"Cactus: leave it alone\")"
+  ],
+  "starter_code": "# The gardening club's watering list.\nprint(\"Basil: water daily\")\nMint grows like a weed, keep it in its own pot\nprint(\"Tomatoes: water every other day\")\nprint(\"Cactus: leave it alone\")\n",
+  "tests": [
+    {
+      "stdin": "",
+      "expected_stdout": "Basil: water daily\nTomatoes: water every other day"
+    }
+  ]
+}

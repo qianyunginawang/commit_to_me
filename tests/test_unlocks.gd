@@ -66,10 +66,10 @@ func test_each_subject_is_done_once_per_character() -> void:
 	gs.complete_lesson("g01_python", "python", 0)
 	check(Unlocks.is_subject_done("g01", gs), "g01 done")
 	check(Unlocks.is_subject_unlocked("g02", gs), "g02 opens after g01")
-	check_eq(_dialogues(Unlocks.lessons_available("python", gs)), [], "Monty has nothing written to offer yet:")
-	check_eq(_dialogues(Unlocks.lessons_available("java", gs)), ["g01_java"], "Julian still has g01:")
+	check_eq(_dialogues(Unlocks.lessons_available("python", gs)), ["g02_python"], "Monty moves on to g02:")
+	check_eq(_dialogues(Unlocks.lessons_available("java", gs)), ["g01_java", "g02_java"], "Julian still has g01, and g02 is open:")
 	gs.complete_lesson("g01_typescript", "javascript", 0)
-	check_eq(_dialogues(Unlocks.lessons_available("javascript", gs)), [], "one of Jay's versions is enough:")
+	check_eq(_dialogues(Unlocks.lessons_available("javascript", gs)), ["g02_typescript", "g02_javascript"], "one of Jay's versions is enough:")
 	check_eq(Unlocks.characters_done_subject("g01", gs), ["python", "javascript"])
 
 

@@ -1,0 +1,17 @@
+{
+  "id": "g02_java",
+  "language": "java",
+  "title": "Minutes of the meeting",
+  "prompt": "Julian left a TODO note in the middle of main, and Java won't compile it.\n\nIn Java, // starts a comment that lasts to the end of the line. /* ... */ covers many lines, and /** ... */ is a documentation comment, like the one at the top.\n\nTurn the TODO line into a comment so the program prints exactly:\n\nCouncil office hours: Fri, Sat, Sun evenings\nCoffee appreciation society: Mon to Thu mornings",
+  "hints": [
+    "Java doesn't know what the word TODO means. Make the whole line a comment so the compiler skips it.",
+    "Change the TODO line to: // TODO confirm the society's table at Café Cache"
+  ],
+  "starter_code": "/**\n * The student council's weekly schedule.\n * Author: Julian Duke, President.\n */\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println(\"Council office hours: Fri, Sat, Sun evenings\");\n        TODO confirm the society's table at Café Cache\n        System.out.println(\"Coffee appreciation society: Mon to Thu mornings\");\n    }\n}\n",
+  "tests": [
+    {
+      "stdin": "",
+      "expected_stdout": "Council office hours: Fri, Sat, Sun evenings\nCoffee appreciation society: Mon to Thu mornings"
+    }
+  ]
+}

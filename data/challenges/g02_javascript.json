@@ -1,0 +1,17 @@
+{
+  "id": "g02_javascript",
+  "language": "javascript",
+  "title": "Fix the flyer",
+  "prompt": "Night Jay's hackathon flyer prints a line that somebody boring snuck in.\n\nIn JavaScript, // starts a comment: the rest of the line is skipped.\n\nComment out the line about lights out, and leave the rest alone. The program should print exactly:\n\nHACKATHON NIGHT!!!\nSat + Sun nights, Student Union\nFree pizza!!!",
+  "hints": [
+    "Put // at the start of a line and JavaScript skips the whole line, but the code is still there if you want it back.",
+    "Change the third console.log to: // console.log(\"Lights out at 10 p.m. Please be quiet.\");"
+  ],
+  "starter_code": "// HACKATHON NIGHT FLYER v3 (final) (final final)\nconsole.log(\"HACKATHON NIGHT!!!\");\nconsole.log(\"Sat + Sun nights, Student Union\");\nconsole.log(\"Lights out at 10 p.m. Please be quiet.\");\nconsole.log(\"Free pizza!!!\");\n",
+  "tests": [
+    {
+      "stdin": "",
+      "expected_stdout": "HACKATHON NIGHT!!!\nSat + Sun nights, Student Union\nFree pizza!!!"
+    }
+  ]
+}

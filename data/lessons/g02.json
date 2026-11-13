@@ -1,0 +1,20 @@
+{
+  "id": "g02",
+  "versions": {
+    "python": {
+      "dialogue": "g02_python"
+    },
+    "typescript": {
+      "dialogue": "g02_typescript"
+    },
+    "javascript": {
+      "dialogue": "g02_javascript"
+    },
+    "java": {
+      "dialogue": "g02_java"
+    },
+    "cpp": {
+      "dialogue": "g02_cpp"
+    }
+  }
+}

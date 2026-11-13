@@ -33,6 +33,13 @@ func test_printing_is_written_in_all_five_languages() -> void:
 	check_eq(GameData.get_generic_lesson("g01", "python").get("location"), "main_quad")
 
 
+func test_comments_are_written_in_all_five_languages() -> void:
+	for lang in ["python", "typescript", "javascript", "java", "cpp"]:
+		var lesson := GameData.get_generic_lesson("g02", lang)
+		check_eq(lesson.get("title"), "Comments", "g02 %s:" % lang)
+		check_eq(lesson.get("challenge"), "g02_" + lang)
+
+
 func test_jay_teaches_typescript_by_day_and_javascript_by_night() -> void:
 	var lessons := GameData.generic_lessons_for("g01", "javascript")
 	check_eq(lessons.size(), 2)

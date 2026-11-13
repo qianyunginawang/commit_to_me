@@ -1,0 +1,17 @@
+{
+  "id": "g02_cpp",
+  "language": "cpp",
+  "title": "Silence the debug line",
+  "prompt": "Ciel's benchmark prints a debug line that nobody else should see.\n\nIn C++, // starts a comment that lasts to the end of the line, and /* ... */ can cover many lines. The compiler throws comments away.\n\nComment out the DEBUG line. Don't delete it. The program should print exactly:\n\nMidnight lab session: Mon to Thu nights\nHopper Lab, Knuth Hall basement",
+  "hints": [
+    "Put // in front of a line and the compiler skips it. The code stays in the file for later.",
+    "Change the DEBUG line to: // std::cout << \"DEBUG: coffee level = 3%\" << std::endl;"
+  ],
+  "starter_code": "#include <iostream>\n\nint main() {\n    std::cout << \"Midnight lab session: Mon to Thu nights\" << std::endl;\n    std::cout << \"DEBUG: coffee level = 3%\" << std::endl;\n    std::cout << \"Hopper Lab, Knuth Hall basement\" << std::endl;\n    return 0;\n}\n",
+  "tests": [
+    {
+      "stdin": "",
+      "expected_stdout": "Midnight lab session: Mon to Thu nights\nHopper Lab, Knuth Hall basement"
+    }
+  ]
+}

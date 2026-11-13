@@ -1,0 +1,58 @@
+{
+  "id": "g02_python",
+  "character": "python",
+  "title": "Comments",
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "speaker": "narrator",
+      "text": "Monty pulls a crumpled watering list out of a cardigan pocket. It has soil on it.",
+      "next": "teach0"
+    },
+    "teach0": {
+      "speaker": "python",
+      "text": "Can I show you my favorite thing in all of programming? It's not even code. It's comments.",
+      "next": "teach1",
+      "mood": "happy"
+    },
+    "teach1": {
+      "speaker": "python",
+      "text": "A comment is a note for people. In Python, anything after a # is skipped. The computer never reads it, but the next person always does.",
+      "next": "teach2"
+    },
+    "teach2": {
+      "speaker": "python",
+      "text": "You can also put a # in front of a line of code to switch it off without deleting it. Readability counts. So does not losing things.",
+      "next": "challenge"
+    },
+    "challenge": {
+      "challenge": "g02_python",
+      "on_pass": "passed",
+      "on_fail": "failed"
+    },
+    "passed": {
+      "speaker": "python",
+      "text": "See? Python reads the code, people read the notes, and everyone gets along. And the cactus is remembered. Thank you, {player}.",
+      "next": "end"
+    },
+    "failed": {
+      "speaker": "python",
+      "text": "Hm. Python's still tripping over something. It's okay! Want to look at it again?",
+      "choices": [
+        {
+          "text": "Let's look again.",
+          "next": "challenge"
+        },
+        {
+          "text": "Maybe later.",
+          "next": "bye"
+        }
+      ]
+    },
+    "bye": {
+      "speaker": "python",
+      "text": "No rush. The list isn't going anywhere. Neither am I.",
+      "next": "end"
+    }
+  }
+}

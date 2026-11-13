@@ -1,0 +1,54 @@
+{
+  "id": "g02_javascript",
+  "character": "javascript",
+  "title": "Comments",
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "speaker": "narrator",
+      "text": "Somebody in a yellow hoodie slides a laptop over to you, still chewing pizza.",
+      "next": "teach0"
+    },
+    "teach0": {
+      "speaker": "javascript",
+      "text": "Okay okay okay, comments! Two slashes, and JavaScript just doesn't read the rest of the line! It's like whispering!",
+      "next": "teach1",
+      "mood": "excited"
+    },
+    "teach1": {
+      "speaker": "javascript",
+      "text": "Somebody keeps putting a lights-out line in my flyer. Some very boring person. Don't ask who. Don't delete it either, they'll just add it back. Comment it out!",
+      "next": "challenge",
+      "mood": "excited"
+    },
+    "challenge": {
+      "challenge": "g02_javascript",
+      "on_pass": "passed",
+      "on_fail": "failed"
+    },
+    "passed": {
+      "speaker": "javascript",
+      "text": "YES! Lights stay ON! The flyer is perfect now! I'm printing a hundred of them. Okay, fifty. Okay, I'm posting it in the group chat.",
+      "next": "end"
+    },
+    "failed": {
+      "speaker": "javascript",
+      "text": "Ooh, the flyer's still saying something weird. Run it back?",
+      "choices": [
+        {
+          "text": "Run it back!",
+          "next": "challenge"
+        },
+        {
+          "text": "I need a pizza break.",
+          "next": "bye"
+        }
+      ]
+    },
+    "bye": {
+      "speaker": "javascript",
+      "text": "Totally fine! The hackathon goes all night anyway!",
+      "next": "end"
+    }
+  }
+}

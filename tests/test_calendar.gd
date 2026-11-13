@@ -71,7 +71,9 @@ func test_recurring_and_story_events() -> void:
 func test_everyone_is_at_orientation() -> void:
 	for who in [["python", "day", "orientation"], ["javascript", "day", "orientation"], ["java", "day", "orientation"],
 			["cpp", "night", "orientation_night"]]:
-		var here := Calendar.opportunity_for(who[0], _state(1, 0, who[1]))
+		var gs := _state(1, 0, who[1])
+		gs.mark_date_complete("orientation")
+		var here := Calendar.opportunity_for(who[0], gs)
 		check_eq(here.get("event", {}).get("id"), who[2], "%s on the tour:" % who[0])
 		check(not here.get("lessons", []).is_empty(), "%s has a lesson on the tour" % who[0])
 	check(Calendar.opportunity_for("cpp", _state(1, 0, "day")).is_empty(), "Ciel only shows up after dark")
@@ -118,3 +120,25 @@ func test_jay_teaches_typescript_by_day_and_javascript_by_night() -> void:
 	var night := Calendar.opportunity_for("javascript", _state(4, 6, "night"))
 	check_eq(night["event"]["id"], "hackathon_night")
 	check_eq(night["lessons"].map(func(l): return l["language"]), ["javascript"])
+
+
+func test_club_fair_scene_comes_before_its_lessons() -> void:
+	var gs := _state(1, 5, "day")   # week 1, Friday
+	gs.complete_lesson("g01_python", "python", 0)
+	check_eq(_event_ids(gs)[0], "club_fair", "the club fair comes before everyone's usual Friday:")
+	var here := Calendar.opportunity_for("python", gs)
+	check_eq(here["event"]["id"], "club_fair")
+	check_eq(Story.scene_for(here["event"], gs), "club_fair", "the introductions are waiting")
+	check_eq(here["lessons"], [] as Array[Dictionary], "no lessons until the scene is watched")
+	gs.mark_date_complete("club_fair")
+	check_eq(Calendar.opportunity_for("python", gs)["lessons"].map(func(l): return l["dialogue"]), ["g02_python"])
+	check_eq(Calendar.opportunity_for("javascript", gs)["lessons"].map(func(l): return l["dialogue"]),
+		["g01_typescript", "g02_typescript"], "Day Jay: Comments, or Printing if you haven't done it with Jay yet:")
+
+
+func test_watching_an_event_scene_takes_no_time() -> void:
+	check(not Calendar.uses_time("club_fair", "club_fair"), "the club fair scene is free")
+	check(Calendar.uses_time("club_fair", "g02_python"), "a lesson at the club fair uses the slot")
+	check(not Calendar.uses_time("orientation", "g01_python"), "the campus tour takes no time")
+	check(Calendar.uses_time("tutoring_shift", "g02_python"), "a normal lesson uses the slot")
+	check(Calendar.uses_time("", "g02_python"), "no event: uses the slot")

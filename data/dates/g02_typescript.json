@@ -1,0 +1,57 @@
+{
+  "id": "g02_typescript",
+  "character": "javascript",
+  "title": "Comments",
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "speaker": "narrator",
+      "text": "Jay sets a tablet down, opens a file, and frowns at it.",
+      "next": "teach0"
+    },
+    "teach0": {
+      "speaker": "javascript",
+      "text": "Comments. Short lesson. Comments are text the compiler ignores. They exist for the next person who reads the code.",
+      "next": "teach1"
+    },
+    "teach1": {
+      "speaker": "javascript",
+      "text": "Two kinds. // comments out the rest of a line. /* and */ wrap a block, as many lines as you need.",
+      "next": "teach2"
+    },
+    "teach2": {
+      "speaker": "javascript",
+      "text": "Also, there is a line in this file I did not write. Three exclamation points. That is not my style. Comment it out. I want a record of it.",
+      "next": "challenge"
+    },
+    "challenge": {
+      "challenge": "g02_typescript",
+      "on_pass": "passed",
+      "on_fail": "failed"
+    },
+    "passed": {
+      "speaker": "javascript",
+      "text": "Correct. The policy is documented, and the unauthorized line is out of service. Good work, {player}.",
+      "next": "end"
+    },
+    "failed": {
+      "speaker": "javascript",
+      "text": "That does not compile yet. Read the error message. Then try again.",
+      "choices": [
+        {
+          "text": "Trying again.",
+          "next": "challenge"
+        },
+        {
+          "text": "I need a minute.",
+          "next": "bye"
+        }
+      ]
+    },
+    "bye": {
+      "speaker": "javascript",
+      "text": "Understood. Office hours are every weekday. Bring the error message.",
+      "next": "end"
+    }
+  }
+}

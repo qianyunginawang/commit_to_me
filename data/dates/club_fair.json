@@ -1,0 +1,186 @@
+{
+  "id": "club_fair",
+  "character": "",
+  "title": "Club fair",
+  "start": "l0",
+  "nodes": {
+    "l0": {
+      "speaker": "narrator",
+      "text": "Friday. The main quad has disappeared under folding tables, banners, and free stickers. Every club on campus is shouting at once.",
+      "next": "l1"
+    },
+    "l1": {
+      "speaker": "quack",
+      "text": "The club fair! Everyone here wants you to join something. Take the free stuff. Commit to nothing. Well. Commit to a little.",
+      "next": "l2"
+    },
+    "l2": {
+      "speaker": "narrator",
+      "text": "The gardening club table is covered in potted herbs. Behind it, someone in an oversized cardigan is handing out tea in paper cups.",
+      "next": "l3"
+    },
+    "l3": {
+      "speaker": "python",
+      "text": "{player}! You found us. Here, it's mint. We grew it ourselves.",
+      "mood": "happy",
+      "next": "l4"
+    },
+    "l4": {
+      "speaker": "python",
+      "text": "The gardening club meets Saturday and Sunday mornings in the greenhouse. Nobody minds if you just come to sit with the plants.",
+      "next": "l5"
+    },
+    "l5": {
+      "speaker": "python",
+      "text": "And on weeknights I work the tutoring center shift in Turing Hall. I bring tea and stay late. If you're stuck on anything, come find me there.",
+      "next": "l6"
+    },
+    "l6": {
+      "speaker": "narrator",
+      "text": "Two tables down, the student council booth is perfectly squared to the edge of the lawn. Every flyer on it is lined up to the millimeter.",
+      "next": "l7"
+    },
+    "l7": {
+      "speaker": "java",
+      "text": "Ah. {player}. Good afternoon. Please, take a schedule. It's laminated.",
+      "next": "l8"
+    },
+    "l8": {
+      "speaker": "java",
+      "text": "Council office hours are Friday, Saturday and Sunday evenings in the council room in Oracle Hall. I am always there early. Always.",
+      "next": "l9"
+    },
+    "l9": {
+      "speaker": "java",
+      "text": "I also chair the coffee appreciation society, Monday to Thursday mornings at Café Cache. Attendance is optional. It is noticed, but optional.",
+      "next": "l10"
+    },
+    "l10": {
+      "speaker": "narrator",
+      "text": "At the end of the row is a table with a cardboard sign: GAME DEV CLUB. Under it, in smaller handwriting: GO AWAY (we are recruiting).",
+      "next": "l11"
+    },
+    "l11": {
+      "speaker": "narrator",
+      "text": "Nobody is sitting at it. Ciel is leaning against the tree next to it, typing on a keyboard balanced on one arm.",
+      "next": "l12"
+    },
+    "l12": {
+      "speaker": "cpp",
+      "text": "Don't look at me like that. I'm not in the club. There is no club. It's not official.",
+      "next": "l13"
+    },
+    "l13": {
+      "speaker": "cpp",
+      "text": "I'm in the game dev club room in the Student Union on Friday, Saturday and Sunday mornings. Coincidentally. Whenever I'm there.",
+      "next": "l14"
+    },
+    "l14": {
+      "speaker": "cpp",
+      "text": "Monday to Thursday nights I'm in Hopper Lab running benchmarks. There's a spare seat. It's not for you. It's just spare.",
+      "next": "l15"
+    },
+    "l15": {
+      "speaker": "narrator",
+      "text": "By the Computer Science department tent, Jay is sorting sign-up sheets into color-coded folders, glasses pushed up, tablet in hand.",
+      "next": "l16"
+    },
+    "l16": {
+      "speaker": "javascript",
+      "text": "Good afternoon, {player}. Your lanyard is on backwards. Please fix that before we continue.",
+      "next": "l17"
+    },
+    "l17": {
+      "speaker": "javascript",
+      "text": "TA office hours are weekdays during the day, in the TA office in Turing Hall. Bring your code and your exact error message. \"It doesn't work\" is not an error message.",
+      "next": "l18"
+    },
+    "l18": {
+      "speaker": "narrator",
+      "text": "Next to the tent, a bright yellow banner is zip-tied to a lamppost. There's nobody at its table, just a stack of flyers held down by a slice of cold pizza.",
+      "next": "l19"
+    },
+    "l19": {
+      "speaker": "narrator",
+      "text": "HACKATHON NIGHTS!!! Saturday + Sunday nights, Student Union hackathon hall. Free pizza. Bring friends. Bring ANYONE. Signed: J.",
+      "next": "l20"
+    },
+    "l20": {
+      "speaker": "javascript",
+      "text": "That table is not affiliated with the department. I don't go to those. I'm asleep by ten.",
+      "next": "l21"
+    },
+    "l21": {
+      "speaker": "javascript",
+      "text": "...I think. There's a sticker on my tablet I don't remember buying.",
+      "next": "l22"
+    },
+    "l22": {
+      "speaker": "quack",
+      "text": "Okay, {player}, schedule talk. Remember: every day has two slots, Day and Night. A lesson uses up one of them, so pick who you spend it with.",
+      "next": "l23"
+    },
+    "l23": {
+      "speaker": "quack",
+      "text": "Weekdays have classes during the day. Weekends are wide open, day and night. And everyone you just met has the same places they go every week.",
+      "next": "l24"
+    },
+    "l24": {
+      "speaker": "quack",
+      "text": "It's all on your calendar, the button next to Menu. If you can't find someone, check it. If they're not on it, they're probably asleep.",
+      "next": "l25"
+    },
+    "l25": {
+      "speaker": "quack",
+      "text": "Although Jay has office hours every weekday, and the hackathon guy runs all weekend nights... When does anyone around here sleep? It's like Jay has two completely different schedules.",
+      "next": "l26"
+    },
+    "l26": {
+      "speaker": "quack",
+      "text": "Anyway! Lesson 2, Comments, is open now. Anyone here can teach it, but there's only time for one of them before tonight. You can do it with the others later.",
+      "next": "pick"
+    },
+    "pick": {
+      "speaker": "quack",
+      "text": "So? Who are you going to ask?",
+      "choices": [
+        {
+          "text": "Monty. He made tea.",
+          "next": "pick_python"
+        },
+        {
+          "text": "President Duke. The schedule was laminated.",
+          "next": "pick_java"
+        },
+        {
+          "text": "Ciel. The spare seat sounded like a dare.",
+          "next": "pick_cpp"
+        },
+        {
+          "text": "Jay. I'll bring my exact error message.",
+          "next": "pick_javascript"
+        }
+      ]
+    },
+    "pick_python": {
+      "speaker": "quack",
+      "text": "Safe pick. Monty would teach a rock to code if it sat still long enough.",
+      "next": "end"
+    },
+    "pick_java": {
+      "speaker": "quack",
+      "text": "Bold. Bring a pen. There will be forms.",
+      "next": "end"
+    },
+    "pick_cpp": {
+      "speaker": "quack",
+      "text": "Oh no. Okay. If Ciel insults your code, that means it was worth insulting.",
+      "next": "end"
+    },
+    "pick_javascript": {
+      "speaker": "quack",
+      "text": "Good choice. Fix your lanyard first.",
+      "next": "end"
+    }
+  }
+}

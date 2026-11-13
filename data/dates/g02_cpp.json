@@ -1,0 +1,57 @@
+{
+  "id": "g02_cpp",
+  "character": "cpp",
+  "title": "Comments",
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "speaker": "narrator",
+      "text": "Ciel turns the monitor toward you without looking up.",
+      "next": "teach0"
+    },
+    "teach0": {
+      "speaker": "cpp",
+      "text": "Comments. The compiler deletes them before it does anything else. Zero cost. My favorite kind of feature.",
+      "next": "teach1"
+    },
+    "teach1": {
+      "speaker": "cpp",
+      "text": "Two slashes for one line. Slash star, star slash for a block. That's it. That's the lesson.",
+      "next": "teach2"
+    },
+    "teach2": {
+      "speaker": "cpp",
+      "text": "My debug line is printing. Comment it out. Do not delete it. I'll need it at 3 a.m., and I'm not typing it again.",
+      "next": "challenge"
+    },
+    "challenge": {
+      "challenge": "g02_cpp",
+      "on_pass": "passed",
+      "on_fail": "failed"
+    },
+    "passed": {
+      "speaker": "cpp",
+      "text": "...Fine. It's clean. The debug line is still there for when I need it. You didn't break anything. That's rare.",
+      "next": "end"
+    },
+    "failed": {
+      "speaker": "cpp",
+      "text": "It's still printing garbage. Look at what you wrote. Then sit down and try again.",
+      "choices": [
+        {
+          "text": "Sitting down.",
+          "next": "challenge"
+        },
+        {
+          "text": "I'll come back later.",
+          "next": "bye"
+        }
+      ]
+    },
+    "bye": {
+      "speaker": "cpp",
+      "text": "Whatever. The lab's open. Not that I'm waiting.",
+      "next": "end"
+    }
+  }
+}

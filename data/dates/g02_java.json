@@ -1,0 +1,57 @@
+{
+  "id": "g02_java",
+  "character": "java",
+  "title": "Comments",
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "speaker": "narrator",
+      "text": "Julian opens the binder to a tab labeled DOCUMENTATION, then to a sub-tab labeled ALSO DOCUMENTATION.",
+      "next": "teach0"
+    },
+    "teach0": {
+      "speaker": "java",
+      "text": "Today's subject is comments. Every well-run program keeps minutes, and comments are those minutes.",
+      "next": "teach1"
+    },
+    "teach1": {
+      "speaker": "java",
+      "text": "Two slashes comment out the rest of a line. A slash and an asterisk open a block comment, and an asterisk and a slash close it.",
+      "next": "teach2"
+    },
+    "teach2": {
+      "speaker": "java",
+      "text": "And a slash with two asterisks begins a documentation comment, like the one at the top of this file. Those are my favorite. They are very formal.",
+      "next": "challenge"
+    },
+    "challenge": {
+      "challenge": "g02_java",
+      "on_pass": "passed",
+      "on_fail": "failed"
+    },
+    "passed": {
+      "speaker": "java",
+      "text": "The program compiles, and the note is preserved for the record. Excellent work, {player}. I'm adding this to the minutes.",
+      "next": "end"
+    },
+    "failed": {
+      "speaker": "java",
+      "text": "The compiler has rejected this. That's alright. We will review it again, line by line.",
+      "choices": [
+        {
+          "text": "Line by line, then.",
+          "next": "challenge"
+        },
+        {
+          "text": "Can we adjourn for now?",
+          "next": "bye"
+        }
+      ]
+    },
+    "bye": {
+      "speaker": "java",
+      "text": "Motion to adjourn accepted. We'll reconvene at a later date.",
+      "next": "end"
+    }
+  }
+}
